@@ -92,6 +92,7 @@
   .bigcopy { font-size:12.5px; font-weight:700; border:1px solid var(--accent); background:var(--accent); color:#fff; border-radius:6px; padding:7px 14px; cursor:pointer; margin:6px 0; }
   .bigcopy.ok { background:var(--good); border-color:var(--good); }
   @media print { .item { break-inside:avoid; } .topbar { display:none; } }
+ .bytag { font-size:11px; font-weight:800; margin-left:8px; }
 </style>
 </head>
 <body>
@@ -381,6 +382,8 @@ Method: full crawl of all 66 published pages/posts (zero broken internal links f
 
 </div>
 
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
 <script>
 // ---- meta description fix pack (item #4) ----
 const METAS = [
@@ -449,29 +452,51 @@ document.addEventListener("click", (e) => {
   if (pre) copyText(pre.innerText, e.target);
 });
 
-// ---- done checkboxes (persisted) ----
+// ---- done checkboxes (synced live for the whole team) ----
 const DK = "digi2u-audit-done-v1";
+const DB_URL = "https://digi2u-review-default-rtdb.firebaseio.com";
+let db = null;
+if (typeof firebase !== "undefined") { try { firebase.initializeApp({ databaseURL: DB_URL }); db = firebase.database(); } catch (e) {} }
+let me = null;
+try { me = JSON.parse(localStorage.getItem("digi2u-master-review-v2-me") || "null"); } catch (e) {}
 let doneMap = {};
 try { doneMap = JSON.parse(localStorage.getItem(DK) || "{}"); } catch (e) {}
+function isDone(v) { return Boolean(v && (typeof v === "object" ? v.done : v)); }
 function refreshProgress() {
   const total = document.querySelectorAll(".item").length;
-  const n = Object.values(doneMap).filter(Boolean).length;
+  const n = Object.values(doneMap).filter(isDone).length;
   document.getElementById("prog").innerHTML = "<b>" + n + "</b> of " + total + " fixes done";
 }
+function applyDone() {
+  document.querySelectorAll(".item").forEach(item => {
+    const id = item.dataset.id;
+    const chk = item.querySelector(".donechk");
+    const v = doneMap[id];
+    const on = isDone(v);
+    chk.checked = on;
+    item.classList.toggle("done", on);
+    let tag = item.querySelector(".bytag");
+    if (on && v && typeof v === "object" && v.by) {
+      if (!tag) { tag = document.createElement("span"); tag.className = "bytag"; item.querySelector(".donebox").after(tag); }
+      tag.textContent = "\u2713 " + v.by;
+      tag.style.color = v.color || "#1a9e4b";
+    } else if (tag) tag.remove();
+  });
+  refreshProgress();
+}
+if (db) db.ref("review/audit").on("value", s => { doneMap = s.val() || {}; applyDone(); });
 document.querySelectorAll(".item").forEach(item => {
   const id = item.dataset.id;
   const chk = item.querySelector(".donechk");
-  if (doneMap[id]) { chk.checked = true; item.classList.add("done"); }
   chk.addEventListener("click", (e) => e.stopPropagation());
   item.querySelector(".donebox").addEventListener("click", (e) => e.stopPropagation());
   chk.addEventListener("change", () => {
-    doneMap[id] = chk.checked;
-    item.classList.toggle("done", chk.checked);
-    try { localStorage.setItem(DK, JSON.stringify(doneMap)); } catch (e) {}
-    refreshProgress();
+    const rec = { done: chk.checked, by: (me && me.name) || "", color: (me && me.color) || "", ts: Date.now() };
+    if (db) db.ref("review/audit/" + id).set(rec);
+    else { doneMap[id] = rec; try { localStorage.setItem(DK, JSON.stringify(doneMap)); } catch (e) {} applyDone(); }
   });
 });
-refreshProgress();
+applyDone();
 </script>
 </body>
 </html>
