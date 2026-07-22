@@ -132,6 +132,25 @@
   .diff .arr { color: var(--faint); padding: 0 4px; }
   .st { justify-self: end; }
 
+  .tabs { display: flex; gap: 0; margin-bottom: 26px; border: 2px solid var(--line-strong); width: max-content; max-width: 100%; }
+  .tab { padding: 10px 22px; font-size: 12px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink); text-decoration: none; border-right: 2px solid var(--line-strong); }
+  .tab:last-child { border-right: none; }
+  .tab-on { background: var(--red); color: #fff; }
+  a.tab:hover { background: var(--paper-3); }
+  .cmts { border-top: 2px dashed var(--line); background: var(--paper-2); padding: 16px 22px 20px; }
+  .cmts-head { font-size: 11px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+  .cmt { display: flex; gap: 10px; margin-bottom: 10px; font-size: 13.5px; align-items: baseline; }
+  .cmt-author { font-weight: 800; white-space: nowrap; }
+  .cmt-when { font-size: 11px; color: var(--faint); white-space: nowrap; }
+  .cmt-body { color: var(--ink); overflow-wrap: anywhere; }
+  .cmt-form { display: grid; grid-template-columns: 180px 1fr auto; gap: 8px; margin-top: 12px; }
+  .cmt-form input, .cmt-form textarea { border: 2px solid var(--line-strong); background: var(--paper); color: var(--ink); font-family: inherit; font-size: 13.5px; padding: 9px 12px; border-radius: 0; }
+  .cmt-form textarea { resize: vertical; min-height: 40px; }
+  .cmt-form input:focus, .cmt-form textarea:focus { outline: none; border-color: var(--red); }
+  .cmt-post { background: var(--red); color: #fff; border: 2px solid var(--red); font-family: inherit; font-weight: 800; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; padding: 9px 18px; cursor: pointer; align-self: start; }
+  .cmt-post:hover { background: var(--red-dark); }
+  .cmt-off { font-size: 12.5px; color: var(--faint); }
+  @media (max-width: 700px) { .cmt-form { grid-template-columns: 1fr; } }
   .foot { margin-top: 60px; border-top: 2px solid var(--line-strong); padding-top: 18px; font-size: 12.5px; color: var(--faint); }
   .foot b { color: var(--muted); }
 
@@ -146,10 +165,15 @@
 
 <header class="masthead">
   <div class="wrap">
+    <nav class="tabs">
+      <span class="tab tab-on" aria-current="page">Change Audit</span>
+      <a class="tab" href="https://borngifted.github.io/digi2u-review/" target="_blank" rel="noopener">Master Review &#8599;</a>
+      <a class="tab" href="https://digi2u.org/" target="_blank" rel="noopener">Live Site &#8599;</a>
+    </nav>
     <span class="eyebrow"><span class="dot"></span>Digi2U &middot; Website Review &middot; Round 1</span>
     <h1>Change Audit<span class="acc">.</span></h1>
-    <p class="lede">Every request submitted on the review site, item by item — what has been changed on digi2u.org, what is staged, and what needs a member decision, photos, or content. Applied changes show the exact before &rarr; after.</p>
-    <p class="stamp">Verified against the live site &middot; Updated July 22, 2026 (footer + inquiry pipeline round) &middot; Source: review pins by Pam, Erica &amp; Team Reviewer</p>
+    <p class="lede">Every request submitted on the review site, item by item — what is live on digi2u.org and what still needs a member decision, photos, or content. Applied changes show the exact before &rarr; after. Members: add your comments at the bottom of any page section.</p>
+    <p class="stamp">Verified against the live site &middot; Updated July 22, 2026 (footer + inquiry pipeline round) &middot; Source: review pins by Pam, Erica &amp; Justice</p>
   </div>
 </header>
 
@@ -163,10 +187,8 @@
   </div>
 
   <div class="callout">
-    <strong>What's left to flip live</strong>
-    1) <b>Re-paste all five page files</b> (Home, Team, Media, Events, Sponsors — v2 in <code>UPDATED_PAGES_2026-07-21/</code>) into their Elementor HTML widgets: this activates the new inquiry&rarr;spreadsheet pipeline on every page, and carries Sponsors' round-1 email fixes. &nbsp;
-    2) A <b>Terms of Usage</b> page still needs to be written (Privacy Policy is done and live). &nbsp;
-    Everything else in green below is already live on digi2u.org — footer year, footer email, footer links, newsletter routing, and the YouTube channel link were completed July 22 via the Elementor footer template and WordPress menus.
+    <strong>Where things stand</strong>
+    Every completed fix is <b>pasted and verified live</b> on digi2u.org — including the inquiry&rarr;spreadsheet pipeline on all five pages, the footer corrections, and the published Privacy Policy. The one remaining build item is a <b>Terms of Usage</b> page. Everything else waiting is in blue (member decisions) or orange (photos/assets) below — <b>leave a comment under any page section</b> to weigh in.
   </div>
 
   <div class="legend" id="legend"></div>
@@ -187,7 +209,7 @@ const STATUSES = {
   queue:    { label: 'In work queue',          tile: 'In queue' },
   ok:       { label: 'Positive — no action',   tile: 'Positive' },
 };
-const A = { pam: ['Pam','a-pam'], erica: ['Erica','a-erica'], tr: ['Team Reviewer','a-tr'] };
+const A = { pam: ['Pam','a-pam'], erica: ['Erica','a-erica'], tr: ['Justice','a-tr'] };
 
 const PAGES = [
 { key:'home', title:'Home', wp:'20947', open:true, items:[
@@ -217,9 +239,9 @@ const PAGES = [
 ]},
 { key:'team', title:'Team', wp:'21775', open:true, items:[
  {a:'tr', t:'“ED” is not a title — just put Founder', s:'live', d:'Pam’s role label was corrected.', c:['Founder & ED','Founder']},
- {a:'pam', t:'Get Involved is not connected and has the wrong email address (correct is admin@digi2u.org)', s:'live', d:'All 14 email references now use admin@digi2u.org (live). And the deeper “not connected” problem is solved: the form now submits into the Digi2U Website Inquiries Google Sheet — active once the v2 file is re-pasted.', c:['support@digi2u.org','admin@digi2u.org']},
- {a:'pam', t:'Test Email on Team page failed', s:'ready', d:'Fixed for real: the form no longer depends on the visitor’s email app — it submits straight to the inquiry spreadsheet (with email fallback). Goes live when the v2 page files are re-pasted.'},
- {a:'pam', t:'Test of Inquiry Email on Team page failed', s:'ready', d:'Same spreadsheet-pipeline fix — re-test after the v2 re-paste.'},
+ {a:'pam', t:'Get Involved is not connected and has the wrong email address (correct is admin@digi2u.org)', s:'live', d:'All 14 email references now use admin@digi2u.org (live). And the deeper “not connected” problem is solved: the form now submits into the Digi2U Website Inquiries Google Sheet — live and verified.', c:['support@digi2u.org','admin@digi2u.org']},
+ {a:'pam', t:'Test Email on Team page failed', s:'live', d:'Fixed for real: the form no longer depends on the visitor’s email app — it submits straight to the inquiry spreadsheet (with email fallback). Pasted and verified live.'},
+ {a:'pam', t:'Test of Inquiry Email on Team page failed', s:'live', d:'Same spreadsheet-pipeline fix — live. Submit a test inquiry on /team/ and watch it appear in the sheet.'},
  {a:'erica', t:'Alphabetize the left column of the Digi2U Master Review app, or put it in page order', s:'live', d:'Shipped July 18 — the review app sidebar now lists pages alphabetically within each group.'},
  {a:'pam', t:'Jamaal needs new picture', s:'assets', d:'Waiting on the new photo.'},
  {a:'pam', t:'Winner needs new photo', s:'assets', d:'Waiting on the new photo.'},
@@ -260,7 +282,7 @@ const PAGES = [
  {a:'pam', t:'Events: Real Cohorts / Mission Master correct', s:'decide', d:'Tie-in to the master mission statement and cohort naming.'},
 ]},
 { key:'sponsors', title:'Sponsors', wp:'24300', open:true, items:[
- {a:'pam', t:'admin@digi2u.org', s:'ready', d:'All 7 email references updated in sponsors-UPDATED.html — needs pasting into the Elementor widget to go live.', c:['support@digi2u.org','admin@digi2u.org']},
+ {a:'pam', t:'admin@digi2u.org', s:'live', d:'All 7 email references updated — pasted and verified live on the Sponsors page.', c:['support@digi2u.org','admin@digi2u.org']},
  {a:'pam', t:'Can this be tightened up to give our corporate sponsors a good look?', s:'decide', d:'Layout direction for the members.'},
  {a:'pam', t:'These are promises — let’s take note of them', s:'ok', d:'Noted for the operations checklist.'},
 ]},
@@ -298,11 +320,11 @@ const PAGES = [
  {a:'tr', t:'FAA Drone — change photo', s:'assets'},
  {a:'pam', t:'Grants — Queens pictures? / Health & Wellness — our picture?? / Staging & Rigging — use our pic (see pitch deck and Canva)', s:'assets', d:'Owned-photo swaps across three program pages.'},
  {a:'erica', t:'Programs overview — we need to acquire and use info@digi2u.org', s:'decide', d:'Requires creating the info@ mailbox first.'},
- {a:'tr', t:'Approved as-is (merge): Art & Design, Culinary Arts, Fashion & Design, Food Safety, OSHA 30, Grants, Health & Wellness, Staging & Rigging, FAA Drone, Drone', s:'ok', d:'Ten pages green-lit by Team Reviewer with decision “merge”.'},
+ {a:'tr', t:'Approved as-is (merge): Art & Design, Culinary Arts, Fashion & Design, Food Safety, OSHA 30, Grants, Health & Wellness, Staging & Rigging, FAA Drone, Drone', s:'ok', d:'Ten pages green-lit by Justice with decision “merge”.'},
 ]},
 { key:'pipeline', title:'New: Inquiry → Spreadsheet pipeline', wp:'all pages', open:true, items:[
  {a:'pam', t:'Inquiries need a reliable home — forms failed and nobody could see submissions', s:'live', d:'Built July 22: a Google Form + linked Google Sheet (“Digi2U Website Inquiries (Responses)”) in the Digi2U Google account. Every site inquiry lands as a row — Timestamp, Name, Email, Phone, Subject, Message, and which Page it came from. Email notifications are on. Pipeline verified end-to-end with a test submission.'},
- {a:'pam', t:'Site forms wired to the spreadsheet', s:'ready', d:'All five page files (Home, Team, Media, Events, Sponsors) carry the new form handler — visitors get a “Thank you” confirmation, the row appears in the sheet instantly, and an email fallback covers network failures. Activates when the v2 files are re-pasted into Elementor.'},
+ {a:'pam', t:'Site forms wired to the spreadsheet', s:'live', d:'All five pages (Home, Team, Media, Events, Sponsors) pasted and verified live — visitors get a “Thank you” confirmation and the row appears in the sheet instantly, with an email fallback if the network fails.'},
 ]},
 { key:'other', title:'Other pages', wp:'—', items:[
  {a:'pam', t:'Jobs — admin@digi2u.org, who is answering? / who is handling volunteers & hiring? (4 pins)', s:'queue', d:'Jobs page email fix queued (page structure differs from the others); ownership questions for operations.'},
@@ -356,8 +378,46 @@ function render(){
         </div>
         <span class="st"><span class="pill s-${i.s}">${STATUSES[i.s].label}</span></span>
       </div>`).join('')}
+      ${cmtBlock(p.key)}
     </details></section>`;
   }).join('');
 }
+
+const DB = 'https://digi2u-review-default-rtdb.firebaseio.com/review/audit/comments';
+let CMTS = {};
+let cmtsOffline = false;
+function cmtBlock(key) {
+  if (cmtsOffline) return `<div class="cmts"><span class="cmt-off">Comments are available on the team link: borngifted.github.io/digi2u-review/audit.html</span></div>`;
+  const list = Object.values(CMTS[key] || {}).sort((a,b) => (a.ts||0)-(b.ts||0));
+  const rows = list.map(c => `<div class="cmt"><span class="cmt-author">${esc(c.author||'Anonymous')}</span><span class="cmt-body">${esc(c.text||'')}</span><span class="cmt-when">${c.ts ? new Date(c.ts).toLocaleDateString(undefined,{month:'short',day:'numeric'}) : ''}</span></div>`).join('');
+  const savedName = localStorage.getItem('d2uAuditName') || '';
+  return `<div class="cmts">
+    <div class="cmts-head">Member comments${list.length ? ' · ' + list.length : ''}</div>
+    ${rows}
+    <form class="cmt-form" onsubmit="return postCmt(event, '${key}')">
+      <input name="author" placeholder="Your name" value="${esc(savedName)}" required>
+      <textarea name="text" placeholder="Add a comment for the team…" required></textarea>
+      <button type="submit" class="cmt-post">Post</button>
+    </form>
+  </div>`;
+}
+function postCmt(e, key) {
+  e.preventDefault();
+  const author = e.target.author.value.trim();
+  const text = e.target.text.value.trim();
+  if (!author || !text) return false;
+  localStorage.setItem('d2uAuditName', author);
+  fetch(`${DB}/${key}.json`, { method: 'POST', body: JSON.stringify({ author, text, ts: Date.now() }) })
+    .then(() => loadCmts())
+    .catch(() => alert('Could not post the comment — please check your connection and try again.'));
+  return false;
+}
+function loadCmts() {
+  return fetch(DB + '.json')
+    .then(r => r.json())
+    .then(d => { CMTS = d || {}; cmtsOffline = false; render(); })
+    .catch(() => { cmtsOffline = true; render(); });
+}
 render();
+loadCmts();
 </script>
