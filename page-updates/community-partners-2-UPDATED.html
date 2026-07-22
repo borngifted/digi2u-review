@@ -1,0 +1,638 @@
+<!--
+=====================================================================
+  DIGI2U — COMMUNITY PARTNERS PAGE (rebuilt with real galleries)
+  Includes C. Cherry Foundation logo + Christmas / Haunted 51 / Spin-Off
+  Open Deck event photos (all hosted on digi2u.org).
+=====================================================================
+-->
+<!--
+=====================================================================
+  DIGI2U — SHARED STYLE + SCRIPT BLOCK
+  Drop the contents of THIS file at the TOP of any new page widget,
+  then add page-specific markup below it.
+
+  Includes: full design system, Zeffy donate modal, sticky button,
+  inquiry form handler, newsletter form handler, lightbox modal
+  helpers shared across pages.
+=====================================================================
+-->
+
+<style>
+  :root {
+    --d2u-red: #FF0000; --d2u-red-dark: #D90000;
+    --d2u-red-soft: #FFE8E8; --d2u-red-tint: #FFF5F5;
+    --d2u-black: #000000; --d2u-charcoal: #1A1A1A;
+    --d2u-white: #FFFFFF; --d2u-off-white: #FAFAFA;
+    --d2u-light-gray: #F4F4F4; --d2u-gray: #8A8A8A;
+    --d2u-gray-dark: #4A4A4A;
+    --d2u-line: rgba(0, 0, 0, 0.1); --d2u-line-strong: rgba(0, 0, 0, 0.18);
+    --d2u-shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.06);
+    --d2u-shadow-lift: 0 20px 60px rgba(0, 0, 0, 0.1);
+    --d2u-shadow-red: 0 10px 30px rgba(255, 0, 0, 0.25);
+  }
+  .d2u-page {
+    --d2u-red: #FF0000; --d2u-red-dark: #D90000;
+    --d2u-red-soft: #FFE8E8; --d2u-red-tint: #FFF5F5;
+    --d2u-black: #000000; --d2u-charcoal: #1A1A1A;
+    --d2u-white: #FFFFFF; --d2u-off-white: #FAFAFA;
+    --d2u-light-gray: #F4F4F4; --d2u-gray: #8A8A8A;
+    --d2u-gray-dark: #4A4A4A;
+    --d2u-line: rgba(0, 0, 0, 0.1); --d2u-line-strong: rgba(0, 0, 0, 0.18);
+    --d2u-shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.06);
+    --d2u-shadow-lift: 0 20px 60px rgba(0, 0, 0, 0.1);
+    --d2u-shadow-red: 0 10px 30px rgba(255, 0, 0, 0.25);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: var(--d2u-black); line-height: 1.6;
+    -webkit-font-smoothing: antialiased; background: var(--d2u-white);
+  }
+  .d2u-page *, .d2u-page *::before, .d2u-page *::after { box-sizing: border-box; }
+  .d2u-page h1, .d2u-page h2, .d2u-page h3, .d2u-page h4, .d2u-page h5 {
+    margin: 0; padding: 0; color: var(--d2u-black); font-weight: 900;
+    letter-spacing: -0.02em;
+  }
+  .d2u-page p { margin: 0; padding: 0; }
+  .d2u-page a { text-decoration: none; }
+  .d2u-page img { max-width: 100%; height: auto; display: block; }
+  .d2u-wrap { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+  .d2u-hero {
+    background: var(--d2u-white); color: var(--d2u-black);
+    padding: 110px 0 80px; position: relative; overflow: hidden;
+  }
+  .d2u-hero::before {
+    content: ''; position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px);
+    background-size: 48px 48px; pointer-events: none;
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+  }
+  .d2u-hero::after {
+    content: ''; position: absolute; top: 30%; right: -15%;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(255, 0, 0, 0.1) 0%, transparent 60%);
+    filter: blur(60px); pointer-events: none;
+  }
+  .d2u-hero-inner { position: relative; z-index: 2; max-width: 980px; margin: 0 auto; text-align: center; }
+  .d2u-eyebrow {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--d2u-red-tint); border: 1px solid var(--d2u-red);
+    padding: 10px 20px; font-size: 12px; font-weight: 700;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    margin-bottom: 32px; color: var(--d2u-black);
+  }
+  .d2u-eyebrow .d2u-dot {
+    width: 8px; height: 8px; background: var(--d2u-red);
+    box-shadow: 0 0 12px var(--d2u-red);
+    animation: d2uPulse 1.8s infinite;
+  }
+  @keyframes d2uPulse { 0%,100%{opacity:1; transform:scale(1);} 50%{opacity:0.5; transform:scale(1.3);} }
+  .d2u-page h1.d2u-hero-title {
+    font-size: clamp(48px, 8vw, 96px); font-weight: 900;
+    line-height: 0.98; letter-spacing: -0.04em;
+    margin-bottom: 28px; color: var(--d2u-black); text-transform: uppercase;
+  }
+  .d2u-hero-title .d2u-accent { color: var(--d2u-red); }
+  .d2u-hero-lede {
+    font-size: 20px; line-height: 1.5; color: var(--d2u-gray-dark);
+    margin-bottom: 44px !important; max-width: 700px;
+    margin-left: auto !important; margin-right: auto !important; font-weight: 400;
+  }
+  .d2u-cta-row { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; justify-content: center; }
+
+  .d2u-btn-primary {
+    display: inline-flex; align-items: center; gap: 12px;
+    background: var(--d2u-red); color: var(--d2u-white) !important;
+    padding: 18px 36px; font-weight: 700; font-size: 15px;
+    letter-spacing: 0.04em; text-transform: uppercase;
+    border-radius: 0; border: 2px solid var(--d2u-red);
+    cursor: pointer; transition: all 0.2s ease;
+    text-decoration: none !important;
+    box-shadow: var(--d2u-shadow-red); font-family: inherit;
+  }
+  .d2u-btn-primary:hover {
+    background: var(--d2u-red-dark); border-color: var(--d2u-red-dark);
+    color: var(--d2u-white) !important; transform: translateY(-2px);
+    box-shadow: 0 14px 36px rgba(255, 0, 0, 0.4);
+  }
+  .d2u-btn-primary .d2u-arrow { transition: transform 0.25s ease; }
+  .d2u-btn-primary:hover .d2u-arrow { transform: translateX(4px); }
+  .d2u-btn-outline {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: transparent; color: var(--d2u-black) !important;
+    padding: 16px 30px; font-weight: 700; font-size: 15px;
+    letter-spacing: 0.04em; text-transform: uppercase;
+    border-radius: 0; border: 2px solid var(--d2u-black);
+    transition: all 0.2s; text-decoration: none !important;
+    cursor: pointer; font-family: inherit;
+  }
+  .d2u-btn-outline:hover { background: var(--d2u-black); color: var(--d2u-white) !important; }
+
+  .d2u-stats {
+    position: relative; z-index: 2; margin-top: 70px;
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    max-width: 980px; margin-left: auto; margin-right: auto;
+    border: 2px solid var(--d2u-black);
+  }
+  .d2u-stat { text-align: center; padding: 32px 20px; background: var(--d2u-white); border-right: 2px solid var(--d2u-black); }
+  .d2u-stat:last-child { border-right: none; }
+  .d2u-stat-num { font-size: clamp(32px, 4vw, 48px); font-weight: 900; color: var(--d2u-red); line-height: 1; margin-bottom: 10px; letter-spacing: -0.02em; }
+  .d2u-stat-label { font-size: 12px; color: var(--d2u-black); text-transform: uppercase; letter-spacing: 0.12em; font-weight: 700; }
+
+  .d2u-section { padding: 110px 0; }
+  .d2u-section-white { background: var(--d2u-white); }
+  .d2u-section-gray { background: var(--d2u-off-white); }
+  .d2u-section-black { background: var(--d2u-black); color: var(--d2u-white); }
+  .d2u-section-black h2, .d2u-section-black h3, .d2u-section-black h4 { color: var(--d2u-white); }
+  .d2u-section-head { text-align: center; max-width: 780px; margin: 0 auto 68px; }
+  .d2u-tag { display: inline-flex; align-items: center; gap: 10px; font-size: 12px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--d2u-red); margin-bottom: 20px; }
+  .d2u-tag::before { content: ''; display: inline-block; width: 28px; height: 2px; background: var(--d2u-red); }
+  .d2u-page h2.d2u-h2 { font-size: clamp(36px, 5.5vw, 60px); font-weight: 900; line-height: 1.02; letter-spacing: -0.03em; margin-bottom: 20px; text-transform: uppercase; }
+  .d2u-section-head p { font-size: 18px; color: var(--d2u-gray-dark); font-weight: 400; }
+  .d2u-section-black .d2u-section-head p { color: rgba(255,255,255,0.75); }
+
+  .d2u-mid-cta {
+    background: var(--d2u-white); color: var(--d2u-black);
+    padding: 70px 60px; display: grid;
+    grid-template-columns: 1.5fr 1fr; gap: 40px; align-items: center;
+    position: relative; overflow: hidden;
+    border: 2px solid var(--d2u-black); border-left: 8px solid var(--d2u-red);
+  }
+  .d2u-page h2.d2u-mid-title { font-size: clamp(30px, 4vw, 44px); font-weight: 900; line-height: 1.05; letter-spacing: -0.03em; margin-bottom: 14px; color: var(--d2u-black); text-transform: uppercase; }
+  .d2u-mid-cta p { font-size: 17px; color: var(--d2u-gray-dark); font-weight: 500; }
+  .d2u-mid-right { text-align: right; position: relative; z-index: 2; }
+
+  .d2u-contact-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 70px; align-items: start; }
+  .d2u-contact-info > p { font-size: 17px; color: var(--d2u-gray-dark); margin-bottom: 40px !important; line-height: 1.6; }
+  .d2u-contact-methods { display: grid; gap: 16px; margin-bottom: 40px; }
+  .d2u-contact-method { display: flex; gap: 18px; align-items: center; padding: 20px 24px; background: var(--d2u-white); border: 2px solid var(--d2u-black); transition: all 0.2s; }
+  .d2u-contact-method:hover { border-color: var(--d2u-red); transform: translateX(4px); }
+  .d2u-contact-icon { width: 48px; height: 48px; background: var(--d2u-black); color: var(--d2u-white); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 22px; transition: background 0.2s; }
+  .d2u-contact-method:hover .d2u-contact-icon { background: var(--d2u-red); }
+  .d2u-contact-label { font-size: 11px; color: var(--d2u-gray); text-transform: uppercase; letter-spacing: 0.15em; font-weight: 700; margin-bottom: 4px; }
+  .d2u-contact-value { font-size: 16px; color: var(--d2u-black) !important; font-weight: 700; text-decoration: none !important; }
+  .d2u-contact-value:hover { color: var(--d2u-red) !important; }
+  .d2u-nonprofit-note { padding: 22px; background: var(--d2u-white); color: var(--d2u-black); font-size: 14px; line-height: 1.6; border: 2px solid var(--d2u-black); border-left: 6px solid var(--d2u-red); }
+  .d2u-nonprofit-note strong { display: block; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; color: var(--d2u-red); font-weight: 800; font-size: 12px; }
+
+  .d2u-form-card { background: var(--d2u-white); padding: 48px; border: 2px solid var(--d2u-black); border-top: 6px solid var(--d2u-red); }
+  .d2u-form-card h3 { font-size: 28px; font-weight: 900; margin-bottom: 10px; text-transform: uppercase; letter-spacing: -0.02em; }
+  .d2u-form-card > p { font-size: 15px; color: var(--d2u-gray-dark); margin-bottom: 28px !important; }
+  .d2u-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+  .d2u-field { display: block; width: 100%; padding: 16px 18px; border: 2px solid var(--d2u-line-strong); border-radius: 0; font-size: 15px; font-family: inherit; color: var(--d2u-black); background: var(--d2u-white); transition: all 0.2s; margin-bottom: 14px; }
+  .d2u-field:focus { outline: none; border-color: var(--d2u-red); box-shadow: 0 0 0 3px rgba(255, 0, 0, 0.1); }
+  .d2u-field::placeholder { color: var(--d2u-gray); }
+  .d2u-field.d2u-textarea { min-height: 130px; resize: vertical; line-height: 1.5; }
+  .d2u-form-row .d2u-field { margin-bottom: 0; }
+  .d2u-form-btn { width: 100%; margin-top: 10px; justify-content: center; }
+
+  .d2u-final { text-align: center; padding: 120px 40px; background: var(--d2u-white); color: var(--d2u-black); position: relative; overflow: hidden; border-top: 6px solid var(--d2u-red); }
+  .d2u-final::before, .d2u-final::after { content: ''; position: absolute; top: 50%; transform: translateY(-50%); width: 400px; height: 400px; background: radial-gradient(circle, rgba(255, 0, 0, 0.06) 0%, transparent 70%); filter: blur(60px); pointer-events: none; }
+  .d2u-final::before { left: -10%; }
+  .d2u-final::after { right: -10%; }
+  .d2u-final > * { position: relative; z-index: 2; }
+  .d2u-page h2.d2u-final-title { font-size: clamp(40px, 6vw, 72px); font-weight: 900; line-height: 0.98; letter-spacing: -0.04em; margin: 0 auto 24px; max-width: 860px; color: var(--d2u-black); text-transform: uppercase; }
+  .d2u-final-title .d2u-accent { color: var(--d2u-red); }
+  .d2u-final-lede { font-size: 18px; color: var(--d2u-gray-dark); max-width: 640px; margin: 0 auto 40px !important; }
+  .d2u-final .d2u-cta-row { justify-content: center; }
+
+  .d2u-modal { display: none; position: fixed !important; top: 0 !important; left: 0 !important; right: 0 !important; bottom: 0 !important; width: 100vw !important; height: 100vh !important; z-index: 999999 !important; background: rgba(0, 0, 0, 0.85) !important; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); padding: 30px 20px; overflow-y: auto; animation: d2uFadeIn 0.2s ease; margin: 0 !important; }
+  .d2u-modal.d2u-modal-open { display: flex !important; align-items: flex-start; justify-content: center; }
+  @keyframes d2uFadeIn { from { opacity: 0; } to { opacity: 1; } }
+  .d2u-modal-inner { background: #FFFFFF; width: 100%; max-width: 760px; border: 2px solid #000000; border-top: 6px solid #FF0000; position: relative; animation: d2uSlideUp 0.3s ease; }
+  @keyframes d2uSlideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+  .d2u-modal-header { padding: 22px 28px; border-bottom: 2px solid #000000; display: flex; justify-content: space-between; align-items: center; gap: 20px; background: #FFFFFF; }
+  .d2u-modal-title { font-size: 16px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.05em; color: #000000; }
+  .d2u-modal-title span { color: #FF0000; margin-right: 8px; }
+  .d2u-modal-close { width: 40px; height: 40px; background: #000000; color: #FFFFFF; border: none; cursor: pointer; font-size: 20px; font-weight: 900; display: flex; align-items: center; justify-content: center; transition: background 0.2s; font-family: inherit; flex-shrink: 0; }
+  .d2u-modal-close:hover { background: #FF0000; }
+  .d2u-modal-body { padding: 0; background: #FFFFFF; }
+  .d2u-modal-body iframe { border: 0 !important; width: 100% !important; display: block; }
+
+  .d2u-sticky { position: fixed; bottom: 24px; right: 24px; z-index: 9999; opacity: 0; transform: translateY(20px); transition: all 0.3s ease; pointer-events: none; }
+  .d2u-sticky.d2u-visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+
+  @media (max-width: 960px) {
+    .d2u-hero { padding: 70px 0 60px; }
+    .d2u-stats { grid-template-columns: repeat(2, 1fr); }
+    .d2u-stat:nth-child(2n) { border-right: none; }
+    .d2u-stat:nth-child(-n+2) { border-bottom: 2px solid var(--d2u-black); }
+    .d2u-mid-cta { grid-template-columns: 1fr; padding: 54px 36px; text-align: center; }
+    .d2u-mid-right { text-align: center; }
+    .d2u-contact-grid { grid-template-columns: 1fr; gap: 50px; }
+    .d2u-section { padding: 80px 0; }
+    .d2u-final { padding: 80px 24px; }
+  }
+  @media (max-width: 600px) {
+    .d2u-stats { grid-template-columns: 1fr; }
+    .d2u-stat { border-right: none; border-bottom: 2px solid var(--d2u-black); }
+    .d2u-stat:last-child { border-bottom: none; }
+    .d2u-form-card { padding: 28px; }
+    .d2u-form-row { grid-template-columns: 1fr; }
+    .d2u-sticky { bottom: 16px; right: 16px; left: 16px; }
+    .d2u-sticky.d2u-btn-primary { justify-content: center; padding: 16px 24px; }
+    .d2u-modal { padding: 15px 10px; }
+  }
+</style>
+
+<!-- Place this snippet near the bottom of any page widget for Zeffy donate modal -->
+<div class="d2u-modal" id="d2u-donation-modal" onclick="d2uCloseModalOnBackdrop(event)">
+  <div class="d2u-modal-inner" onclick="event.stopPropagation()">
+    <div class="d2u-modal-header">
+      <div class="d2u-modal-title"><span>&#9733;</span>Donate to Digi2U</div>
+      <button type="button" class="d2u-modal-close" onclick="d2uCloseModal()" aria-label="Close">&times;</button>
+    </div>
+    <div class="d2u-modal-body">
+      <div style="position:relative;overflow:hidden;height:720px;width:100%;">
+        <iframe title="Donation form powered by Zeffy" style="position:absolute;border:0;top:0;left:0;bottom:0;right:0;width:100%;height:100%;" src="https://www.zeffy.com/embed/donation-form/donate-to-change-lives-3894" allowpaymentrequest allowtransparency="true" loading="lazy"></iframe>
+      </div>
+      <div style="padding:14px 24px;background:#FAFAFA;border-top:1px solid rgba(0,0,0,0.1);text-align:center;">
+        <p style="font-size:13px;color:#4A4A4A;">Having trouble? <a href="https://www.zeffy.com/donation-form/donate-to-change-lives-3894" target="_blank" rel="noopener" style="color:#FF0000;font-weight:700;text-decoration:underline;">Open donation form in a new tab &rarr;</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var modal = document.getElementById('d2u-donation-modal');
+  if (modal && document.body && modal.parentNode !== document.body) document.body.appendChild(modal);
+})();
+document.addEventListener('DOMContentLoaded', function() {
+  var m = document.getElementById('d2u-donation-modal');
+  if (m && m.parentNode !== document.body) document.body.appendChild(m);
+});
+function d2uOpenModal() {
+  var modal = document.getElementById('d2u-donation-modal');
+  if (!modal) { window.open('https://www.zeffy.com/donation-form/donate-to-change-lives-3894','_blank'); return; }
+  if (modal.parentNode !== document.body) document.body.appendChild(modal);
+  modal.classList.add('d2u-modal-open');
+  document.body.style.overflow = 'hidden';
+}
+function d2uCloseModal() {
+  var modal = document.getElementById('d2u-donation-modal');
+  if (modal) modal.classList.remove('d2u-modal-open');
+  document.body.style.overflow = '';
+}
+function d2uCloseModalOnBackdrop(e) { if (e.target.id === 'd2u-donation-modal') d2uCloseModal(); }
+document.addEventListener('keydown', function(e) { if (e.key === 'Escape') { d2uCloseModal(); if (typeof d2uCloseProgram==='function') d2uCloseProgram(); if (typeof d2uCloseTm==='function') d2uCloseTm(); if (typeof d2uClosePartner==='function') d2uClosePartner(); } });
+
+function d2uSubmitInquiry(e) {
+  e.preventDefault();
+  var form = e.target;
+  var name = document.getElementById('d2u-f-name').value.trim();
+  var email = document.getElementById('d2u-f-email').value.trim();
+  var phone = (document.getElementById('d2u-f-phone')||{}).value || '';
+  var subject = (document.getElementById('d2u-f-subject')||{}).value || 'Inquiry';
+  var message = document.getElementById('d2u-f-message').value.trim();
+  var status = document.getElementById('d2u-form-status');
+  status.textContent = 'Sending...';
+  var fd = new FormData();
+  fd.append('entry.1150649426', name);
+  fd.append('entry.1540006152', email);
+  fd.append('entry.2053814286', phone);
+  fd.append('entry.1509303702', subject);
+  fd.append('entry.1669567112', message);
+  fd.append('entry.1198200133', 'Community Partners');
+  fetch('https://docs.google.com/forms/d/e/1FAIpQLSc4hfIxV-DGX24LUzXIV44uRCUq2JOul_mUXfa_uzxXMMyeBw/formResponse', { method: 'POST', mode: 'no-cors', body: fd })
+    .then(function() {
+      form.reset();
+      status.innerHTML = 'Thank you! Your message has been received. We respond within one business day.';
+    })
+    .catch(function() {
+      var body = 'Name: ' + name + '
+Email: ' + email + '
+Phone: ' + (phone || 'N/A') + '
+
+Message:
+' + message;
+      window.location.href = 'mailto:admin@digi2u.org?subject=' + encodeURIComponent('[Inquiry] ' + subject) + '&body=' + encodeURIComponent(body);
+      status.innerHTML = 'Opening your email app... If nothing happens, email us at <a href="mailto:admin@digi2u.org" style="color:#FF0000;font-weight:600;">admin@digi2u.org</a>';
+    });
+  return false;
+}
+
+(function(){
+  var sticky = document.getElementById('d2u-sticky-btn');
+  var hero = document.querySelector('.d2u-hero');
+  if (!sticky || !hero) return;
+  window.addEventListener('scroll', function(){
+    var heroBottom = hero.offsetTop + hero.offsetHeight;
+    if (window.scrollY > heroBottom) sticky.classList.add('d2u-visible');
+    else sticky.classList.remove('d2u-visible');
+  });
+})();
+</script>
+
+<style>
+  /* PARTNER HEADER CARDS */
+  .d2u-partner { display: grid; grid-template-columns: 200px 1fr; gap: 0; background: var(--d2u-white); border: 2px solid var(--d2u-black); border-top: 6px solid var(--d2u-red); margin-bottom: 32px; transition: all 0.3s ease; }
+  .d2u-partner:hover { box-shadow: var(--d2u-shadow-lift); transform: translateY(-4px); }
+  .d2u-partner-logo { display: flex; align-items: center; justify-content: center; padding: 30px; border-right: 2px solid var(--d2u-black); background: var(--d2u-off-white); }
+  .d2u-partner-logo img { max-width: 140px; max-height: 140px; width: auto; height: auto; }
+  .d2u-partner-logo-text { font-size: 22px; font-weight: 900; text-align: center; text-transform: uppercase; color: var(--d2u-black); letter-spacing: -0.02em; line-height: 1.1; }
+  .d2u-partner-body { padding: 36px 40px; display: flex; flex-direction: column; }
+  .d2u-partner-tag { font-size: 11px; font-weight: 800; letter-spacing: 0.15em; text-transform: uppercase; color: var(--d2u-red); margin-bottom: 12px; padding-bottom: 10px; border-bottom: 2px solid var(--d2u-red); align-self: flex-start; }
+  .d2u-partner-title { font-size: clamp(24px, 2.6vw, 30px); font-weight: 900; text-transform: uppercase; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 14px; }
+  .d2u-partner-desc { font-size: 15px; color: var(--d2u-gray-dark); line-height: 1.6; margin-bottom: 18px !important; }
+  .d2u-partner-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: auto; }
+
+  /* EVENT BLOCKS */
+  .d2u-event-block { background: var(--d2u-white); border: 2px solid var(--d2u-black); margin-bottom: 32px; overflow: hidden; }
+  .d2u-event-head { padding: 32px 36px; background: var(--d2u-charcoal); color: var(--d2u-white); border-bottom: 4px solid var(--d2u-red); }
+  .d2u-event-tag { display: inline-block; background: var(--d2u-red); color: var(--d2u-white); font-size: 11px; font-weight: 800; letter-spacing: 0.15em; text-transform: uppercase; padding: 6px 12px; margin-bottom: 14px; }
+  .d2u-event-head h3 { font-size: clamp(22px, 2.4vw, 30px); font-weight: 900; line-height: 1.15; text-transform: uppercase; letter-spacing: -0.02em; color: var(--d2u-white); margin-bottom: 8px; }
+  .d2u-event-head p { font-size: 14px; color: rgba(255,255,255,0.7); line-height: 1.5; max-width: 720px; }
+  .d2u-event-body { padding: 36px; }
+  .d2u-event-body > p { font-size: 15px; line-height: 1.7; color: var(--d2u-gray-dark); margin-bottom: 16px !important; }
+
+  .d2u-event-bullets { list-style: none; padding: 0; margin: 0 0 24px; border-top: 2px solid var(--d2u-black); border-bottom: 2px solid var(--d2u-black); }
+  .d2u-event-bullets li { display: flex; gap: 14px; align-items: flex-start; padding: 12px 0; border-bottom: 1px solid var(--d2u-line); font-size: 14.5px; color: var(--d2u-charcoal); line-height: 1.5; }
+  .d2u-event-bullets li:last-child { border-bottom: none; }
+  .d2u-event-bullets li::before { content: ''; flex-shrink: 0; width: 8px; height: 8px; background: var(--d2u-red); margin-top: 7px; }
+
+  /* GALLERIES */
+  .d2u-gallery { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 18px; }
+  .d2u-gallery a { aspect-ratio: 1/1; background: var(--d2u-light-gray) center/cover no-repeat; cursor: pointer; transition: all 0.2s; position: relative; overflow: hidden; }
+  .d2u-gallery a::after { content: ''; position: absolute; inset: 0; background: rgba(0,0,0,0); transition: background 0.2s; }
+  .d2u-gallery a:hover::after { background: rgba(255,0,0,0.2); }
+  .d2u-gallery a:hover { transform: scale(1.02); z-index: 2; }
+
+  /* LIGHTBOX FOR GALLERY IMAGES */
+  .d2u-lb { display: none; position: fixed; inset: 0; z-index: 1000000; background: rgba(0,0,0,0.92); align-items: center; justify-content: center; padding: 30px; }
+  .d2u-lb.d2u-lb-open { display: flex; }
+  .d2u-lb img { max-width: 90vw; max-height: 85vh; object-fit: contain; border: 4px solid #000; border-top: 8px solid #FF0000; }
+  .d2u-lb-close { position: absolute; top: 24px; right: 24px; width: 50px; height: 50px; background: #000; color: #FFF; border: none; cursor: pointer; font-size: 26px; font-weight: 900; }
+  .d2u-lb-close:hover { background: #FF0000; }
+
+  @media (max-width: 960px) {
+    .d2u-partner { grid-template-columns: 1fr; }
+    .d2u-partner-logo { border-right: none; border-bottom: 2px solid var(--d2u-black); padding: 24px; }
+    .d2u-event-body { padding: 28px; }
+    .d2u-gallery { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (max-width: 600px) { .d2u-gallery { grid-template-columns: repeat(2, 1fr); } .d2u-event-head { padding: 24px 22px; } .d2u-event-body { padding: 22px; } }
+</style>
+
+<div class="d2u-page">
+
+  <section class="d2u-hero">
+    <div class="d2u-wrap"><div class="d2u-hero-inner">
+      <span class="d2u-eyebrow"><span class="d2u-dot"></span> Community Partners &middot; Empowering Communities Through Service &amp; Support</span>
+      <h1 class="d2u-hero-title">Partnering<br>to create<br>lasting impact<span class="d2u-accent">.</span></h1>
+      <p class="d2u-hero-lede">Empowering communities through collaboration. We work hand-in-hand with grassroots foundations, cultural organizations, and community institutions to deliver hands-on production training and meaningful support.</p>
+      <div class="d2u-cta-row">
+        <a href="#d2u-cherry" class="d2u-btn-primary">C. Cherry Foundation <span class="d2u-arrow">&rarr;</span></a>
+        <a href="#d2u-art4change" class="d2u-btn-outline">Art 4 Change</a>
+      </div>
+    </div></div>
+  </section>
+
+  <!-- ============ C. CHERRY FOUNDATION ============ -->
+  <section class="d2u-section d2u-section-gray" id="d2u-cherry">
+    <div class="d2u-wrap">
+      <div class="d2u-section-head">
+        <span class="d2u-tag">Empowering Communities Through Service &amp; Support</span>
+        <h2 class="d2u-h2">C. Cherry Foundation</h2>
+      </div>
+
+      <div class="d2u-partner">
+        <div class="d2u-partner-logo">
+          <img decoding="async" src="https://digi2u.org/wp-content/uploads/2025/01/c_Cheryy-150x150.png" alt="C. Cherry Foundation logo" onerror="this.outerHTML='&lt;div class="d2u-partner-logo-text"&gt;C. Cherry&lt;br&gt;Foundation&lt;/div&gt;';">
+        </div>
+        <div class="d2u-partner-body">
+          <span class="d2u-partner-tag">Foundation Partner &middot; Newark, NJ</span>
+          <h3 class="d2u-partner-title">A 501(c)(3) supporting Newark communities</h3>
+          <p class="d2u-partner-desc">The C. Cherry Foundation is a 501(c)(3) tax-exempt nonprofit organization dedicated to providing vital services to communities in Newark, New Jersey. Their mission focuses on supporting underserved populations through essential resources and community-driven initiatives.</p>
+          <p class="d2u-partner-desc"><strong style="color:var(--d2u-black);">Program Collaboration:</strong> Digi2U proudly partnered with the C. Cherry Foundation in support of their community events and provided hands-on production training for students.</p>
+          <div class="d2u-partner-actions">
+            <span class="d2u-btn-outline" style="pointer-events:none;padding:12px 20px;font-size:13px;">Key Events: 2023</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 10K Giveaway / Christmas Event -->
+      <div class="d2u-event-block">
+        <div class="d2u-event-head">
+          <span class="d2u-event-tag">10K Giveaway &middot; Christmas Community Event</span>
+          <h3>Newark Christmas Wonderland</h3>
+          <p>Digi2U students transformed a community center gym into a Christmas Wonderland for families in Newark, NJ &mdash; using their production skill sets, under instructor supervision.</p>
+        </div>
+        <div class="d2u-event-body">
+          <ul class="d2u-event-bullets">
+            <li>Digi2U students donated hours to support events</li>
+            <li>Christmas Tree Assembly</li>
+            <li>Sound and PA Equipment Setup</li>
+            <li>Video Recording and Stage Setup</li>
+            <li>Video Screen Setup, decorations, and gift distribution</li>
+          </ul>
+
+          <div class="d2u-gallery" data-gallery="cherry-christmas">
+            <a data-img="https://digi2u.org/wp-content/uploads/2025/02/Project_20231207_0001.jpg" style="background-image:url('https://digi2u.org/wp-content/uploads/2025/02/Project_20231207_0001-300x225.jpg');"></a>
+            <a data-img="https://digi2u.org/wp-content/uploads/2025/02/Project_20231207_0002-1.jpg" style="background-image:url('https://digi2u.org/wp-content/uploads/2025/02/Project_20231207_0002-1-300x225.jpg');"></a>
+            <a data-img="https://digi2u.org/wp-content/uploads/2025/02/Project_20231207_0002-rotated.jpg" style="background-image:url('https://digi2u.org/wp-content/uploads/2025/02/Project_20231207_0002-225x300.jpg');"></a>
+            <a data-img="https://digi2u.org/wp-content/uploads/2025/02/Project_20231207_0005-rotated.jpg" style="background-image:url('https://digi2u.org/wp-content/uploads/2025/02/Project_20231207_0005-225x300.jpg');"></a>
+            <a data-img="https://digi2u.org/wp-content/uploads/2025/02/Project_20231207_0006.jpg" style="background-image:url('https://digi2u.org/wp-content/uploads/2025/02/Project_20231207_0006-300x225.jpg');"></a>
+            <a data-img="https://digi2u.org/wp-content/uploads/2025/02/Project_20231207_0007-rotated.jpg" style="background-image:url('https://digi2u.org/wp-content/uploads/2025/02/Project_20231207_0007-225x300.jpg');"></a>
+            <a data-img="https://digi2u.org/wp-content/uploads/2025/02/Project_20231207_0008-rotated.jpg" style="background-image:url('https://digi2u.org/wp-content/uploads/2025/02/Project_20231207_0008-225x300.jpg');"></a>
+            <a data-img="https://digi2u.org/wp-content/uploads/2025/02/Project_20231207_0009.jpg" style="background-image:url('https://digi2u.org/wp-content/uploads/2025/02/Project_20231207_0009-300x225.jpg');"></a>
+            <a data-img="https://digi2u.org/wp-content/uploads/2025/02/Project_20231207_0010-rotated.jpg" style="background-image:url('https://digi2u.org/wp-content/uploads/2025/02/Project_20231207_0010-225x300.jpg');"></a>
+            <a data-img="https://digi2u.org/wp-content/uploads/2025/02/Project_20231207_0011.jpg" style="background-image:url('https://digi2u.org/wp-content/uploads/2025/02/Project_20231207_0011-300x225.jpg');"></a>
+            <a data-img="https://digi2u.org/wp-content/uploads/2025/02/Project_20231018_0003.jpg" style="background-image:url('https://digi2u.org/wp-content/uploads/2025/02/Project_20231018_0003-300x169.jpg');"></a>
+            <a data-img="https://digi2u.org/wp-content/uploads/2025/02/Project_20231018_0005.jpg" style="background-image:url('https://digi2u.org/wp-content/uploads/2025/02/Project_20231018_0005-300x169.jpg');"></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Haunted 51 Police Precinct -->
+      <div class="d2u-event-block">
+        <div class="d2u-event-head" style="background: var(--d2u-black); border-bottom-color: var(--d2u-red);">
+          <span class="d2u-event-tag">Haunted 51 Police Precinct &middot; Halloween Community Event</span>
+          <h3>From police station to haunted house</h3>
+          <p>Hands-on experience designing a full haunted house from beginning to end inside a police station conference room &mdash; under instructor supervision.</p>
+        </div>
+        <div class="d2u-event-body">
+          <ul class="d2u-event-bullets">
+            <li>Décor and room setup</li>
+            <li>Sound Design and Video Effects Display Wall</li>
+            <li>Floating monitor installation with special effects and theatrical lighting</li>
+          </ul>
+
+          <div class="d2u-gallery" data-gallery="cherry-haunted">
+            <a data-img="https://digi2u.org/wp-content/uploads/2025/03/Jersey-City-police-e1604627450286.png" style="background-image:url('https://digi2u.org/wp-content/uploads/2025/03/Jersey-City-police-e1604627450286-300x170.png');"></a>
+            <a data-img="https://digi2u.org/wp-content/uploads/2025/02/Project_20231030_0007-scaled.jpg" style="background-image:url('https://digi2u.org/wp-content/uploads/2025/02/Project_20231030_0007-225x300.jpg');"></a>
+            <a data-img="https://digi2u.org/wp-content/uploads/2025/02/Project_20231030_0009-scaled.jpg" style="background-image:url('https://digi2u.org/wp-content/uploads/2025/02/Project_20231030_0009-225x300.jpg');"></a>
+            <a data-img="https://digi2u.org/wp-content/uploads/2025/02/Project_20231030_0011-scaled.jpg" style="background-image:url('https://digi2u.org/wp-content/uploads/2025/02/Project_20231030_0011-225x300.jpg');"></a>
+            <a data-img="https://digi2u.org/wp-content/uploads/2025/02/Project_20231030_0012.jpg" style="background-image:url('https://digi2u.org/wp-content/uploads/2025/02/Project_20231030_0012-225x300.jpg');"></a>
+            <a data-img="https://digi2u.org/wp-content/uploads/2025/02/Project_20231030_0015-scaled.jpg" style="background-image:url('https://digi2u.org/wp-content/uploads/2025/02/Project_20231030_0015-225x300.jpg');"></a>
+            <a data-img="https://digi2u.org/wp-content/uploads/2025/02/Project_20231031_0016-scaled.jpg" style="background-image:url('https://digi2u.org/wp-content/uploads/2025/02/Project_20231031_0016-300x169.jpg');"></a>
+            <a data-img="https://digi2u.org/wp-content/uploads/2025/02/Project_20250220_0001.jpg" style="background-image:url('https://digi2u.org/wp-content/uploads/2025/02/Project_20250220_0001-300x223.jpg');"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ART 4 CHANGE ============ -->
+  <section class="d2u-section d2u-section-white" id="d2u-art4change">
+    <div class="d2u-wrap">
+      <div class="d2u-section-head">
+        <span class="d2u-tag">Fostering Creativity &amp; Opportunity Through Art</span>
+        <h2 class="d2u-h2">Art 4 Change</h2>
+      </div>
+
+      <div class="d2u-partner">
+        <div class="d2u-partner-logo">
+          <div class="d2u-partner-logo-text">Art 4<br>Change</div>
+        </div>
+        <div class="d2u-partner-body">
+          <span class="d2u-partner-tag">Cultural Partner &middot; Live Production</span>
+          <h3 class="d2u-partner-title">A platform for emerging artists</h3>
+          <p class="d2u-partner-desc">Digi2U partnered with Art 4 Change to create <strong style="color:var(--d2u-black);">The Spin-Off Open Deck</strong> &mdash; a hands-on production training program paired with a live music showcase, providing students with real-world event production experience.</p>
+          <div class="d2u-partner-actions">
+            <span class="d2u-btn-outline" style="pointer-events:none;padding:12px 20px;font-size:13px;">45-Week Program</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Spin-Off Open Deck -->
+      <div class="d2u-event-block">
+        <div class="d2u-event-head">
+          <span class="d2u-event-tag">Key Initiative &middot; The Spin-Off Open Deck</span>
+          <h3>Live Production Training Class</h3>
+          <p>A 45-week program featuring a fully produced DJ music showcase. Students gained practical skills across every aspect of live event production.</p>
+        </div>
+        <div class="d2u-event-body">
+          <p style="font-weight:700;color:var(--d2u-black);margin-bottom:8px !important;text-transform:uppercase;letter-spacing:0.05em;font-size:13px;">Skills Developed</p>
+          <ul class="d2u-event-bullets">
+            <li>Sound Mixing and Recording</li>
+            <li>Multi-camera video recording (4 cameras)</li>
+            <li>Streaming and live video switching</li>
+            <li>Theatrical and spot lighting</li>
+            <li>Stage rigging (setup and breakdown)</li>
+            <li>Safety and blocking</li>
+          </ul>
+
+          <p style="font-weight:700;color:var(--d2u-black);margin-bottom:8px !important;text-transform:uppercase;letter-spacing:0.05em;font-size:13px;">Production Specs</p>
+          <ul class="d2u-event-bullets">
+            <li>2,000 sq. ft. venue setup</li>
+            <li>8&times;16 stage with state-of-the-art equipment</li>
+            <li>Bose F1 L1 Series Sound System</li>
+            <li>Multiple Shure wireless Microphone Systems</li>
+            <li>Yamaha mixing main console</li>
+            <li>Sling Studio &amp; Blackmagic Streaming units</li>
+            <li>Sony HD video cameras</li>
+            <li>Interactive video and graphic display wall</li>
+            <li>Theatrical lighting and smoke machines</li>
+            <li>DJs used Serato DJ software and the Pioneer SRT1000 DJ Control Unit</li>
+          </ul>
+
+          <p>Students handled setup, operation, and breakdown for each event, applying classroom knowledge in a professional, real-world setting, all under instructor supervision.</p>
+
+          <div class="d2u-gallery" data-gallery="art4change-spinoff">
+            <a data-img="https://digi2u.org/wp-content/uploads/2025/02/Project_20250220_0002.jpg" style="background-image:url('https://digi2u.org/wp-content/uploads/2025/02/Project_20250220_0002-195x300.jpg');"></a>
+          </div>
+          <p style="font-size:13px;color:var(--d2u-gray);margin-top:14px !important;font-style:italic;">More photos from The Spin-Off Open Deck coming soon &mdash; if you have additional images you'd like added to this gallery, send them to <a href="mailto:admin@digi2u.org" style="color:#FF0000;font-weight:700;">admin@digi2u.org</a>.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MID CTA -->
+  <section class="d2u-section d2u-section-gray" style="padding:0 0 110px;">
+    <div class="d2u-wrap">
+      <div class="d2u-mid-cta">
+        <div style="position:relative;z-index:2;">
+          <h2 class="d2u-mid-title">Want to partner with Digi2U?</h2>
+          <p>Schools, foundations, government, businesses &mdash; if your work touches the communities we serve, let's collaborate.</p>
+        </div>
+        <div class="d2u-mid-right">
+          <a href="/contact-us/" class="d2u-btn-primary">Become A Partner <span class="d2u-arrow">&rarr;</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="d2u-section d2u-section-white" id="d2u-contact">
+    <div class="d2u-wrap">
+      <div class="d2u-contact-grid">
+        <div class="d2u-contact-info">
+          <span class="d2u-tag">Partnership Inquiries</span>
+          <h2 class="d2u-h2">Build the future<br>with us.</h2>
+          <p>We respond to partnership inquiries within one business day.</p>
+          <div class="d2u-contact-methods">
+            <div class="d2u-contact-method"><div class="d2u-contact-icon">&#9993;</div><div><div class="d2u-contact-label">Email</div><a href="mailto:admin@digi2u.org" class="d2u-contact-value">admin@digi2u.org</a></div></div>
+            <div class="d2u-contact-method"><div class="d2u-contact-icon">&#9742;</div><div><div class="d2u-contact-label">Phone</div><a href="tel:+12013743553" class="d2u-contact-value">+1 (201) 374-3553</a></div></div>
+            <div class="d2u-contact-method"><div class="d2u-contact-icon">&#9873;</div><div><div class="d2u-contact-label">Office</div><span class="d2u-contact-value">317 Pacific Avenue, Jersey City, NJ 07304</span></div></div>
+          </div>
+          <div class="d2u-nonprofit-note"><strong>501(c)(3) Nonprofit</strong>EIN: 88-3213984. All gifts tax-deductible.</div>
+        </div>
+        <form class="d2u-form-card" onsubmit="return d2uSubmitInquiry(event);">
+          <h3>Partnership Inquiry</h3>
+          <p>Tell us about your organization and how you'd like to collaborate.</p>
+          <div class="d2u-form-row">
+            <input class="d2u-field" id="d2u-f-name" type="text" placeholder="Name" required>
+            <input class="d2u-field" id="d2u-f-email" type="email" placeholder="Email" required>
+          </div>
+          <input class="d2u-field" id="d2u-f-phone" type="tel" placeholder="Phone (optional)">
+          <input class="d2u-field" id="d2u-f-subject" type="text" placeholder="Organization name" required>
+          <textarea class="d2u-field d2u-textarea" id="d2u-f-message" placeholder="Message" required></textarea>
+          <button type="submit" class="d2u-btn-primary d2u-form-btn">Submit <span class="d2u-arrow">&rarr;</span></button>
+          <p id="d2u-form-status" style="margin-top:14px;font-size:13px;color:var(--d2u-gray);text-align:center;"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <!-- D2U-CIA-STRIP --><section class="d2u-cia-injected" style="padding:70px 24px;background:#FAFAFA;border-top:6px solid #FF0000"><div style="max-width:1200px;margin:0 auto"><div style="text-align:center;margin-bottom:36px"><span style="display:inline-block;font-size:11px;font-weight:800;letter-spacing:0.18em;text-transform:uppercase;color:#FF0000;padding-bottom:8px;border-bottom:2px solid #FF0000">Community in Action</span><h2 style="font-size:clamp(28px,4vw,44px);font-weight:900;letter-spacing:-0.03em;line-height:1.05;margin:14px 0 6px;text-transform:uppercase;color:#000">Real cohorts.<br>Real moments.</h2><p style="font-size:15px;color:#4A4A4A;max-width:600px;margin:8px auto 0">Snapshots from Digi2U classrooms, mobile labs, and partner events.</p></div><div class="d2u-cia-grid-injected" style="display:grid;grid-template-columns:repeat(6,1fr);gap:6px"><a href="https://digi2u.org/wp-content/uploads/2026/05/d2u-3d-justice-1.webp" target="_blank" rel="noopener" style="aspect-ratio:4/5;background:#eee url('https://digi2u.org/wp-content/uploads/2026/05/d2u-3d-justice-1.webp') center/cover no-repeat;display:block;position:relative;text-decoration:none"><span style="position:absolute;left:10px;right:10px;bottom:10px;color:#fff;font-size:11px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;text-shadow:0 1px 3px rgba(0,0,0,0.7);line-height:1.3">Justice — 3D Cohort</span></a><a href="https://digi2u.org/wp-content/uploads/2026/05/d2u-3d-justice-3.webp" target="_blank" rel="noopener" style="aspect-ratio:4/5;background:#eee url('https://digi2u.org/wp-content/uploads/2026/05/d2u-3d-justice-3.webp') center/cover no-repeat;display:block;position:relative;text-decoration:none"><span style="position:absolute;left:10px;right:10px;bottom:10px;color:#fff;font-size:11px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;text-shadow:0 1px 3px rgba(0,0,0,0.7);line-height:1.3">Build · Newark, NJ</span></a><a href="https://digi2u.org/wp-content/uploads/2026/05/d2u-newark-3d-1.webp" target="_blank" rel="noopener" style="aspect-ratio:4/5;background:#eee url('https://digi2u.org/wp-content/uploads/2026/05/d2u-newark-3d-1.webp') center/cover no-repeat;display:block;position:relative;text-decoration:none"><span style="position:absolute;left:10px;right:10px;bottom:10px;color:#fff;font-size:11px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;text-shadow:0 1px 3px rgba(0,0,0,0.7);line-height:1.3">Newark Bootcamp</span></a><a href="https://digi2u.org/wp-content/uploads/2026/05/d2u-pacific-extra-01.webp" target="_blank" rel="noopener" style="aspect-ratio:4/5;background:#eee url('https://digi2u.org/wp-content/uploads/2026/05/d2u-pacific-extra-01.webp') center/cover no-repeat;display:block;position:relative;text-decoration:none"><span style="position:absolute;left:10px;right:10px;bottom:10px;color:#fff;font-size:11px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;text-shadow:0 1px 3px rgba(0,0,0,0.7);line-height:1.3">Training · 317 Pacific</span></a><a href="https://digi2u.org/wp-content/uploads/2026/05/d2u-spinoff-newark-2.webp" target="_blank" rel="noopener" style="aspect-ratio:4/5;background:#eee url('https://digi2u.org/wp-content/uploads/2026/05/d2u-spinoff-newark-2.webp') center/cover no-repeat;display:block;position:relative;text-decoration:none"><span style="position:absolute;left:10px;right:10px;bottom:10px;color:#fff;font-size:11px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;text-shadow:0 1px 3px rgba(0,0,0,0.7);line-height:1.3">Spin-Off Open Deck</span></a><a href="https://digi2u.org/wp-content/uploads/2026/05/d2u-cherry-xmas-3.webp" target="_blank" rel="noopener" style="aspect-ratio:4/5;background:#eee url('https://digi2u.org/wp-content/uploads/2026/05/d2u-cherry-xmas-3.webp') center/cover no-repeat;display:block;position:relative;text-decoration:none"><span style="position:absolute;left:10px;right:10px;bottom:10px;color:#fff;font-size:11px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;text-shadow:0 1px 3px rgba(0,0,0,0.7);line-height:1.3">Cherry Foundation Christmas</span></a></div></div></section><style>@media(max-width:960px){.d2u-cia-grid-injected{grid-template-columns:repeat(3,1fr) !important}}@media(max-width:600px){.d2u-cia-grid-injected{grid-template-columns:repeat(2,1fr) !important}}</style><section class="d2u-final">
+    <span class="d2u-tag">Stronger Together</span>
+    <h2 class="d2u-h2 d2u-final-title">Community first<span class="d2u-accent">.</span><br>Always<span class="d2u-accent">.</span></h2>
+    <p class="d2u-final-lede">Every partner doubles our reach and triples our impact. Join the network.</p>
+    <div class="d2u-cta-row">
+      <button type="button" class="d2u-btn-primary" onclick="d2uOpenModal()">Donate &amp; Support <span class="d2u-arrow">&rarr;</span></button>
+      <a href="/sponsors/" class="d2u-btn-outline">Corporate Sponsors</a>
+      <a href="/contact-us/" class="d2u-btn-outline">Contact Us</a>
+    </div>
+  </section>
+
+  <button type="button" class="d2u-btn-primary d2u-sticky" id="d2u-sticky-btn" onclick="d2uOpenModal()">Donate Now <span class="d2u-arrow">&rarr;</span></button>
+
+  <!-- IMAGE LIGHTBOX -->
+  <div class="d2u-lb" id="d2u-lb" onclick="d2uCloseLightbox(event)">
+    <button type="button" class="d2u-lb-close" onclick="d2uCloseLightbox(true)" aria-label="Close">&times;</button>
+    <img decoding="async" id="d2u-lb-img" src="" alt="">
+  </div>
+</div>
+
+<script>
+/* ====== GALLERY LIGHTBOX ====== */
+(function(){
+  document.querySelectorAll('.d2u-gallery a').forEach(function(a){
+    a.addEventListener('click', function(e){
+      e.preventDefault();
+      var src = a.getAttribute('data-img') || a.style.backgroundImage.replace(/^url\(["']?|["']?\)$/g,'');
+      var lb = document.getElementById('d2u-lb');
+      var img = document.getElementById('d2u-lb-img');
+      img.src = src;
+      lb.classList.add('d2u-lb-open');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+})();
+function d2uCloseLightbox(eOrForce){
+  var lb = document.getElementById('d2u-lb');
+  if (eOrForce === true || (eOrForce && eOrForce.target && eOrForce.target.id === 'd2u-lb')) {
+    lb.classList.remove('d2u-lb-open');
+    document.body.style.overflow = '';
+  }
+}
+document.addEventListener('keydown', function(e){
+  if (e.key === 'Escape') {
+    var lb = document.getElementById('d2u-lb');
+    if (lb && lb.classList.contains('d2u-lb-open')) { lb.classList.remove('d2u-lb-open'); document.body.style.overflow = ''; }
+  }
+});
+</script>

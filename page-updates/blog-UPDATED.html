@@ -1,0 +1,445 @@
+<!--
+=====================================================================
+  DIGI2U — BLOG INDEX
+  Edit the D2U_POSTS array at bottom to add real posts.
+=====================================================================
+-->
+<!--
+=====================================================================
+  DIGI2U — SHARED STYLE + SCRIPT BLOCK
+  Drop the contents of THIS file at the TOP of any new page widget,
+  then add page-specific markup below it.
+
+  Includes: full design system, Zeffy donate modal, sticky button,
+  inquiry form handler, newsletter form handler, lightbox modal
+  helpers shared across pages.
+=====================================================================
+-->
+
+<style>
+  :root {
+    --d2u-red: #FF0000; --d2u-red-dark: #D90000;
+    --d2u-red-soft: #FFE8E8; --d2u-red-tint: #FFF5F5;
+    --d2u-black: #000000; --d2u-charcoal: #1A1A1A;
+    --d2u-white: #FFFFFF; --d2u-off-white: #FAFAFA;
+    --d2u-light-gray: #F4F4F4; --d2u-gray: #8A8A8A;
+    --d2u-gray-dark: #4A4A4A;
+    --d2u-line: rgba(0, 0, 0, 0.1); --d2u-line-strong: rgba(0, 0, 0, 0.18);
+    --d2u-shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.06);
+    --d2u-shadow-lift: 0 20px 60px rgba(0, 0, 0, 0.1);
+    --d2u-shadow-red: 0 10px 30px rgba(255, 0, 0, 0.25);
+  }
+  .d2u-page {
+    --d2u-red: #FF0000; --d2u-red-dark: #D90000;
+    --d2u-red-soft: #FFE8E8; --d2u-red-tint: #FFF5F5;
+    --d2u-black: #000000; --d2u-charcoal: #1A1A1A;
+    --d2u-white: #FFFFFF; --d2u-off-white: #FAFAFA;
+    --d2u-light-gray: #F4F4F4; --d2u-gray: #8A8A8A;
+    --d2u-gray-dark: #4A4A4A;
+    --d2u-line: rgba(0, 0, 0, 0.1); --d2u-line-strong: rgba(0, 0, 0, 0.18);
+    --d2u-shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.06);
+    --d2u-shadow-lift: 0 20px 60px rgba(0, 0, 0, 0.1);
+    --d2u-shadow-red: 0 10px 30px rgba(255, 0, 0, 0.25);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: var(--d2u-black); line-height: 1.6;
+    -webkit-font-smoothing: antialiased; background: var(--d2u-white);
+  }
+  .d2u-page *, .d2u-page *::before, .d2u-page *::after { box-sizing: border-box; }
+  .d2u-page h1, .d2u-page h2, .d2u-page h3, .d2u-page h4, .d2u-page h5 {
+    margin: 0; padding: 0; color: var(--d2u-black); font-weight: 900;
+    letter-spacing: -0.02em;
+  }
+  .d2u-page p { margin: 0; padding: 0; }
+  .d2u-page a { text-decoration: none; }
+  .d2u-page img { max-width: 100%; height: auto; display: block; }
+  .d2u-wrap { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+  .d2u-hero {
+    background: var(--d2u-white); color: var(--d2u-black);
+    padding: 110px 0 80px; position: relative; overflow: hidden;
+  }
+  .d2u-hero::before {
+    content: ''; position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px);
+    background-size: 48px 48px; pointer-events: none;
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+  }
+  .d2u-hero::after {
+    content: ''; position: absolute; top: 30%; right: -15%;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(255, 0, 0, 0.1) 0%, transparent 60%);
+    filter: blur(60px); pointer-events: none;
+  }
+  .d2u-hero-inner { position: relative; z-index: 2; max-width: 980px; margin: 0 auto; text-align: center; }
+  .d2u-eyebrow {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--d2u-red-tint); border: 1px solid var(--d2u-red);
+    padding: 10px 20px; font-size: 12px; font-weight: 700;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    margin-bottom: 32px; color: var(--d2u-black);
+  }
+  .d2u-eyebrow .d2u-dot {
+    width: 8px; height: 8px; background: var(--d2u-red);
+    box-shadow: 0 0 12px var(--d2u-red);
+    animation: d2uPulse 1.8s infinite;
+  }
+  @keyframes d2uPulse { 0%,100%{opacity:1; transform:scale(1);} 50%{opacity:0.5; transform:scale(1.3);} }
+  .d2u-page h1.d2u-hero-title {
+    font-size: clamp(48px, 8vw, 96px); font-weight: 900;
+    line-height: 0.98; letter-spacing: -0.04em;
+    margin-bottom: 28px; color: var(--d2u-black); text-transform: uppercase;
+  }
+  .d2u-hero-title .d2u-accent { color: var(--d2u-red); }
+  .d2u-hero-lede {
+    font-size: 20px; line-height: 1.5; color: var(--d2u-gray-dark);
+    margin-bottom: 44px !important; max-width: 700px;
+    margin-left: auto !important; margin-right: auto !important; font-weight: 400;
+  }
+  .d2u-cta-row { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; justify-content: center; }
+
+  .d2u-btn-primary {
+    display: inline-flex; align-items: center; gap: 12px;
+    background: var(--d2u-red); color: var(--d2u-white) !important;
+    padding: 18px 36px; font-weight: 700; font-size: 15px;
+    letter-spacing: 0.04em; text-transform: uppercase;
+    border-radius: 0; border: 2px solid var(--d2u-red);
+    cursor: pointer; transition: all 0.2s ease;
+    text-decoration: none !important;
+    box-shadow: var(--d2u-shadow-red); font-family: inherit;
+  }
+  .d2u-btn-primary:hover {
+    background: var(--d2u-red-dark); border-color: var(--d2u-red-dark);
+    color: var(--d2u-white) !important; transform: translateY(-2px);
+    box-shadow: 0 14px 36px rgba(255, 0, 0, 0.4);
+  }
+  .d2u-btn-primary .d2u-arrow { transition: transform 0.25s ease; }
+  .d2u-btn-primary:hover .d2u-arrow { transform: translateX(4px); }
+  .d2u-btn-outline {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: transparent; color: var(--d2u-black) !important;
+    padding: 16px 30px; font-weight: 700; font-size: 15px;
+    letter-spacing: 0.04em; text-transform: uppercase;
+    border-radius: 0; border: 2px solid var(--d2u-black);
+    transition: all 0.2s; text-decoration: none !important;
+    cursor: pointer; font-family: inherit;
+  }
+  .d2u-btn-outline:hover { background: var(--d2u-black); color: var(--d2u-white) !important; }
+
+  .d2u-stats {
+    position: relative; z-index: 2; margin-top: 70px;
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    max-width: 980px; margin-left: auto; margin-right: auto;
+    border: 2px solid var(--d2u-black);
+  }
+  .d2u-stat { text-align: center; padding: 32px 20px; background: var(--d2u-white); border-right: 2px solid var(--d2u-black); }
+  .d2u-stat:last-child { border-right: none; }
+  .d2u-stat-num { font-size: clamp(32px, 4vw, 48px); font-weight: 900; color: var(--d2u-red); line-height: 1; margin-bottom: 10px; letter-spacing: -0.02em; }
+  .d2u-stat-label { font-size: 12px; color: var(--d2u-black); text-transform: uppercase; letter-spacing: 0.12em; font-weight: 700; }
+
+  .d2u-section { padding: 110px 0; }
+  .d2u-section-white { background: var(--d2u-white); }
+  .d2u-section-gray { background: var(--d2u-off-white); }
+  .d2u-section-black { background: var(--d2u-black); color: var(--d2u-white); }
+  .d2u-section-black h2, .d2u-section-black h3, .d2u-section-black h4 { color: var(--d2u-white); }
+  .d2u-section-head { text-align: center; max-width: 780px; margin: 0 auto 68px; }
+  .d2u-tag { display: inline-flex; align-items: center; gap: 10px; font-size: 12px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--d2u-red); margin-bottom: 20px; }
+  .d2u-tag::before { content: ''; display: inline-block; width: 28px; height: 2px; background: var(--d2u-red); }
+  .d2u-page h2.d2u-h2 { font-size: clamp(36px, 5.5vw, 60px); font-weight: 900; line-height: 1.02; letter-spacing: -0.03em; margin-bottom: 20px; text-transform: uppercase; }
+  .d2u-section-head p { font-size: 18px; color: var(--d2u-gray-dark); font-weight: 400; }
+  .d2u-section-black .d2u-section-head p { color: rgba(255,255,255,0.75); }
+
+  .d2u-mid-cta {
+    background: var(--d2u-white); color: var(--d2u-black);
+    padding: 70px 60px; display: grid;
+    grid-template-columns: 1.5fr 1fr; gap: 40px; align-items: center;
+    position: relative; overflow: hidden;
+    border: 2px solid var(--d2u-black); border-left: 8px solid var(--d2u-red);
+  }
+  .d2u-page h2.d2u-mid-title { font-size: clamp(30px, 4vw, 44px); font-weight: 900; line-height: 1.05; letter-spacing: -0.03em; margin-bottom: 14px; color: var(--d2u-black); text-transform: uppercase; }
+  .d2u-mid-cta p { font-size: 17px; color: var(--d2u-gray-dark); font-weight: 500; }
+  .d2u-mid-right { text-align: right; position: relative; z-index: 2; }
+
+  .d2u-contact-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 70px; align-items: start; }
+  .d2u-contact-info > p { font-size: 17px; color: var(--d2u-gray-dark); margin-bottom: 40px !important; line-height: 1.6; }
+  .d2u-contact-methods { display: grid; gap: 16px; margin-bottom: 40px; }
+  .d2u-contact-method { display: flex; gap: 18px; align-items: center; padding: 20px 24px; background: var(--d2u-white); border: 2px solid var(--d2u-black); transition: all 0.2s; }
+  .d2u-contact-method:hover { border-color: var(--d2u-red); transform: translateX(4px); }
+  .d2u-contact-icon { width: 48px; height: 48px; background: var(--d2u-black); color: var(--d2u-white); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 22px; transition: background 0.2s; }
+  .d2u-contact-method:hover .d2u-contact-icon { background: var(--d2u-red); }
+  .d2u-contact-label { font-size: 11px; color: var(--d2u-gray); text-transform: uppercase; letter-spacing: 0.15em; font-weight: 700; margin-bottom: 4px; }
+  .d2u-contact-value { font-size: 16px; color: var(--d2u-black) !important; font-weight: 700; text-decoration: none !important; }
+  .d2u-contact-value:hover { color: var(--d2u-red) !important; }
+  .d2u-nonprofit-note { padding: 22px; background: var(--d2u-white); color: var(--d2u-black); font-size: 14px; line-height: 1.6; border: 2px solid var(--d2u-black); border-left: 6px solid var(--d2u-red); }
+  .d2u-nonprofit-note strong { display: block; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; color: var(--d2u-red); font-weight: 800; font-size: 12px; }
+
+  .d2u-form-card { background: var(--d2u-white); padding: 48px; border: 2px solid var(--d2u-black); border-top: 6px solid var(--d2u-red); }
+  .d2u-form-card h3 { font-size: 28px; font-weight: 900; margin-bottom: 10px; text-transform: uppercase; letter-spacing: -0.02em; }
+  .d2u-form-card > p { font-size: 15px; color: var(--d2u-gray-dark); margin-bottom: 28px !important; }
+  .d2u-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+  .d2u-field { display: block; width: 100%; padding: 16px 18px; border: 2px solid var(--d2u-line-strong); border-radius: 0; font-size: 15px; font-family: inherit; color: var(--d2u-black); background: var(--d2u-white); transition: all 0.2s; margin-bottom: 14px; }
+  .d2u-field:focus { outline: none; border-color: var(--d2u-red); box-shadow: 0 0 0 3px rgba(255, 0, 0, 0.1); }
+  .d2u-field::placeholder { color: var(--d2u-gray); }
+  .d2u-field.d2u-textarea { min-height: 130px; resize: vertical; line-height: 1.5; }
+  .d2u-form-row .d2u-field { margin-bottom: 0; }
+  .d2u-form-btn { width: 100%; margin-top: 10px; justify-content: center; }
+
+  .d2u-final { text-align: center; padding: 120px 40px; background: var(--d2u-white); color: var(--d2u-black); position: relative; overflow: hidden; border-top: 6px solid var(--d2u-red); }
+  .d2u-final::before, .d2u-final::after { content: ''; position: absolute; top: 50%; transform: translateY(-50%); width: 400px; height: 400px; background: radial-gradient(circle, rgba(255, 0, 0, 0.06) 0%, transparent 70%); filter: blur(60px); pointer-events: none; }
+  .d2u-final::before { left: -10%; }
+  .d2u-final::after { right: -10%; }
+  .d2u-final > * { position: relative; z-index: 2; }
+  .d2u-page h2.d2u-final-title { font-size: clamp(40px, 6vw, 72px); font-weight: 900; line-height: 0.98; letter-spacing: -0.04em; margin: 0 auto 24px; max-width: 860px; color: var(--d2u-black); text-transform: uppercase; }
+  .d2u-final-title .d2u-accent { color: var(--d2u-red); }
+  .d2u-final-lede { font-size: 18px; color: var(--d2u-gray-dark); max-width: 640px; margin: 0 auto 40px !important; }
+  .d2u-final .d2u-cta-row { justify-content: center; }
+
+  .d2u-modal { display: none; position: fixed !important; top: 0 !important; left: 0 !important; right: 0 !important; bottom: 0 !important; width: 100vw !important; height: 100vh !important; z-index: 999999 !important; background: rgba(0, 0, 0, 0.85) !important; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); padding: 30px 20px; overflow-y: auto; animation: d2uFadeIn 0.2s ease; margin: 0 !important; }
+  .d2u-modal.d2u-modal-open { display: flex !important; align-items: flex-start; justify-content: center; }
+  @keyframes d2uFadeIn { from { opacity: 0; } to { opacity: 1; } }
+  .d2u-modal-inner { background: #FFFFFF; width: 100%; max-width: 760px; border: 2px solid #000000; border-top: 6px solid #FF0000; position: relative; animation: d2uSlideUp 0.3s ease; }
+  @keyframes d2uSlideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+  .d2u-modal-header { padding: 22px 28px; border-bottom: 2px solid #000000; display: flex; justify-content: space-between; align-items: center; gap: 20px; background: #FFFFFF; }
+  .d2u-modal-title { font-size: 16px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.05em; color: #000000; }
+  .d2u-modal-title span { color: #FF0000; margin-right: 8px; }
+  .d2u-modal-close { width: 40px; height: 40px; background: #000000; color: #FFFFFF; border: none; cursor: pointer; font-size: 20px; font-weight: 900; display: flex; align-items: center; justify-content: center; transition: background 0.2s; font-family: inherit; flex-shrink: 0; }
+  .d2u-modal-close:hover { background: #FF0000; }
+  .d2u-modal-body { padding: 0; background: #FFFFFF; }
+  .d2u-modal-body iframe { border: 0 !important; width: 100% !important; display: block; }
+
+  .d2u-sticky { position: fixed; bottom: 24px; right: 24px; z-index: 9999; opacity: 0; transform: translateY(20px); transition: all 0.3s ease; pointer-events: none; }
+  .d2u-sticky.d2u-visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+
+  @media (max-width: 960px) {
+    .d2u-hero { padding: 70px 0 60px; }
+    .d2u-stats { grid-template-columns: repeat(2, 1fr); }
+    .d2u-stat:nth-child(2n) { border-right: none; }
+    .d2u-stat:nth-child(-n+2) { border-bottom: 2px solid var(--d2u-black); }
+    .d2u-mid-cta { grid-template-columns: 1fr; padding: 54px 36px; text-align: center; }
+    .d2u-mid-right { text-align: center; }
+    .d2u-contact-grid { grid-template-columns: 1fr; gap: 50px; }
+    .d2u-section { padding: 80px 0; }
+    .d2u-final { padding: 80px 24px; }
+  }
+  @media (max-width: 600px) {
+    .d2u-stats { grid-template-columns: 1fr; }
+    .d2u-stat { border-right: none; border-bottom: 2px solid var(--d2u-black); }
+    .d2u-stat:last-child { border-bottom: none; }
+    .d2u-form-card { padding: 28px; }
+    .d2u-form-row { grid-template-columns: 1fr; }
+    .d2u-sticky { bottom: 16px; right: 16px; left: 16px; }
+    .d2u-sticky.d2u-btn-primary { justify-content: center; padding: 16px 24px; }
+    .d2u-modal { padding: 15px 10px; }
+  }
+</style>
+
+<!-- Place this snippet near the bottom of any page widget for Zeffy donate modal -->
+<div class="d2u-modal" id="d2u-donation-modal" onclick="d2uCloseModalOnBackdrop(event)">
+  <div class="d2u-modal-inner" onclick="event.stopPropagation()">
+    <div class="d2u-modal-header">
+      <div class="d2u-modal-title"><span>&#9733;</span>Donate to Digi2U</div>
+      <button type="button" class="d2u-modal-close" onclick="d2uCloseModal()" aria-label="Close">&times;</button>
+    </div>
+    <div class="d2u-modal-body">
+      <div style="position:relative;overflow:hidden;height:720px;width:100%;">
+        <iframe title="Donation form powered by Zeffy" style="position:absolute;border:0;top:0;left:0;bottom:0;right:0;width:100%;height:100%;" src="https://www.zeffy.com/embed/donation-form/donate-to-change-lives-3894" allowpaymentrequest allowtransparency="true" loading="lazy"></iframe>
+      </div>
+      <div style="padding:14px 24px;background:#FAFAFA;border-top:1px solid rgba(0,0,0,0.1);text-align:center;">
+        <p style="font-size:13px;color:#4A4A4A;">Having trouble? <a href="https://www.zeffy.com/donation-form/donate-to-change-lives-3894" target="_blank" rel="noopener" style="color:#FF0000;font-weight:700;text-decoration:underline;">Open donation form in a new tab &rarr;</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var modal = document.getElementById('d2u-donation-modal');
+  if (modal && document.body && modal.parentNode !== document.body) document.body.appendChild(modal);
+})();
+document.addEventListener('DOMContentLoaded', function() {
+  var m = document.getElementById('d2u-donation-modal');
+  if (m && m.parentNode !== document.body) document.body.appendChild(m);
+});
+function d2uOpenModal() {
+  var modal = document.getElementById('d2u-donation-modal');
+  if (!modal) { window.open('https://www.zeffy.com/donation-form/donate-to-change-lives-3894','_blank'); return; }
+  if (modal.parentNode !== document.body) document.body.appendChild(modal);
+  modal.classList.add('d2u-modal-open');
+  document.body.style.overflow = 'hidden';
+}
+function d2uCloseModal() {
+  var modal = document.getElementById('d2u-donation-modal');
+  if (modal) modal.classList.remove('d2u-modal-open');
+  document.body.style.overflow = '';
+}
+function d2uCloseModalOnBackdrop(e) { if (e.target.id === 'd2u-donation-modal') d2uCloseModal(); }
+document.addEventListener('keydown', function(e) { if (e.key === 'Escape') { d2uCloseModal(); if (typeof d2uCloseProgram==='function') d2uCloseProgram(); if (typeof d2uCloseTm==='function') d2uCloseTm(); if (typeof d2uClosePartner==='function') d2uClosePartner(); } });
+
+function d2uSubmitInquiry(e) {
+  e.preventDefault();
+  var form = e.target;
+  var name = document.getElementById('d2u-f-name').value.trim();
+  var email = document.getElementById('d2u-f-email').value.trim();
+  var phone = (document.getElementById('d2u-f-phone')||{}).value || '';
+  var subject = (document.getElementById('d2u-f-subject')||{}).value || 'Inquiry';
+  var message = document.getElementById('d2u-f-message').value.trim();
+  var status = document.getElementById('d2u-form-status');
+  status.textContent = 'Sending...';
+  var fd = new FormData();
+  fd.append('entry.1150649426', name);
+  fd.append('entry.1540006152', email);
+  fd.append('entry.2053814286', phone);
+  fd.append('entry.1509303702', subject);
+  fd.append('entry.1669567112', message);
+  fd.append('entry.1198200133', 'Blog');
+  fetch('https://docs.google.com/forms/d/e/1FAIpQLSc4hfIxV-DGX24LUzXIV44uRCUq2JOul_mUXfa_uzxXMMyeBw/formResponse', { method: 'POST', mode: 'no-cors', body: fd })
+    .then(function() {
+      form.reset();
+      status.innerHTML = 'Thank you! Your message has been received. We respond within one business day.';
+    })
+    .catch(function() {
+      var body = 'Name: ' + name + '
+Email: ' + email + '
+Phone: ' + (phone || 'N/A') + '
+
+Message:
+' + message;
+      window.location.href = 'mailto:admin@digi2u.org?subject=' + encodeURIComponent('[Inquiry] ' + subject) + '&body=' + encodeURIComponent(body);
+      status.innerHTML = 'Opening your email app... If nothing happens, email us at <a href="mailto:admin@digi2u.org" style="color:#FF0000;font-weight:600;">admin@digi2u.org</a>';
+    });
+  return false;
+}
+
+(function(){
+  var sticky = document.getElementById('d2u-sticky-btn');
+  var hero = document.querySelector('.d2u-hero');
+  if (!sticky || !hero) return;
+  window.addEventListener('scroll', function(){
+    var heroBottom = hero.offsetTop + hero.offsetHeight;
+    if (window.scrollY > heroBottom) sticky.classList.add('d2u-visible');
+    else sticky.classList.remove('d2u-visible');
+  });
+})();
+</script>
+
+<style>
+  .d2u-posts-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+  .d2u-post { background: var(--d2u-white); border: 2px solid var(--d2u-black); display: flex; flex-direction: column; transition: all 0.3s ease; overflow: hidden; }
+  .d2u-post:hover { transform: translateY(-6px); box-shadow: var(--d2u-shadow-lift); }
+  .d2u-post-img { width: 100%; aspect-ratio: 16/10; background: var(--d2u-light-gray) center/cover no-repeat; border-bottom: 2px solid var(--d2u-black); position: relative; }
+  .d2u-post-img::after { content:''; position:absolute; inset:0; background: linear-gradient(180deg, transparent 60%, rgba(0,0,0,0.3) 100%); }
+  .d2u-post-cat { position: absolute; top: 14px; left: 14px; background: var(--d2u-red); color: var(--d2u-white); font-size: 11px; font-weight: 800; letter-spacing: 0.15em; text-transform: uppercase; padding: 6px 12px; z-index: 2; }
+  .d2u-post-body { padding: 28px 28px 30px; display: flex; flex-direction: column; flex-grow: 1; }
+  .d2u-post-meta { display: flex; gap: 14px; font-size: 11px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 14px; color: var(--d2u-gray); }
+  .d2u-post-meta .d2u-post-date { color: var(--d2u-red); }
+  .d2u-page h3.d2u-post-title { font-size: 21px; font-weight: 900; text-transform: uppercase; line-height: 1.2; margin-bottom: 14px; letter-spacing: -0.02em; }
+  .d2u-post-excerpt { font-size: 15px; color: var(--d2u-gray-dark); line-height: 1.6; margin-bottom: 22px !important; flex-grow: 1; }
+  .d2u-post-more { align-self: flex-start; font-size: 12px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--d2u-black); border-bottom: 2px solid var(--d2u-red); padding-bottom: 3px; transition: color 0.2s; }
+  .d2u-post-more:hover { color: var(--d2u-red); }
+
+  .d2u-empty { padding: 90px 40px; text-align: center; background: var(--d2u-white); border: 2px solid var(--d2u-black); border-top: 6px solid var(--d2u-red); }
+  .d2u-empty h3 { font-size: 26px; font-weight: 900; text-transform: uppercase; margin-bottom: 14px; letter-spacing: -0.02em; }
+  .d2u-empty p { font-size: 16px; color: var(--d2u-gray-dark); max-width: 540px; margin: 0 auto 24px !important; }
+
+  @media (max-width: 960px) { .d2u-posts-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 600px) { .d2u-posts-grid { grid-template-columns: 1fr; max-width: 460px; margin: 0 auto; } }
+</style>
+
+<div class="d2u-page">
+  <section class="d2u-hero">
+    <div class="d2u-wrap"><div class="d2u-hero-inner">
+      <span class="d2u-eyebrow"><span class="d2u-dot"></span> Media &middot; Blog</span>
+      <h1 class="d2u-hero-title">News, stories,<br>and updates<span class="d2u-accent">.</span></h1>
+      <p class="d2u-hero-lede">Behind-the-scenes from our classrooms, studios, and community partners &mdash; plus how-tos and resources from across the Digi2U programs.</p>
+      <div class="d2u-cta-row">
+        <a href="#d2u-posts" class="d2u-btn-primary">Read The Blog <span class="d2u-arrow">&rarr;</span></a>
+        <a href="#d2u-contact" class="d2u-btn-outline">Subscribe</a>
+      </div>
+    </div></div>
+  </section>
+
+  <section class="d2u-section d2u-section-gray" id="d2u-posts">
+    <div class="d2u-wrap">
+      <div class="d2u-section-head">
+        <span class="d2u-tag">Latest Posts</span>
+        <h2 class="d2u-h2">What's happening<br>right now.</h2>
+      </div>
+      <div id="d2u-posts-mount"></div>
+    </div>
+  </section>
+
+  <section class="d2u-section d2u-section-white" style="padding:0 0 110px;" id="d2u-contact">
+    <div class="d2u-wrap">
+      <div class="d2u-mid-cta">
+        <div style="position:relative;z-index:2;">
+          <h2 class="d2u-mid-title">Want updates in your inbox?</h2>
+          <p>Subscribe to the newsletter for stories, events, and program announcements.</p>
+        </div>
+        <div class="d2u-mid-right">
+          <form onsubmit="return d2uSubmitInquiry(event);" style="display:flex;flex-wrap:wrap;gap:12px;justify-content:flex-end;">
+            <input type="hidden" id="d2u-f-name" value="Newsletter signup">
+            <input type="hidden" id="d2u-f-subject" value="Newsletter">
+            <input type="hidden" id="d2u-f-message" value="Please add me to the Digi2U newsletter.">
+            <input class="d2u-field" id="d2u-f-email" type="email" placeholder="you@example.com" required style="margin-bottom:0;min-width:240px;">
+            <button type="submit" class="d2u-btn-primary">Subscribe <span class="d2u-arrow">&rarr;</span></button>
+            <p id="d2u-form-status" style="margin-top:6px;font-size:12px;color:var(--d2u-gray);width:100%;text-align:right;"></p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="d2u-final">
+    <span class="d2u-tag">Stay In The Loop</span>
+    <h2 class="d2u-h2 d2u-final-title">More to come<span class="d2u-accent">.</span><br>Stay tuned<span class="d2u-accent">.</span></h2>
+    <p class="d2u-final-lede">New stories, behind-the-scenes content, and program announcements drop regularly.</p>
+    <div class="d2u-cta-row">
+      <button type="button" class="d2u-btn-primary" onclick="d2uOpenModal()">Donate Now <span class="d2u-arrow">&rarr;</span></button>
+      <a href="/events-2/" class="d2u-btn-outline">Events</a>
+      <a href="/programs/" class="d2u-btn-outline">All Programs</a>
+    </div>
+  </section>
+
+  <button type="button" class="d2u-btn-primary d2u-sticky" id="d2u-sticky-btn" onclick="d2uOpenModal()">Donate Now <span class="d2u-arrow">&rarr;</span></button>
+</div>
+
+<script>
+/* EDIT THIS ARRAY to add real blog posts.
+   Each post needs: title, excerpt, img, category, date, href */
+var D2U_POSTS = [
+  // Example structure — uncomment and fill in:
+  // { title: 'Studio Way Build Update', excerpt: 'Behind the scenes of our flagship campus rebuild.', img: 'https://digi2u.org/wp-content/uploads/elementor/thumbs/Studio_Way_layout-scaled-r0nlxe9c4rz9h4dn0qvxlppj88s0l87squgxt8borc.jpg', category: 'Campaign', date: 'May 2025', href: '/blog/studio-way-update/' },
+];
+
+(function(){
+  var mount = document.getElementById('d2u-posts-mount');
+  if (!mount) return;
+  if (!D2U_POSTS.length) {
+    mount.innerHTML = ''
+      + '<div class="d2u-empty">'
+      +   '<h3>No posts yet</h3>'
+      +   '<p>We\u2019re building out the Digi2U blog. Check back soon for stories from our classrooms, studios, and community partners.</p>'
+      +   '<a class="d2u-btn-outline" href="/programs/">Explore Programs &rarr;</a>'
+      + '</div>';
+    return;
+  }
+  mount.innerHTML = '<div class="d2u-posts-grid">' + D2U_POSTS.map(function(p){
+    return '<article class="d2u-post">'
+      + '<a href="' + (p.href || '#') + '" class="d2u-post-img" style="background-image:url(\'' + p.img + '\'); display:block;">'
+      +   (p.category ? '<span class="d2u-post-cat">' + p.category + '</span>' : '')
+      + '</a>'
+      + '<div class="d2u-post-body">'
+      +   '<div class="d2u-post-meta">'
+      +     (p.date ? '<span class="d2u-post-date">' + p.date + '</span>' : '')
+      +     (p.category ? '<span>' + p.category + '</span>' : '')
+      +   '</div>'
+      +   '<h3 class="d2u-post-title">' + p.title + '</h3>'
+      +   '<p class="d2u-post-excerpt">' + (p.excerpt || '') + '</p>'
+      +   '<a href="' + (p.href || '#') + '" class="d2u-post-more">Read More &rarr;</a>'
+      + '</div>'
+      + '</article>';
+  }).join('') + '</div>';
+})();
+</script>

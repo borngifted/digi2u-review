@@ -1,0 +1,670 @@
+<!--
+=====================================================================
+  DIGI2U — CULINARY ARTS PAGE (Chef Claude Lewis)
+  Maps to live URL: /culinary-arts/
+  Real content + Chef Claude headshot + 5 learning modules + food gallery
+=====================================================================
+-->
+<!--
+=====================================================================
+  DIGI2U — SHARED STYLE + SCRIPT BLOCK
+  Drop the contents of THIS file at the TOP of any new page widget,
+  then add page-specific markup below it.
+
+  Includes: full design system, Zeffy donate modal, sticky button,
+  inquiry form handler, newsletter form handler, lightbox modal
+  helpers shared across pages.
+=====================================================================
+-->
+
+<style>
+  :root {
+    --d2u-red: #FF0000; --d2u-red-dark: #D90000;
+    --d2u-red-soft: #FFE8E8; --d2u-red-tint: #FFF5F5;
+    --d2u-black: #000000; --d2u-charcoal: #1A1A1A;
+    --d2u-white: #FFFFFF; --d2u-off-white: #FAFAFA;
+    --d2u-light-gray: #F4F4F4; --d2u-gray: #8A8A8A;
+    --d2u-gray-dark: #4A4A4A;
+    --d2u-line: rgba(0, 0, 0, 0.1); --d2u-line-strong: rgba(0, 0, 0, 0.18);
+    --d2u-shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.06);
+    --d2u-shadow-lift: 0 20px 60px rgba(0, 0, 0, 0.1);
+    --d2u-shadow-red: 0 10px 30px rgba(255, 0, 0, 0.25);
+  }
+  .d2u-page {
+    --d2u-red: #FF0000; --d2u-red-dark: #D90000;
+    --d2u-red-soft: #FFE8E8; --d2u-red-tint: #FFF5F5;
+    --d2u-black: #000000; --d2u-charcoal: #1A1A1A;
+    --d2u-white: #FFFFFF; --d2u-off-white: #FAFAFA;
+    --d2u-light-gray: #F4F4F4; --d2u-gray: #8A8A8A;
+    --d2u-gray-dark: #4A4A4A;
+    --d2u-line: rgba(0, 0, 0, 0.1); --d2u-line-strong: rgba(0, 0, 0, 0.18);
+    --d2u-shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.06);
+    --d2u-shadow-lift: 0 20px 60px rgba(0, 0, 0, 0.1);
+    --d2u-shadow-red: 0 10px 30px rgba(255, 0, 0, 0.25);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: var(--d2u-black); line-height: 1.6;
+    -webkit-font-smoothing: antialiased; background: var(--d2u-white);
+  }
+  .d2u-page *, .d2u-page *::before, .d2u-page *::after { box-sizing: border-box; }
+  .d2u-page h1, .d2u-page h2, .d2u-page h3, .d2u-page h4, .d2u-page h5 {
+    margin: 0; padding: 0; color: var(--d2u-black); font-weight: 900;
+    letter-spacing: -0.02em;
+  }
+  .d2u-page p { margin: 0; padding: 0; }
+  .d2u-page a { text-decoration: none; }
+  .d2u-page img { max-width: 100%; height: auto; display: block; }
+  .d2u-wrap { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+  .d2u-hero {
+    background: var(--d2u-white); color: var(--d2u-black);
+    padding: 110px 0 80px; position: relative; overflow: hidden;
+  }
+  .d2u-hero::before {
+    content: ''; position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px);
+    background-size: 48px 48px; pointer-events: none;
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+  }
+  .d2u-hero::after {
+    content: ''; position: absolute; top: 30%; right: -15%;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(255, 0, 0, 0.1) 0%, transparent 60%);
+    filter: blur(60px); pointer-events: none;
+  }
+  .d2u-hero-inner { position: relative; z-index: 2; max-width: 980px; margin: 0 auto; text-align: center; }
+  .d2u-eyebrow {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--d2u-red-tint); border: 1px solid var(--d2u-red);
+    padding: 10px 20px; font-size: 12px; font-weight: 700;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    margin-bottom: 32px; color: var(--d2u-black);
+  }
+  .d2u-eyebrow .d2u-dot {
+    width: 8px; height: 8px; background: var(--d2u-red);
+    box-shadow: 0 0 12px var(--d2u-red);
+    animation: d2uPulse 1.8s infinite;
+  }
+  @keyframes d2uPulse { 0%,100%{opacity:1; transform:scale(1);} 50%{opacity:0.5; transform:scale(1.3);} }
+  .d2u-page h1.d2u-hero-title {
+    font-size: clamp(48px, 8vw, 96px); font-weight: 900;
+    line-height: 0.98; letter-spacing: -0.04em;
+    margin-bottom: 28px; color: var(--d2u-black); text-transform: uppercase;
+  }
+  .d2u-hero-title .d2u-accent { color: var(--d2u-red); }
+  .d2u-hero-lede {
+    font-size: 20px; line-height: 1.5; color: var(--d2u-gray-dark);
+    margin-bottom: 44px !important; max-width: 700px;
+    margin-left: auto !important; margin-right: auto !important; font-weight: 400;
+  }
+  .d2u-cta-row { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; justify-content: center; }
+
+  .d2u-btn-primary {
+    display: inline-flex; align-items: center; gap: 12px;
+    background: var(--d2u-red); color: var(--d2u-white) !important;
+    padding: 18px 36px; font-weight: 700; font-size: 15px;
+    letter-spacing: 0.04em; text-transform: uppercase;
+    border-radius: 0; border: 2px solid var(--d2u-red);
+    cursor: pointer; transition: all 0.2s ease;
+    text-decoration: none !important;
+    box-shadow: var(--d2u-shadow-red); font-family: inherit;
+  }
+  .d2u-btn-primary:hover {
+    background: var(--d2u-red-dark); border-color: var(--d2u-red-dark);
+    color: var(--d2u-white) !important; transform: translateY(-2px);
+    box-shadow: 0 14px 36px rgba(255, 0, 0, 0.4);
+  }
+  .d2u-btn-primary .d2u-arrow { transition: transform 0.25s ease; }
+  .d2u-btn-primary:hover .d2u-arrow { transform: translateX(4px); }
+  .d2u-btn-outline {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: transparent; color: var(--d2u-black) !important;
+    padding: 16px 30px; font-weight: 700; font-size: 15px;
+    letter-spacing: 0.04em; text-transform: uppercase;
+    border-radius: 0; border: 2px solid var(--d2u-black);
+    transition: all 0.2s; text-decoration: none !important;
+    cursor: pointer; font-family: inherit;
+  }
+  .d2u-btn-outline:hover { background: var(--d2u-black); color: var(--d2u-white) !important; }
+
+  .d2u-stats {
+    position: relative; z-index: 2; margin-top: 70px;
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    max-width: 980px; margin-left: auto; margin-right: auto;
+    border: 2px solid var(--d2u-black);
+  }
+  .d2u-stat { text-align: center; padding: 32px 20px; background: var(--d2u-white); border-right: 2px solid var(--d2u-black); }
+  .d2u-stat:last-child { border-right: none; }
+  .d2u-stat-num { font-size: clamp(32px, 4vw, 48px); font-weight: 900; color: var(--d2u-red); line-height: 1; margin-bottom: 10px; letter-spacing: -0.02em; }
+  .d2u-stat-label { font-size: 12px; color: var(--d2u-black); text-transform: uppercase; letter-spacing: 0.12em; font-weight: 700; }
+
+  .d2u-section { padding: 110px 0; }
+  .d2u-section-white { background: var(--d2u-white); }
+  .d2u-section-gray { background: var(--d2u-off-white); }
+  .d2u-section-black { background: var(--d2u-black); color: var(--d2u-white); }
+  .d2u-section-black h2, .d2u-section-black h3, .d2u-section-black h4 { color: var(--d2u-white); }
+  .d2u-section-head { text-align: center; max-width: 780px; margin: 0 auto 68px; }
+  .d2u-tag { display: inline-flex; align-items: center; gap: 10px; font-size: 12px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--d2u-red); margin-bottom: 20px; }
+  .d2u-tag::before { content: ''; display: inline-block; width: 28px; height: 2px; background: var(--d2u-red); }
+  .d2u-page h2.d2u-h2 { font-size: clamp(36px, 5.5vw, 60px); font-weight: 900; line-height: 1.02; letter-spacing: -0.03em; margin-bottom: 20px; text-transform: uppercase; }
+  .d2u-section-head p { font-size: 18px; color: var(--d2u-gray-dark); font-weight: 400; }
+  .d2u-section-black .d2u-section-head p { color: rgba(255,255,255,0.75); }
+
+  .d2u-mid-cta {
+    background: var(--d2u-white); color: var(--d2u-black);
+    padding: 70px 60px; display: grid;
+    grid-template-columns: 1.5fr 1fr; gap: 40px; align-items: center;
+    position: relative; overflow: hidden;
+    border: 2px solid var(--d2u-black); border-left: 8px solid var(--d2u-red);
+  }
+  .d2u-page h2.d2u-mid-title { font-size: clamp(30px, 4vw, 44px); font-weight: 900; line-height: 1.05; letter-spacing: -0.03em; margin-bottom: 14px; color: var(--d2u-black); text-transform: uppercase; }
+  .d2u-mid-cta p { font-size: 17px; color: var(--d2u-gray-dark); font-weight: 500; }
+  .d2u-mid-right { text-align: right; position: relative; z-index: 2; }
+
+  .d2u-contact-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 70px; align-items: start; }
+  .d2u-contact-info > p { font-size: 17px; color: var(--d2u-gray-dark); margin-bottom: 40px !important; line-height: 1.6; }
+  .d2u-contact-methods { display: grid; gap: 16px; margin-bottom: 40px; }
+  .d2u-contact-method { display: flex; gap: 18px; align-items: center; padding: 20px 24px; background: var(--d2u-white); border: 2px solid var(--d2u-black); transition: all 0.2s; }
+  .d2u-contact-method:hover { border-color: var(--d2u-red); transform: translateX(4px); }
+  .d2u-contact-icon { width: 48px; height: 48px; background: var(--d2u-black); color: var(--d2u-white); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 22px; transition: background 0.2s; }
+  .d2u-contact-method:hover .d2u-contact-icon { background: var(--d2u-red); }
+  .d2u-contact-label { font-size: 11px; color: var(--d2u-gray); text-transform: uppercase; letter-spacing: 0.15em; font-weight: 700; margin-bottom: 4px; }
+  .d2u-contact-value { font-size: 16px; color: var(--d2u-black) !important; font-weight: 700; text-decoration: none !important; }
+  .d2u-contact-value:hover { color: var(--d2u-red) !important; }
+  .d2u-nonprofit-note { padding: 22px; background: var(--d2u-white); color: var(--d2u-black); font-size: 14px; line-height: 1.6; border: 2px solid var(--d2u-black); border-left: 6px solid var(--d2u-red); }
+  .d2u-nonprofit-note strong { display: block; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; color: var(--d2u-red); font-weight: 800; font-size: 12px; }
+
+  .d2u-form-card { background: var(--d2u-white); padding: 48px; border: 2px solid var(--d2u-black); border-top: 6px solid var(--d2u-red); }
+  .d2u-form-card h3 { font-size: 28px; font-weight: 900; margin-bottom: 10px; text-transform: uppercase; letter-spacing: -0.02em; }
+  .d2u-form-card > p { font-size: 15px; color: var(--d2u-gray-dark); margin-bottom: 28px !important; }
+  .d2u-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+  .d2u-field { display: block; width: 100%; padding: 16px 18px; border: 2px solid var(--d2u-line-strong); border-radius: 0; font-size: 15px; font-family: inherit; color: var(--d2u-black); background: var(--d2u-white); transition: all 0.2s; margin-bottom: 14px; }
+  .d2u-field:focus { outline: none; border-color: var(--d2u-red); box-shadow: 0 0 0 3px rgba(255, 0, 0, 0.1); }
+  .d2u-field::placeholder { color: var(--d2u-gray); }
+  .d2u-field.d2u-textarea { min-height: 130px; resize: vertical; line-height: 1.5; }
+  .d2u-form-row .d2u-field { margin-bottom: 0; }
+  .d2u-form-btn { width: 100%; margin-top: 10px; justify-content: center; }
+
+  .d2u-final { text-align: center; padding: 120px 40px; background: var(--d2u-white); color: var(--d2u-black); position: relative; overflow: hidden; border-top: 6px solid var(--d2u-red); }
+  .d2u-final::before, .d2u-final::after { content: ''; position: absolute; top: 50%; transform: translateY(-50%); width: 400px; height: 400px; background: radial-gradient(circle, rgba(255, 0, 0, 0.06) 0%, transparent 70%); filter: blur(60px); pointer-events: none; }
+  .d2u-final::before { left: -10%; }
+  .d2u-final::after { right: -10%; }
+  .d2u-final > * { position: relative; z-index: 2; }
+  .d2u-page h2.d2u-final-title { font-size: clamp(40px, 6vw, 72px); font-weight: 900; line-height: 0.98; letter-spacing: -0.04em; margin: 0 auto 24px; max-width: 860px; color: var(--d2u-black); text-transform: uppercase; }
+  .d2u-final-title .d2u-accent { color: var(--d2u-red); }
+  .d2u-final-lede { font-size: 18px; color: var(--d2u-gray-dark); max-width: 640px; margin: 0 auto 40px !important; }
+  .d2u-final .d2u-cta-row { justify-content: center; }
+
+  .d2u-modal { display: none; position: fixed !important; top: 0 !important; left: 0 !important; right: 0 !important; bottom: 0 !important; width: 100vw !important; height: 100vh !important; z-index: 999999 !important; background: rgba(0, 0, 0, 0.85) !important; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); padding: 30px 20px; overflow-y: auto; animation: d2uFadeIn 0.2s ease; margin: 0 !important; }
+  .d2u-modal.d2u-modal-open { display: flex !important; align-items: flex-start; justify-content: center; }
+  @keyframes d2uFadeIn { from { opacity: 0; } to { opacity: 1; } }
+  .d2u-modal-inner { background: #FFFFFF; width: 100%; max-width: 760px; border: 2px solid #000000; border-top: 6px solid #FF0000; position: relative; animation: d2uSlideUp 0.3s ease; }
+  @keyframes d2uSlideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+  .d2u-modal-header { padding: 22px 28px; border-bottom: 2px solid #000000; display: flex; justify-content: space-between; align-items: center; gap: 20px; background: #FFFFFF; }
+  .d2u-modal-title { font-size: 16px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.05em; color: #000000; }
+  .d2u-modal-title span { color: #FF0000; margin-right: 8px; }
+  .d2u-modal-close { width: 40px; height: 40px; background: #000000; color: #FFFFFF; border: none; cursor: pointer; font-size: 20px; font-weight: 900; display: flex; align-items: center; justify-content: center; transition: background 0.2s; font-family: inherit; flex-shrink: 0; }
+  .d2u-modal-close:hover { background: #FF0000; }
+  .d2u-modal-body { padding: 0; background: #FFFFFF; }
+  .d2u-modal-body iframe { border: 0 !important; width: 100% !important; display: block; }
+
+  .d2u-sticky { position: fixed; bottom: 24px; right: 24px; z-index: 9999; opacity: 0; transform: translateY(20px); transition: all 0.3s ease; pointer-events: none; }
+  .d2u-sticky.d2u-visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+
+  @media (max-width: 960px) {
+    .d2u-hero { padding: 70px 0 60px; }
+    .d2u-stats { grid-template-columns: repeat(2, 1fr); }
+    .d2u-stat:nth-child(2n) { border-right: none; }
+    .d2u-stat:nth-child(-n+2) { border-bottom: 2px solid var(--d2u-black); }
+    .d2u-mid-cta { grid-template-columns: 1fr; padding: 54px 36px; text-align: center; }
+    .d2u-mid-right { text-align: center; }
+    .d2u-contact-grid { grid-template-columns: 1fr; gap: 50px; }
+    .d2u-section { padding: 80px 0; }
+    .d2u-final { padding: 80px 24px; }
+  }
+  @media (max-width: 600px) {
+    .d2u-stats { grid-template-columns: 1fr; }
+    .d2u-stat { border-right: none; border-bottom: 2px solid var(--d2u-black); }
+    .d2u-stat:last-child { border-bottom: none; }
+    .d2u-form-card { padding: 28px; }
+    .d2u-form-row { grid-template-columns: 1fr; }
+    .d2u-sticky { bottom: 16px; right: 16px; left: 16px; }
+    .d2u-sticky.d2u-btn-primary { justify-content: center; padding: 16px 24px; }
+    .d2u-modal { padding: 15px 10px; }
+  }
+</style>
+
+<!-- Place this snippet near the bottom of any page widget for Zeffy donate modal -->
+<div class="d2u-modal" id="d2u-donation-modal" onclick="d2uCloseModalOnBackdrop(event)">
+  <div class="d2u-modal-inner" onclick="event.stopPropagation()">
+    <div class="d2u-modal-header">
+      <div class="d2u-modal-title"><span>&#9733;</span>Donate to Digi2U</div>
+      <button type="button" class="d2u-modal-close" onclick="d2uCloseModal()" aria-label="Close">&times;</button>
+    </div>
+    <div class="d2u-modal-body">
+      <div style="position:relative;overflow:hidden;height:720px;width:100%;">
+        <iframe title="Donation form powered by Zeffy" style="position:absolute;border:0;top:0;left:0;bottom:0;right:0;width:100%;height:100%;" src="https://www.zeffy.com/embed/donation-form/donate-to-change-lives-3894" allowpaymentrequest allowtransparency="true" loading="lazy"></iframe>
+      </div>
+      <div style="padding:14px 24px;background:#FAFAFA;border-top:1px solid rgba(0,0,0,0.1);text-align:center;">
+        <p style="font-size:13px;color:#4A4A4A;">Having trouble? <a href="https://www.zeffy.com/donation-form/donate-to-change-lives-3894" target="_blank" rel="noopener" style="color:#FF0000;font-weight:700;text-decoration:underline;">Open donation form in a new tab &rarr;</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var modal = document.getElementById('d2u-donation-modal');
+  if (modal && document.body && modal.parentNode !== document.body) document.body.appendChild(modal);
+})();
+document.addEventListener('DOMContentLoaded', function() {
+  var m = document.getElementById('d2u-donation-modal');
+  if (m && m.parentNode !== document.body) document.body.appendChild(m);
+});
+function d2uOpenModal() {
+  var modal = document.getElementById('d2u-donation-modal');
+  if (!modal) { window.open('https://www.zeffy.com/donation-form/donate-to-change-lives-3894','_blank'); return; }
+  if (modal.parentNode !== document.body) document.body.appendChild(modal);
+  modal.classList.add('d2u-modal-open');
+  document.body.style.overflow = 'hidden';
+}
+function d2uCloseModal() {
+  var modal = document.getElementById('d2u-donation-modal');
+  if (modal) modal.classList.remove('d2u-modal-open');
+  document.body.style.overflow = '';
+}
+function d2uCloseModalOnBackdrop(e) { if (e.target.id === 'd2u-donation-modal') d2uCloseModal(); }
+document.addEventListener('keydown', function(e) { if (e.key === 'Escape') { d2uCloseModal(); if (typeof d2uCloseProgram==='function') d2uCloseProgram(); if (typeof d2uCloseTm==='function') d2uCloseTm(); if (typeof d2uClosePartner==='function') d2uClosePartner(); } });
+
+function d2uSubmitInquiry(e) {
+  e.preventDefault();
+  var form = e.target;
+  var name = document.getElementById('d2u-f-name').value.trim();
+  var email = document.getElementById('d2u-f-email').value.trim();
+  var phone = (document.getElementById('d2u-f-phone')||{}).value || '';
+  var subject = (document.getElementById('d2u-f-subject')||{}).value || 'Inquiry';
+  var message = document.getElementById('d2u-f-message').value.trim();
+  var status = document.getElementById('d2u-form-status');
+  status.textContent = 'Sending...';
+  var fd = new FormData();
+  fd.append('entry.1150649426', name);
+  fd.append('entry.1540006152', email);
+  fd.append('entry.2053814286', phone);
+  fd.append('entry.1509303702', subject);
+  fd.append('entry.1669567112', message);
+  fd.append('entry.1198200133', 'Culinary Arts');
+  fetch('https://docs.google.com/forms/d/e/1FAIpQLSc4hfIxV-DGX24LUzXIV44uRCUq2JOul_mUXfa_uzxXMMyeBw/formResponse', { method: 'POST', mode: 'no-cors', body: fd })
+    .then(function() {
+      form.reset();
+      status.innerHTML = 'Thank you! Your message has been received. We respond within one business day.';
+    })
+    .catch(function() {
+      var body = 'Name: ' + name + '
+Email: ' + email + '
+Phone: ' + (phone || 'N/A') + '
+
+Message:
+' + message;
+      window.location.href = 'mailto:admin@digi2u.org?subject=' + encodeURIComponent('[Inquiry] ' + subject) + '&body=' + encodeURIComponent(body);
+      status.innerHTML = 'Opening your email app... If nothing happens, email us at <a href="mailto:admin@digi2u.org" style="color:#FF0000;font-weight:600;">admin@digi2u.org</a>';
+    });
+  return false;
+}
+
+(function(){
+  var sticky = document.getElementById('d2u-sticky-btn');
+  var hero = document.querySelector('.d2u-hero');
+  if (!sticky || !hero) return;
+  window.addEventListener('scroll', function(){
+    var heroBottom = hero.offsetTop + hero.offsetHeight;
+    if (window.scrollY > heroBottom) sticky.classList.add('d2u-visible');
+    else sticky.classList.remove('d2u-visible');
+  });
+})();
+</script>
+
+<style>
+  /* HERO */
+  .d2u-pd-hero { padding: 120px 0 80px; }
+  .d2u-pd-hero-grid { display: grid; grid-template-columns: 1.05fr 1fr; gap: 60px; align-items: center; max-width: 1200px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 2; }
+  .d2u-pd-hero h1 { font-size: clamp(40px, 6vw, 72px); font-weight: 900; line-height: 0.98; letter-spacing: -0.04em; margin-bottom: 24px; text-transform: uppercase; }
+  .d2u-pd-hero-kicker { font-size: 12px; font-weight: 800; color: var(--d2u-red); text-transform: uppercase; letter-spacing: 0.18em; margin-bottom: 18px; padding-bottom: 12px; border-bottom: 2px solid var(--d2u-red); display: inline-block; }
+  .d2u-pd-hero p { font-size: 17px; line-height: 1.65; color: var(--d2u-gray-dark); margin-bottom: 18px !important; }
+  .d2u-pd-hero-img { aspect-ratio: 4/5; background: var(--d2u-light-gray) center/cover no-repeat; background-image: url('https://digi2u.org/wp-content/uploads/elementor/thumbs/head-shot-web-r1sayljfctdhaqo1vkcg4whqa5l8no827dud8u0hwo.jpg'); border: 2px solid var(--d2u-black); border-top: 6px solid var(--d2u-red); position: relative; }
+  .d2u-pd-hero-img::after { content:''; position:absolute; inset:0; background: linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.5) 100%); }
+  .d2u-pd-hero-tag { position: absolute; top: 18px; left: 18px; background: var(--d2u-red); color: var(--d2u-white); font-size: 11px; font-weight: 800; letter-spacing: 0.15em; text-transform: uppercase; padding: 8px 14px; z-index: 2; }
+  .d2u-pd-hero-caption { position: absolute; bottom: 24px; left: 22px; right: 22px; z-index: 2; color: var(--d2u-white); }
+  .d2u-pd-hero-caption strong { display: block; font-size: 22px; font-weight: 900; letter-spacing: -0.02em; line-height: 1.1; text-transform: uppercase; margin-bottom: 4px; }
+  .d2u-pd-hero-caption span { font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.9; }
+
+  /* CHEF BIO SECTION */
+  .d2u-bio-split { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
+  .d2u-bio-card { background: var(--d2u-white); border: 2px solid var(--d2u-black); border-top: 6px solid var(--d2u-red); padding: 36px 36px 32px; }
+  .d2u-bio-card h3 { font-size: 22px; font-weight: 900; text-transform: uppercase; letter-spacing: -0.02em; margin-bottom: 16px; }
+  .d2u-bio-card p { font-size: 15.5px; color: var(--d2u-gray-dark); line-height: 1.7; margin-bottom: 14px !important; }
+  .d2u-bio-card p:last-child { margin-bottom: 0 !important; }
+  .d2u-bio-card strong { color: var(--d2u-black); font-weight: 900; }
+
+  /* SKILLS BAR */
+  .d2u-skills-strip { display: grid; grid-template-columns: repeat(6, 1fr); border: 2px solid var(--d2u-black); }
+  .d2u-skill-cell { padding: 22px 18px; border-right: 1px solid var(--d2u-line); background: var(--d2u-white); transition: all 0.25s; position: relative; text-align: center; }
+  .d2u-skill-cell:last-child { border-right: none; }
+  .d2u-skill-cell::before { content:''; position:absolute; top:0; left:0; right:0; height:0; background: var(--d2u-red); transition: height 0.2s; }
+  .d2u-skill-cell:hover::before { height:4px; }
+  .d2u-skill-cell:hover { background: var(--d2u-off-white); }
+  .d2u-skill-num { font-size: 12px; font-weight: 800; letter-spacing: 0.15em; color: var(--d2u-red); margin-bottom: 8px; }
+  .d2u-skill-cell strong { font-size: 13px; font-weight: 900; text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.2; display: block; color: var(--d2u-black); }
+
+  /* WHAT YOU'LL LEARN — 5 image cards */
+  .d2u-learn-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .d2u-learn-card { background: var(--d2u-white); border: 2px solid var(--d2u-black); display: flex; flex-direction: column; transition: all 0.3s ease; overflow: hidden; }
+  .d2u-learn-card:hover { transform: translateY(-6px); box-shadow: var(--d2u-shadow-lift); }
+  .d2u-learn-img { width: 100%; aspect-ratio: 16/10; background: var(--d2u-light-gray) center/cover no-repeat; border-bottom: 2px solid var(--d2u-black); position: relative; transition: transform 0.4s ease; }
+  .d2u-learn-card:hover .d2u-learn-img { transform: scale(1.04); }
+  .d2u-learn-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 60%, rgba(0,0,0,0.35) 100%); }
+  .d2u-learn-num { position: absolute; top: 14px; left: 14px; background: var(--d2u-red); color: var(--d2u-white); font-size: 11px; font-weight: 900; letter-spacing: 0.15em; padding: 6px 12px; z-index: 2; }
+  .d2u-learn-body { padding: 24px 28px 28px; flex-grow: 1; display: flex; flex-direction: column; position: relative; }
+  .d2u-learn-body::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 0; background: var(--d2u-red); transition: height 0.2s; }
+  .d2u-learn-card:hover .d2u-learn-body::before { height: 4px; }
+  .d2u-page h3.d2u-learn-title { font-size: 18px; font-weight: 900; text-transform: uppercase; line-height: 1.2; margin-bottom: 10px; letter-spacing: -0.01em; }
+  .d2u-learn-desc { font-size: 14.5px; color: var(--d2u-gray-dark); line-height: 1.6; }
+
+  /* COURSE INCLUDES */
+  .d2u-includes { background: var(--d2u-white); border: 2px solid var(--d2u-black); border-top: 6px solid var(--d2u-red); padding: 40px 44px; max-width: 920px; margin: 0 auto; }
+  .d2u-includes h3 { font-size: 22px; font-weight: 900; text-transform: uppercase; letter-spacing: -0.01em; margin-bottom: 16px; }
+  .d2u-includes p { font-size: 15.5px; color: var(--d2u-gray-dark); line-height: 1.7; margin-bottom: 16px !important; }
+  .d2u-includes p strong { color: var(--d2u-black); font-weight: 900; }
+
+  /* GALLERY */
+  .d2u-prod-gallery { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .d2u-prod-gallery a { aspect-ratio: 4/3; background: var(--d2u-light-gray) center/cover no-repeat; cursor: pointer; transition: all 0.2s; position: relative; overflow: hidden; }
+  .d2u-prod-gallery a::after { content: ''; position: absolute; inset: 0; background: rgba(0,0,0,0); transition: background 0.2s; }
+  .d2u-prod-gallery a:hover::after { background: rgba(255,0,0,0.2); }
+  .d2u-prod-gallery a:hover { transform: scale(1.02); z-index: 2; }
+  .d2u-lb { display: none; position: fixed; inset: 0; z-index: 1000000; background: rgba(0,0,0,0.92); align-items: center; justify-content: center; padding: 30px; }
+  .d2u-lb.d2u-lb-open { display: flex; }
+  .d2u-lb img { max-width: 90vw; max-height: 85vh; object-fit: contain; border: 4px solid #000; border-top: 8px solid #FF0000; }
+  .d2u-lb-close { position: absolute; top: 24px; right: 24px; width: 50px; height: 50px; background: #000; color: #FFF; border: none; cursor: pointer; font-size: 26px; font-weight: 900; }
+  .d2u-lb-close:hover { background: #FF0000; }
+
+  @media (max-width: 960px) {
+    .d2u-pd-hero-grid { grid-template-columns: 1fr; gap: 40px; }
+    .d2u-bio-split { grid-template-columns: 1fr; gap: 28px; }
+    .d2u-skills-strip { grid-template-columns: repeat(3, 1fr); }
+    .d2u-skill-cell:nth-child(3n) { border-right: none; }
+    .d2u-skill-cell:nth-child(-n+3) { border-bottom: 1px solid var(--d2u-line); }
+    .d2u-learn-grid { grid-template-columns: repeat(2, 1fr); }
+    .d2u-prod-gallery { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (max-width: 600px) {
+    .d2u-skills-strip { grid-template-columns: repeat(2, 1fr); }
+    .d2u-skill-cell:nth-child(2n) { border-right: none; }
+    .d2u-skill-cell:nth-child(-n+4) { border-bottom: 1px solid var(--d2u-line); }
+    .d2u-learn-grid { grid-template-columns: 1fr; max-width: 460px; margin: 0 auto; }
+    .d2u-prod-gallery { grid-template-columns: repeat(2, 1fr); }
+    .d2u-includes { padding: 28px 26px; }
+  }
+</style>
+
+<div class="d2u-page">
+
+  <!-- HERO -->
+  <section class="d2u-hero d2u-pd-hero">
+    <div class="d2u-pd-hero-grid">
+      <div>
+        <span class="d2u-eyebrow"><span class="d2u-dot"></span> Culinary Arts &middot; Intermediate to Advanced</span>
+        <div class="d2u-pd-hero-kicker">Master the Art of Global Cuisine</div>
+        <h1>Bringing<br>global flavors<br>to the table<span class="d2u-accent">.</span></h1>
+        <p>The Culinary Arts Program at Digi2U is led by <strong style="color:var(--d2u-black);">Chef Claude Lewis</strong>, a first-generation American son of immigrants from Antigua and Barbuda, celebrated for his dynamic and eclectic cooking style. Chef Claude's journey is defined by global influences, diverse culinary experiences, and a commitment to excellence &mdash; making him the perfect mentor for aspiring chefs.</p>
+        <div class="d2u-cta-row" style="justify-content:flex-start;margin-top:24px;">
+          <a href="#d2u-contact" class="d2u-btn-primary">Apply / Inquire <span class="d2u-arrow">&rarr;</span></a>
+          <a href="/programs/" class="d2u-btn-outline">All Programs</a>
+        </div>
+      </div>
+      <div class="d2u-pd-hero-img">
+        <span class="d2u-pd-hero-tag">Chopped Champion 2019</span>
+        <div class="d2u-pd-hero-caption">
+          <strong>Chef Claude Lewis</strong>
+          <span>Culinary Arts Lead &middot; Digi2U</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MEET CHEF CLAUDE -->
+  <section class="d2u-section d2u-section-gray">
+    <div class="d2u-wrap">
+      <div class="d2u-section-head">
+        <span class="d2u-tag">Meet Chef Claude Lewis</span>
+        <h2 class="d2u-h2">From Chopped Champion<br>to global ambassador.</h2>
+      </div>
+
+      <div class="d2u-bio-split">
+        <div class="d2u-bio-card">
+          <h3>Television &amp; Industry Recognition</h3>
+          <p>Chef Claude rose to fame after winning <strong>Food Network's Chopped in March 2019</strong>, earning the prestigious title of Chopped Champion. His success led to further opportunities, including competing on <strong>Fire Masters</strong> in Canada and <strong>Kitchen Crash</strong>, hosted by Jeff Morro &mdash; where he showcased his versatility and creativity.</p>
+          <p>Driven by his vision to share the vibrant flavors of Antigua and Barbuda, Chef Claude opened the <strong>Freetown Road Project</strong> eatery, offering authentic Caribbean dishes like <em>pepperpot</em> and <em>ducana</em>, infused with traditional island spices and locally sourced ingredients. His innovative approach has made the eatery a beloved destination for those eager to experience the true essence of Antiguan and Barbudan cuisine.</p>
+        </div>
+        <div class="d2u-bio-card">
+          <h3>Global Culinary Contributions</h3>
+          <p>Chef Claude has served as a <strong>food ambassador for Antigua and Barbuda</strong>, cooking for <strong>United Nations delegates</strong> alongside chefs from Trinidad and Guyana.</p>
+          <p>He also represented Antigua at the <strong>World Expo in Dubai</strong>, preparing national dishes that highlighted the rich and diverse flavors of Caribbean cuisine.</p>
+          <p>Chef Claude is also a <strong>Certified Neapolitan Pizzaiolo</strong>, trained under Roberto Cappuccio of Keste Pizza NYC &mdash; a skill he brings directly into the program.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COURSE LEVEL + SKILLS BAR -->
+  <section class="d2u-section d2u-section-white">
+    <div class="d2u-wrap">
+      <div class="d2u-section-head">
+        <span class="d2u-tag">Course Level: Intermediate to Advanced</span>
+        <h2 class="d2u-h2">Six skills you'll<br>walk away with.</h2>
+        <p>The program is built for culinary enthusiasts, aspiring chefs, and food entrepreneurs ready to step up to a professional level.</p>
+      </div>
+
+      <div class="d2u-skills-strip">
+        <div class="d2u-skill-cell"><div class="d2u-skill-num">01</div><strong>Culinary Fusion Techniques</strong></div>
+        <div class="d2u-skill-cell"><div class="d2u-skill-num">02</div><strong>Ingredient Sourcing &amp; Prep</strong></div>
+        <div class="d2u-skill-cell"><div class="d2u-skill-num">03</div><strong>Cultural Culinary Knowledge</strong></div>
+        <div class="d2u-skill-cell"><div class="d2u-skill-num">04</div><strong>Advanced Cooking Methods</strong></div>
+        <div class="d2u-skill-cell"><div class="d2u-skill-num">05</div><strong>Plating &amp; Presentation</strong></div>
+        <div class="d2u-skill-cell"><div class="d2u-skill-num">06</div><strong>Menu Development</strong></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT YOU'LL LEARN — 5 IMAGE CARDS -->
+  <section class="d2u-section d2u-section-gray">
+    <div class="d2u-wrap">
+      <div class="d2u-section-head">
+        <span class="d2u-tag">What You'll Learn</span>
+        <h2 class="d2u-h2">Five tracks.<br>Global flavor.</h2>
+        <p>In the "Bringing Global Flavors to the Table" course, you'll explore the art of blending Caribbean, Italian, Chinese, and other international cuisines &mdash; mastering signature dishes like pepperpot, ducana, and Neapolitan pizza.</p>
+      </div>
+
+      <div class="d2u-learn-grid">
+        <div class="d2u-learn-card">
+          <div class="d2u-learn-img" style="background-image:url('https://digi2u.org/wp-content/uploads/2025/02/cast-iron-skillets-and-spices-on-dark-wooden-culinary-background-768x512.jpg');"><span class="d2u-learn-num">01</span></div>
+          <div class="d2u-learn-body">
+            <h3 class="d2u-learn-title">Global Culinary Fusion</h3>
+            <p class="d2u-learn-desc">Explore Chef Claude's signature style, blending Caribbean, Italian, and Chinese influences.</p>
+          </div>
+        </div>
+        <div class="d2u-learn-card">
+          <div class="d2u-learn-img" style="background-image:url('https://digi2u.org/wp-content/uploads/2025/02/spices-and-herbs-on-old-kitchen-table-food-and-cuisine-ingredients-768x513.jpg');"><span class="d2u-learn-num">02</span></div>
+          <div class="d2u-learn-body">
+            <h3 class="d2u-learn-title">Authentic Caribbean Cuisine</h3>
+            <p class="d2u-learn-desc">Master traditional dishes like pepperpot and ducana, using authentic island spices.</p>
+          </div>
+        </div>
+        <div class="d2u-learn-card">
+          <div class="d2u-learn-img" style="background-image:url('https://digi2u.org/wp-content/uploads/2025/02/classic-neapolitan-margherita-pizza-with-tomatoes-mozzarella-and-basil-on-dark-background--768x512.jpg');"><span class="d2u-learn-num">03</span></div>
+          <div class="d2u-learn-body">
+            <h3 class="d2u-learn-title">Neapolitan Pizza-Making</h3>
+            <p class="d2u-learn-desc">Learn the art of Italian pizza-making, guided by Chef Claude &mdash; a Certified Neapolitan Pizzaiolo trained under Roberto Cappuccio of Keste Pizza NYC.</p>
+          </div>
+        </div>
+        <div class="d2u-learn-card">
+          <div class="d2u-learn-img" style="background-image:url('https://digi2u.org/wp-content/uploads/2025/02/beef-rib-eye-steak-768x508.jpg');"><span class="d2u-learn-num">04</span></div>
+          <div class="d2u-learn-body">
+            <h3 class="d2u-learn-title">Farm-to-Table Cooking</h3>
+            <p class="d2u-learn-desc">Embrace sustainable cooking practices, working with fresh, locally sourced ingredients.</p>
+          </div>
+        </div>
+        <div class="d2u-learn-card">
+          <div class="d2u-learn-img" style="background-image:url('https://digi2u.org/wp-content/uploads/2025/03/culinary-background-for-making-refreshing-drinks-for-example-lemonade-mahito-or-cold-refreshing-tea-768x512.jpg');"><span class="d2u-learn-num">05</span></div>
+          <div class="d2u-learn-body">
+            <h3 class="d2u-learn-title">Culinary Presentation</h3>
+            <p class="d2u-learn-desc">Elevate your plating skills to showcase flavors and cultural stories in every dish.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COURSE DESCRIPTION -->
+  <section class="d2u-section d2u-section-white">
+    <div class="d2u-wrap">
+      <div class="d2u-section-head">
+        <span class="d2u-tag">Course Description</span>
+        <h2 class="d2u-h2">Bringing global flavors<br>to the table.</h2>
+      </div>
+      <div class="d2u-includes">
+        <h3>An immersive journey into international cuisine</h3>
+        <p>The "Bringing Global Flavors to the Table" course, led by renowned <strong>Chef Claude Lewis</strong>, offers an immersive journey into the world of international cuisine. This hands-on program blends <strong>Caribbean, Italian, and Chinese influences</strong>, teaching participants how to prepare authentic dishes while understanding the cultural significance of global flavors.</p>
+        <p>From mastering traditional Caribbean recipes like <strong>pepperpot</strong> and <strong>ducana</strong> to achieving <strong>Neapolitan pizza certification</strong>, students will gain expertise in ingredient sourcing, cooking techniques, and plating. The course also emphasizes <strong>farm-to-table practices</strong>, ensuring the use of fresh, locally sourced ingredients.</p>
+        <p>Ideal for <strong>culinary enthusiasts, aspiring chefs, and food entrepreneurs</strong>, this program equips learners with advanced cooking skills, menu development strategies, and presentation techniques &mdash; all while celebrating the vibrant diversity of international culinary traditions.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CULINARY GALLERY -->
+  <section class="d2u-section d2u-section-gray">
+    <div class="d2u-wrap">
+      <div class="d2u-section-head">
+        <span class="d2u-tag">Culinary Creations in Action</span>
+        <h2 class="d2u-h2">Explore the flavors,<br>techniques, and stories.</h2>
+        <p>Click any image to view full-size.</p>
+      </div>
+
+      <div class="d2u-prod-gallery">
+        <a data-img="https://digi2u.org/wp-content/uploads/2025/02/20210804_145242_01-scaled.jpg" style="background-image:url('https://digi2u.org/wp-content/uploads/2025/02/20210804_145242_01-225x300.jpg');"></a>
+        <a data-img="https://digi2u.org/wp-content/uploads/2025/02/20240512_154314-scaled.jpg" style="background-image:url('https://digi2u.org/wp-content/uploads/2025/02/20240512_154314-225x300.jpg');"></a>
+        <a data-img="https://digi2u.org/wp-content/uploads/2025/02/20240516_194215-scaled.jpg" style="background-image:url('https://digi2u.org/wp-content/uploads/2025/02/20240516_194215-225x300.jpg');"></a>
+        <a data-img="https://digi2u.org/wp-content/uploads/2025/02/AL6P7176-scaled.jpg" style="background-image:url('https://digi2u.org/wp-content/uploads/2025/02/AL6P7176-200x300.jpg');"></a>
+        <a data-img="https://digi2u.org/wp-content/uploads/2025/02/IMG_4894.jpg" style="background-image:url('https://digi2u.org/wp-content/uploads/2025/02/IMG_4894-225x300.jpg');"></a>
+        <a data-img="https://digi2u.org/wp-content/uploads/2025/02/IMG_20200909_153038_191-scaled.jpg" style="background-image:url('https://digi2u.org/wp-content/uploads/2025/02/IMG_20200909_153038_191-300x300.jpg');"></a>
+        <a data-img="https://digi2u.org/wp-content/uploads/2025/02/cast-iron-skillets-and-spices-on-dark-wooden-culinary-background.jpg" style="background-image:url('https://digi2u.org/wp-content/uploads/2025/02/cast-iron-skillets-and-spices-on-dark-wooden-culinary-background-300x200.jpg');"></a>
+        <a data-img="https://digi2u.org/wp-content/uploads/2025/02/spices-and-herbs-on-old-kitchen-table-food-and-cuisine-ingredients.jpg" style="background-image:url('https://digi2u.org/wp-content/uploads/2025/02/spices-and-herbs-on-old-kitchen-table-food-and-cuisine-ingredients-300x200.jpg');"></a>
+        <a data-img="https://digi2u.org/wp-content/uploads/2025/02/classic-neapolitan-margherita-pizza-with-tomatoes-mozzarella-and-basil-on-dark-background-.jpg" style="background-image:url('https://digi2u.org/wp-content/uploads/2025/02/classic-neapolitan-margherita-pizza-with-tomatoes-mozzarella-and-basil-on-dark-background--300x200.jpg');"></a>
+        <a data-img="https://digi2u.org/wp-content/uploads/2025/02/beef-rib-eye-steak.jpg" style="background-image:url('https://digi2u.org/wp-content/uploads/2025/02/beef-rib-eye-steak-300x199.jpg');"></a>
+        <a data-img="https://digi2u.org/wp-content/uploads/2025/02/grilled-meat-served-on-wooden-boards-highlighting-street-food-and-culinary-authenticity.jpg" style="background-image:url('https://digi2u.org/wp-content/uploads/2025/02/grilled-meat-served-on-wooden-boards-highlighting-street-food-and-culinary-authenticity-300x200.jpg');"></a>
+        <a data-img="https://digi2u.org/wp-content/uploads/2025/02/presentation-of-fresh-wild-sea-bream-in-foil-metallic-paper.jpg" style="background-image:url('https://digi2u.org/wp-content/uploads/2025/02/presentation-of-fresh-wild-sea-bream-in-foil-metallic-paper-300x200.jpg');"></a>
+        <a data-img="https://digi2u.org/wp-content/uploads/2025/02/decoration-of-chocolate-cake-with-culinary-syringe.jpg" style="background-image:url('https://digi2u.org/wp-content/uploads/2025/02/decoration-of-chocolate-cake-with-culinary-syringe-300x200.jpg');"></a>
+        <a data-img="https://digi2u.org/wp-content/uploads/2025/02/culinary-green-herbs-spinach-dill-parsley-avocado-in-a-wooden-box-isolated-on-white-background.jpg" style="background-image:url('https://digi2u.org/wp-content/uploads/2025/02/culinary-green-herbs-spinach-dill-parsley-avocado-in-a-wooden-box-isolated-on-white-background-300x200.jpg');"></a>
+        <a data-img="https://digi2u.org/wp-content/uploads/2025/03/rustic-culinary-scene-with-olives-and-rosemary.jpg" style="background-image:url('https://digi2u.org/wp-content/uploads/2025/03/rustic-culinary-scene-with-olives-and-rosemary-300x200.jpg');"></a>
+        <a data-img="https://digi2u.org/wp-content/uploads/2025/03/cooking-with-nature-green-and-organic-culinary-setup-food-background.jpg" style="background-image:url('https://digi2u.org/wp-content/uploads/2025/03/cooking-with-nature-green-and-organic-culinary-setup-food-background-300x194.jpg');"></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ServSafe upsell -->
+  <section class="d2u-section d2u-section-white" style="padding:0 0 110px;">
+    <div class="d2u-wrap">
+      <div class="d2u-mid-cta">
+        <div style="position:relative;z-index:2;">
+          <h2 class="d2u-mid-title">Pair your culinary training<br>with ServSafe certification.</h2>
+          <p>Earn the nationally recognized food-safety credential and walk into any restaurant, catering, or hospitality role with the paperwork that gets you hired.</p>
+        </div>
+        <div class="d2u-mid-right">
+          <a href="/food-safety/" class="d2u-btn-primary">ServSafe Cert <span class="d2u-arrow">&rarr;</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INQUIRY -->
+  <section class="d2u-section d2u-section-gray" id="d2u-contact">
+    <div class="d2u-wrap">
+      <div class="d2u-contact-grid">
+        <div class="d2u-contact-info">
+          <span class="d2u-tag">Program Inquiry</span>
+          <h2 class="d2u-h2">Apply to<br>Culinary Arts.</h2>
+          <p>Provide your name, email, and any questions about the program. We typically respond within 24 hours.</p>
+          <div class="d2u-contact-methods">
+            <div class="d2u-contact-method"><div class="d2u-contact-icon">&#9993;</div><div><div class="d2u-contact-label">Email</div><a href="mailto:admin@digi2u.org" class="d2u-contact-value">admin@digi2u.org</a></div></div>
+            <div class="d2u-contact-method"><div class="d2u-contact-icon">&#9742;</div><div><div class="d2u-contact-label">Phone</div><a href="tel:+12013743553" class="d2u-contact-value">+1 (201) 374-3553</a></div></div>
+            <div class="d2u-contact-method"><div class="d2u-contact-icon">&#9873;</div><div><div class="d2u-contact-label">Office</div><span class="d2u-contact-value">317 Pacific Avenue, Jersey City, NJ 07304</span></div></div>
+          </div>
+          <div class="d2u-nonprofit-note"><strong>501(c)(3) Nonprofit</strong>EIN: 88-3213984. All donations tax-deductible.</div>
+        </div>
+        <form class="d2u-form-card" onsubmit="return d2uSubmitInquiry(event);">
+          <h3>Program Inquiry Form</h3>
+          <p>Provide your name, e-mail, program of interest, and any additional questions to begin program registration. We typically respond within 24 hours.</p>
+          <div class="d2u-form-row">
+            <input class="d2u-field" id="d2u-f-name" type="text" placeholder="Name" required>
+            <input class="d2u-field" id="d2u-f-email" type="email" placeholder="Email" required>
+          </div>
+          <input class="d2u-field" id="d2u-f-phone" type="tel" placeholder="Phone (optional)">
+          <input class="d2u-field" id="d2u-f-subject" type="text" placeholder="Subject" required value="Culinary Arts — Chef Claude">
+          <textarea class="d2u-field d2u-textarea" id="d2u-f-message" placeholder="Message" required></textarea>
+          <button type="submit" class="d2u-btn-primary d2u-form-btn">Send <span class="d2u-arrow">&rarr;</span></button>
+          <p id="d2u-form-status" style="margin-top:14px;font-size:13px;color:var(--d2u-gray);text-align:center;"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <!-- D2U-CIA-STRIP --><section class="d2u-cia-injected" style="padding:70px 24px;background:#FAFAFA;border-top:6px solid #FF0000"><div style="max-width:1200px;margin:0 auto"><div style="text-align:center;margin-bottom:36px"><span style="display:inline-block;font-size:11px;font-weight:800;letter-spacing:0.18em;text-transform:uppercase;color:#FF0000;padding-bottom:8px;border-bottom:2px solid #FF0000">Community in Action</span><h2 style="font-size:clamp(28px,4vw,44px);font-weight:900;letter-spacing:-0.03em;line-height:1.05;margin:14px 0 6px;text-transform:uppercase;color:#000">Real cohorts.<br>Real moments.</h2><p style="font-size:15px;color:#4A4A4A;max-width:600px;margin:8px auto 0">Snapshots from Digi2U classrooms, mobile labs, and partner events.</p></div><div class="d2u-cia-grid-injected" style="display:grid;grid-template-columns:repeat(6,1fr);gap:6px"><a href="https://digi2u.org/wp-content/uploads/2026/05/d2u-3d-justice-1.webp" target="_blank" rel="noopener" style="aspect-ratio:4/5;background:#eee url('https://digi2u.org/wp-content/uploads/2026/05/d2u-3d-justice-1.webp') center/cover no-repeat;display:block;position:relative;text-decoration:none"><span style="position:absolute;left:10px;right:10px;bottom:10px;color:#fff;font-size:11px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;text-shadow:0 1px 3px rgba(0,0,0,0.7);line-height:1.3">Justice — 3D Cohort</span></a><a href="https://digi2u.org/wp-content/uploads/2026/05/d2u-3d-justice-3.webp" target="_blank" rel="noopener" style="aspect-ratio:4/5;background:#eee url('https://digi2u.org/wp-content/uploads/2026/05/d2u-3d-justice-3.webp') center/cover no-repeat;display:block;position:relative;text-decoration:none"><span style="position:absolute;left:10px;right:10px;bottom:10px;color:#fff;font-size:11px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;text-shadow:0 1px 3px rgba(0,0,0,0.7);line-height:1.3">Build · Newark, NJ</span></a><a href="https://digi2u.org/wp-content/uploads/2026/05/d2u-newark-3d-1.webp" target="_blank" rel="noopener" style="aspect-ratio:4/5;background:#eee url('https://digi2u.org/wp-content/uploads/2026/05/d2u-newark-3d-1.webp') center/cover no-repeat;display:block;position:relative;text-decoration:none"><span style="position:absolute;left:10px;right:10px;bottom:10px;color:#fff;font-size:11px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;text-shadow:0 1px 3px rgba(0,0,0,0.7);line-height:1.3">Newark Bootcamp</span></a><a href="https://digi2u.org/wp-content/uploads/2026/05/d2u-pacific-extra-01.webp" target="_blank" rel="noopener" style="aspect-ratio:4/5;background:#eee url('https://digi2u.org/wp-content/uploads/2026/05/d2u-pacific-extra-01.webp') center/cover no-repeat;display:block;position:relative;text-decoration:none"><span style="position:absolute;left:10px;right:10px;bottom:10px;color:#fff;font-size:11px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;text-shadow:0 1px 3px rgba(0,0,0,0.7);line-height:1.3">Training · 317 Pacific</span></a><a href="https://digi2u.org/wp-content/uploads/2026/05/d2u-spinoff-newark-2.webp" target="_blank" rel="noopener" style="aspect-ratio:4/5;background:#eee url('https://digi2u.org/wp-content/uploads/2026/05/d2u-spinoff-newark-2.webp') center/cover no-repeat;display:block;position:relative;text-decoration:none"><span style="position:absolute;left:10px;right:10px;bottom:10px;color:#fff;font-size:11px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;text-shadow:0 1px 3px rgba(0,0,0,0.7);line-height:1.3">Spin-Off Open Deck</span></a><a href="https://digi2u.org/wp-content/uploads/2026/05/d2u-cherry-xmas-3.webp" target="_blank" rel="noopener" style="aspect-ratio:4/5;background:#eee url('https://digi2u.org/wp-content/uploads/2026/05/d2u-cherry-xmas-3.webp') center/cover no-repeat;display:block;position:relative;text-decoration:none"><span style="position:absolute;left:10px;right:10px;bottom:10px;color:#fff;font-size:11px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;text-shadow:0 1px 3px rgba(0,0,0,0.7);line-height:1.3">Cherry Foundation Christmas</span></a></div></div></section><style>@media(max-width:960px){.d2u-cia-grid-injected{grid-template-columns:repeat(3,1fr) !important}}@media(max-width:600px){.d2u-cia-grid-injected{grid-template-columns:repeat(2,1fr) !important}}</style><section class="d2u-final">
+    <span class="d2u-tag">Plate. Plate. Repeat.</span>
+    <h2 class="d2u-h2 d2u-final-title">Cook with<br>Chef Claude<span class="d2u-accent">.</span></h2>
+    <p class="d2u-final-lede">Caribbean roots. Italian fire. Chinese balance. Walk into any kitchen with the technique to back it up.</p>
+    <div class="d2u-cta-row">
+      <button type="button" class="d2u-btn-primary" onclick="d2uOpenModal()">Donate Now <span class="d2u-arrow">&rarr;</span></button>
+      <a href="/food-safety/" class="d2u-btn-outline">ServSafe Cert</a>
+      <a href="/programs/" class="d2u-btn-outline">All Programs</a>
+    </div>
+  </section>
+
+  <button type="button" class="d2u-btn-primary d2u-sticky" id="d2u-sticky-btn" onclick="d2uOpenModal()">Donate Now <span class="d2u-arrow">&rarr;</span></button>
+
+  <!-- IMAGE LIGHTBOX -->
+  <div class="d2u-lb" id="d2u-lb" onclick="d2uCloseLb(event)">
+    <button type="button" class="d2u-lb-close" onclick="d2uCloseLb(true)" aria-label="Close">&times;</button>
+    <img decoding="async" id="d2u-lb-img" src="" alt="">
+  </div>
+</div>
+
+<script>
+(function(){
+  document.querySelectorAll('.d2u-prod-gallery a').forEach(function(a){
+    a.addEventListener('click', function(e){
+      e.preventDefault();
+      var src = a.getAttribute('data-img') || a.style.backgroundImage.replace(/^url\(["']?|["']?\)$/g,'');
+      var lb = document.getElementById('d2u-lb');
+      var img = document.getElementById('d2u-lb-img');
+      img.src = src;
+      lb.classList.add('d2u-lb-open');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+})();
+function d2uCloseLb(eOrForce){
+  var lb = document.getElementById('d2u-lb');
+  if (eOrForce === true || (eOrForce && eOrForce.target && eOrForce.target.id === 'd2u-lb')) {
+    lb.classList.remove('d2u-lb-open');
+    document.body.style.overflow = '';
+  }
+}
+document.addEventListener('keydown', function(e){
+  if (e.key === 'Escape') {
+    var lb = document.getElementById('d2u-lb');
+    if (lb && lb.classList.contains('d2u-lb-open')) { lb.classList.remove('d2u-lb-open'); document.body.style.overflow = ''; }
+  }
+});
+</script>
