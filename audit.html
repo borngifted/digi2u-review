@@ -1,502 +1,363 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Digi2U Site Audit — July 10, 2026</title>
+<title>Digi2U Change Audit — Review Round 1</title>
 <style>
   :root {
-    --bg:#ffffff; --surface:#f7f7f8; --ink:#17181a; --ink2:#55575c; --muted:#8a8d93; --line:#e4e5e8;
-    --accent:#d90000;
-    --critical:#b3261e; --critical-bg:#fdecea;
-    --serious:#c4520a; --serious-bg:#fdf0e5;
-    --moderate:#946300; --moderate-bg:#fdf6e0;
-    --low:#4f5560; --low-bg:#eef0f3;
-    --good:#1a7f37; --good-bg:#e7f4ec;
+    --red: #FF0000; --red-dark: #D90000; --red-tint: #FFF5F5; --red-soft: #FFE8E8;
+    --ink: #000000; --paper: #FFFFFF; --paper-2: #FAFAFA; --paper-3: #F4F4F4;
+    --muted: #4A4A4A; --faint: #8A8A8A;
+    --line: rgba(0,0,0,0.12); --line-strong: #000000;
+    --live: #0B7A3B; --live-bg: #E8F5EC;
+    --ready: #B45309; --ready-bg: #FDF3E3;
+    --verified: #0B6E6E; --verified-bg: #E5F4F4;
+    --ok: #4E7A0B; --ok-bg: #F1F7E4;
+    --assets: #C2410C; --assets-bg: #FDEEE3;
+    --decide: #1565D8; --decide-bg: #E9F1FD;
+    --queue: #5B6470; --queue-bg: #EEF0F3;
+    --pam: #E07C00; --erica: #7B2FF2; --tr: #1565D8;
   }
   @media (prefers-color-scheme: dark) {
-    :root { --bg:#151619; --surface:#1e2024; --ink:#eceef1; --ink2:#b3b7be; --muted:#82868e; --line:#33363c;
-      --accent:#ff5c5c;
-      --critical:#ff8a80; --critical-bg:#3a1f1d; --serious:#ffb27a; --serious-bg:#38271a;
-      --moderate:#ffd97a; --moderate-bg:#35301c; --low:#b7bcc6; --low-bg:#282b31; --good:#7ed09a; --good-bg:#1d3226; }
+    :root {
+      --red-tint: #2A0808; --red-soft: #3A0D0D;
+      --ink: #F2F2F2; --paper: #141414; --paper-2: #1B1B1B; --paper-3: #232323;
+      --muted: #B9B9B9; --faint: #8A8A8A;
+      --line: rgba(255,255,255,0.14); --line-strong: #F2F2F2;
+      --live: #5BC98A; --live-bg: #12301E;
+      --ready: #E5A54E; --ready-bg: #33250F;
+      --verified: #5FC4C4; --verified-bg: #0F2C2C;
+      --ok: #A9CC5E; --ok-bg: #26300F;
+      --assets: #F0854C; --assets-bg: #331A0C;
+      --decide: #6FA5EF; --decide-bg: #10233D;
+      --queue: #9AA3AE; --queue-bg: #262A30;
+      --pam: #F09A33; --erica: #A473F7; --tr: #6FA5EF;
+    }
   }
-  * { box-sizing:border-box; }
-  body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; background:var(--bg); color:var(--ink); line-height:1.55; }
-  .topbar { background:#111; color:#fff; padding:0 22px; display:flex; align-items:center; gap:20px; }
-  .topbar .brand { font-size:15px; font-weight:800; padding:12px 0; }
-  .topbar .brand span { color:#ff4444; }
-  .tabs { display:flex; gap:4px; }
-  .tabs a { color:#bbb; text-decoration:none; font-size:13.5px; font-weight:700; padding:14px 16px 12px; border-bottom:3px solid transparent; }
-  .tabs a:hover { color:#fff; }
-  .tabs a.active { color:#fff; border-bottom-color:#ff4444; }
-  .topbar .prog { margin-left:auto; font-size:12.5px; color:#bbb; }
-  .topbar .prog b { color:#7ed09a; }
-  .wrap { max-width:1080px; margin:0 auto; padding:28px 22px 80px; }
-  header.top { border-bottom:3px solid var(--accent); padding-bottom:18px; margin-bottom:26px; }
-  h1 { font-size:25px; margin:0 0 4px; letter-spacing:-.01em; }
-  h1 b { color:var(--accent); }
-  .sub { color:var(--ink2); font-size:14px; }
-  h2 { font-size:19px; margin:40px 0 12px; padding-top:10px; border-top:1px solid var(--line); }
-  p { margin:8px 0; }
-  a { color:var(--accent); }
-  .tiles { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; margin:18px 0 6px; }
-  .tile { background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:14px 16px; }
-  .tile .lab { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.07em; color:var(--muted); }
-  .tile .val { font-size:30px; font-weight:800; letter-spacing:-.02em; margin:2px 0 4px; }
-  .tile .val span { font-size:15px; color:var(--muted); }
-  .st { display:inline-flex; align-items:center; gap:5px; font-size:11.5px; font-weight:700; padding:2px 8px; border-radius:10px; }
-  .st.critical { color:var(--critical); background:var(--critical-bg); }
-  .st.serious  { color:var(--serious);  background:var(--serious-bg); }
-  .st.moderate { color:var(--moderate); background:var(--moderate-bg); }
-  .st.good     { color:var(--good);     background:var(--good-bg); }
-  .tile .note { font-size:11.5px; color:var(--muted); margin-top:4px; }
-  .chip { display:inline-block; font-size:11px; font-weight:800; letter-spacing:.05em; padding:2px 9px; border-radius:10px; vertical-align:2px; }
-  .chip.p1 { color:var(--critical); background:var(--critical-bg); }
-  .chip.p2 { color:var(--serious); background:var(--serious-bg); }
-  .chip.p3 { color:var(--moderate); background:var(--moderate-bg); }
-  .chip.p4 { color:var(--low); background:var(--low-bg); }
-  .chip.eff { color:var(--ink2); background:var(--surface); border:1px solid var(--line); font-weight:700; letter-spacing:0; }
-  .item { border:1px solid var(--line); border-radius:10px; margin:12px 0; background:var(--bg); overflow:hidden; }
-  .item.done { opacity:.62; }
-  .item.done .t { text-decoration:line-through; }
-  .item > summary { list-style:none; cursor:pointer; padding:13px 16px; display:flex; gap:12px; align-items:baseline; flex-wrap:wrap; }
-  .item > summary::-webkit-details-marker { display:none; }
-  .item > summary:hover { background:var(--surface); }
-  .item .rank { font-size:17px; font-weight:800; color:var(--muted); min-width:34px; }
-  .item .t { font-size:15.5px; font-weight:700; flex:1; min-width:240px; }
-  .item .donebox { display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:700; color:var(--ink2); cursor:pointer; }
-  .item .donebox input { width:16px; height:16px; accent-color:var(--good); cursor:pointer; }
-  .item .body { padding:2px 16px 16px 62px; font-size:14px; }
-  .item .body .sec { margin-top:10px; }
-  .item .body .k { font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.07em; color:var(--muted); }
-  table { border-collapse:collapse; width:100%; margin:8px 0; font-size:13px; }
-  th, td { text-align:left; padding:6px 10px; border-bottom:1px solid var(--line); vertical-align:top; }
-  th { font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); }
-  .scroll { overflow-x:auto; }
-  code { background:var(--surface); border:1px solid var(--line); border-radius:4px; padding:1px 5px; font-size:12.5px; }
-  ul { margin:6px 0; padding-left:22px; }
-  li { margin:3px 0; }
-  .okbox { background:var(--good-bg); border:1px solid var(--line); border-radius:10px; padding:12px 16px; margin:14px 0; font-size:14px; }
-  .okbox b { color:var(--good); }
-  .toc { background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:12px 18px; font-size:13.5px; margin:16px 0; }
-  .foot { margin-top:44px; padding-top:14px; border-top:1px solid var(--line); color:var(--muted); font-size:12.5px; }
-  /* fix packs */
-  .fixpack { background:var(--surface); border:1px dashed var(--line); border-radius:8px; padding:12px 14px; margin-top:12px; }
-  .fixpack .fptitle { font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.07em; color:var(--good); margin-bottom:8px; }
-  .snippet { position:relative; margin:10px 0; }
-  .snippet pre { margin:0; background:var(--bg); border:1px solid var(--line); border-radius:6px; padding:10px 88px 10px 12px; font-size:12px; line-height:1.5; overflow-x:auto; white-space:pre-wrap; word-break:break-word; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; }
-  .snippet .slab { position:absolute; top:-8px; left:10px; background:var(--surface); border:1px solid var(--line); border-radius:4px; font-size:10.5px; font-weight:800; letter-spacing:.05em; color:var(--muted); padding:1px 7px; text-transform:uppercase; }
-  .copybtn { position:absolute; top:8px; right:8px; font-size:11.5px; font-weight:700; border:1px solid var(--line); background:var(--surface); color:var(--ink2); border-radius:5px; padding:4px 10px; cursor:pointer; }
-  .copybtn:hover { border-color:var(--accent); color:var(--accent); }
-  .copybtn.ok { color:var(--good); border-color:var(--good); }
-  .bigcopy { font-size:12.5px; font-weight:700; border:1px solid var(--accent); background:var(--accent); color:#fff; border-radius:6px; padding:7px 14px; cursor:pointer; margin:6px 0; }
-  .bigcopy.ok { background:var(--good); border-color:var(--good); }
-  @media print { .item { break-inside:avoid; } .topbar { display:none; } }
- .bytag { font-size:11px; font-weight:800; margin-left:8px; }
+  :root[data-theme="dark"] {
+    --red-tint: #2A0808; --red-soft: #3A0D0D;
+    --ink: #F2F2F2; --paper: #141414; --paper-2: #1B1B1B; --paper-3: #232323;
+    --muted: #B9B9B9; --faint: #8A8A8A;
+    --line: rgba(255,255,255,0.14); --line-strong: #F2F2F2;
+    --live: #5BC98A; --live-bg: #12301E;
+    --ready: #E5A54E; --ready-bg: #33250F;
+    --verified: #5FC4C4; --verified-bg: #0F2C2C;
+    --ok: #A9CC5E; --ok-bg: #26300F;
+    --assets: #F0854C; --assets-bg: #331A0C;
+    --decide: #6FA5EF; --decide-bg: #10233D;
+    --queue: #9AA3AE; --queue-bg: #262A30;
+    --pam: #F09A33; --erica: #A473F7; --tr: #6FA5EF;
+  }
+  :root[data-theme="light"] {
+    --red-tint: #FFF5F5; --red-soft: #FFE8E8;
+    --ink: #000000; --paper: #FFFFFF; --paper-2: #FAFAFA; --paper-3: #F4F4F4;
+    --muted: #4A4A4A; --faint: #8A8A8A;
+    --line: rgba(0,0,0,0.12); --line-strong: #000000;
+    --live: #0B7A3B; --live-bg: #E8F5EC;
+    --ready: #B45309; --ready-bg: #FDF3E3;
+    --verified: #0B6E6E; --verified-bg: #E5F4F4;
+    --ok: #4E7A0B; --ok-bg: #F1F7E4;
+    --assets: #C2410C; --assets-bg: #FDEEE3;
+    --decide: #1565D8; --decide-bg: #E9F1FD;
+    --queue: #5B6470; --queue-bg: #EEF0F3;
+    --pam: #E07C00; --erica: #7B2FF2; --tr: #1565D8;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--paper); color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.55; -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1060px; margin: 0 auto; padding: 0 22px 90px; }
+
+  header.masthead { border-bottom: 6px solid var(--red); background: var(--paper); padding: 44px 0 30px; }
+  .eyebrow { display: inline-flex; align-items: center; gap: 9px; font-size: 11px; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; border: 1px solid var(--red); background: var(--red-tint); padding: 7px 14px; margin-bottom: 18px; }
+  .eyebrow .dot { width: 8px; height: 8px; background: var(--red); }
+  h1 { font-size: clamp(34px, 5.6vw, 58px); font-weight: 900; line-height: 1.0; letter-spacing: -0.03em; text-transform: uppercase; margin: 0 0 12px; text-wrap: balance; }
+  h1 .acc { color: var(--red); }
+  .lede { font-size: 16px; color: var(--muted); max-width: 62ch; margin: 0; }
+  .stamp { margin-top: 14px; font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--faint); }
+
+  .tiles { display: grid; grid-template-columns: repeat(7, 1fr); border: 2px solid var(--line-strong); margin: 30px 0 8px; background: var(--paper); }
+  .tile { padding: 16px 10px 14px; text-align: center; border-right: 2px solid var(--line-strong); cursor: pointer; background: transparent; font-family: inherit; color: inherit; border-top: 0; border-bottom: 0; border-left: 0; }
+  .tile:last-child { border-right: none; }
+  .tile .n { display: block; font-size: clamp(22px, 3vw, 34px); font-weight: 900; line-height: 1; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+  .tile .l { display: block; margin-top: 6px; font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+  .tile[data-on="0"] { opacity: 0.35; }
+  .tile:focus-visible { outline: 3px solid var(--decide); outline-offset: -3px; }
+  .tile .n.c-live { color: var(--live); } .tile .n.c-ready { color: var(--ready); }
+  .tile .n.c-verified { color: var(--verified); } .tile .n.c-ok { color: var(--ok); }
+  .tile .n.c-assets { color: var(--assets); } .tile .n.c-decide { color: var(--decide); }
+  .tile .n.c-queue { color: var(--queue); }
+  .tiles-hint { font-size: 12px; color: var(--faint); margin: 6px 0 0; }
+
+  .progress { margin: 26px 0 0; }
+  .progress .pl { display: flex; justify-content: space-between; font-size: 11px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 7px; }
+  .bar { height: 14px; border: 2px solid var(--line-strong); background: var(--paper-2); overflow: hidden; }
+  .bar > span { display: block; height: 100%; background: var(--red); transition: width 0.5s ease; }
+  @media (prefers-reduced-motion: reduce) { .bar > span { transition: none; } }
+
+  .callout { border: 2px solid var(--line-strong); border-left: 8px solid var(--ready); background: var(--paper-2); padding: 16px 20px; margin: 26px 0 0; font-size: 14px; }
+  .callout strong { text-transform: uppercase; letter-spacing: 0.07em; font-size: 12px; display: block; margin-bottom: 4px; color: var(--ready); }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 8px; margin: 34px 0 0; }
+  .pill { display: inline-flex; align-items: center; gap: 6px; font-size: 10.5px; font-weight: 800; letter-spacing: 0.07em; text-transform: uppercase; padding: 4px 10px; border: 1.5px solid; white-space: nowrap; }
+  .pill::before { content: ''; width: 7px; height: 7px; background: currentColor; }
+  .pill.s-live { color: var(--live); background: var(--live-bg); border-color: var(--live); }
+  .pill.s-ready { color: var(--ready); background: var(--ready-bg); border-color: var(--ready); }
+  .pill.s-verified { color: var(--verified); background: var(--verified-bg); border-color: var(--verified); }
+  .pill.s-ok { color: var(--ok); background: var(--ok-bg); border-color: var(--ok); }
+  .pill.s-assets { color: var(--assets); background: var(--assets-bg); border-color: var(--assets); }
+  .pill.s-decide { color: var(--decide); background: var(--decide-bg); border-color: var(--decide); }
+  .pill.s-queue { color: var(--queue); background: var(--queue-bg); border-color: var(--queue); }
+
+  section.page-card { border: 2px solid var(--line-strong); border-top: 6px solid var(--red); margin-top: 34px; background: var(--paper); }
+  .page-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 14px; padding: 18px 22px 14px; border-bottom: 2px solid var(--line-strong); cursor: pointer; list-style: none; }
+  .page-head::-webkit-details-marker { display: none; }
+  .page-head:focus-visible { outline: 3px solid var(--decide); outline-offset: -3px; }
+  .page-head h2 { font-size: 21px; font-weight: 900; text-transform: uppercase; letter-spacing: -0.01em; margin: 0; }
+  .page-head .wpid { font-size: 11px; font-weight: 700; color: var(--faint); letter-spacing: 0.08em; }
+  .page-head .mini { margin-left: auto; display: flex; gap: 6px; flex-wrap: wrap; }
+  .chev { font-size: 12px; color: var(--faint); font-weight: 900; }
+  details[open] .chev .cl, details:not([open]) .chev .op { display: none; }
+
+  .item { display: grid; grid-template-columns: 118px 1fr 178px; gap: 14px; padding: 14px 22px; border-bottom: 1px solid var(--line); align-items: start; }
+  .item:last-child { border-bottom: none; }
+  .who { font-size: 11px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; padding-top: 2px; }
+  .who::before { content: ''; display: inline-block; width: 8px; height: 8px; margin-right: 6px; background: currentColor; }
+  .who.a-pam { color: var(--pam); } .who.a-erica { color: var(--erica); } .who.a-tr { color: var(--tr); }
+  .req { font-size: 14px; }
+  .req .q { color: var(--ink); }
+  .res { margin-top: 6px; font-size: 13px; color: var(--muted); }
+  .res b { color: var(--ink); }
+  .diff { display: inline-block; margin-top: 6px; font-size: 13px; border: 1px solid var(--line); background: var(--paper-2); padding: 5px 10px; }
+  .diff del { color: var(--red-dark); background: var(--red-soft); text-decoration: line-through; padding: 0 4px; }
+  .diff ins { color: var(--live); background: var(--live-bg); text-decoration: none; font-weight: 700; padding: 0 4px; }
+  .diff .arr { color: var(--faint); padding: 0 4px; }
+  .st { justify-self: end; }
+
+  .foot { margin-top: 60px; border-top: 2px solid var(--line-strong); padding-top: 18px; font-size: 12.5px; color: var(--faint); }
+  .foot b { color: var(--muted); }
+
+  @media (max-width: 860px) {
+    .tiles { grid-template-columns: repeat(4, 1fr); }
+    .tile:nth-child(4n) { border-right: none; }
+    .tile:nth-child(-n+4) { border-bottom: 2px solid var(--line-strong); }
+    .item { grid-template-columns: 1fr; gap: 6px; }
+    .st { justify-self: start; }
+  }
 </style>
-</head>
-<body>
 
-<div class="topbar">
-  <div class="brand">DIGI<span>2</span>U</div>
-  <nav class="tabs">
-    <a href="./">Page Review</a>
-    <a href="./audit.html" class="active">Audit Report</a>
-  </nav>
-  <div class="prog" id="prog"></div>
-</div>
-
-<div class="wrap">
-
-<header class="top">
-  <h1>DIGI<b>2</b>U — Full Site Audit <span style="font-weight:400;font-size:15px;color:var(--muted)">with copy-paste fixes</span></h1>
-  <div class="sub">https://digi2u.org &nbsp;·&nbsp; July 10, 2026 &nbsp;·&nbsp; 66 published pages crawled · Lighthouse (mobile) on 3 templates · axe-core accessibility on 4 templates · media library scan (first 100 of 1,013 items). Tick <b>Done</b> on each item as you apply it — progress saves in your browser.</div>
+<header class="masthead">
+  <div class="wrap">
+    <span class="eyebrow"><span class="dot"></span>Digi2U &middot; Website Review &middot; Round 1</span>
+    <h1>Change Audit<span class="acc">.</span></h1>
+    <p class="lede">Every request submitted on the review site, item by item — what has been changed on digi2u.org, what is staged, and what needs a member decision, photos, or content. Applied changes show the exact before &rarr; after.</p>
+    <p class="stamp">Verified against the live site &middot; Updated July 22, 2026 (footer + inquiry pipeline round) &middot; Source: review pins by Pam, Erica &amp; Team Reviewer</p>
+  </div>
 </header>
 
-<div class="tiles">
-  <div class="tile"><div class="lab">Performance</div><div class="val">29<span>/100</span></div><span class="st critical">● Critical</span><div class="note">Lighthouse mobile, homepage</div></div>
-  <div class="tile"><div class="lab">Best practices</div><div class="val">50<span>/100</span></div><span class="st serious">● Poor</span><div class="note">console errors, 3rd-party cookies</div></div>
-  <div class="tile"><div class="lab">SEO</div><div class="val">85<span>/100</span></div><span class="st moderate">● Fair</span><div class="note">63 of 66 pages missing meta description</div></div>
-  <div class="tile"><div class="lab">Accessibility</div><div class="val">91<span>/100</span></div><span class="st moderate">● Fair</span><div class="note">contrast + alt text drag it down</div></div>
-  <div class="tile"><div class="lab">Media health</div><div class="val">0<span>/100</span></div><span class="st critical">● Critical</span><div class="note">100/100 scanned images lack alt text</div></div>
-  <div class="tile"><div class="lab">Page weight</div><div class="val">~11<span>&nbsp;MB</span></div><span class="st critical">● Critical</span><div class="note">564 requests on the homepage</div></div>
-</div>
+<div class="wrap">
+  <div class="tiles" id="tiles" role="group" aria-label="Filter by status"></div>
+  <p class="tiles-hint">Click a tile to filter the list. Click again to clear.</p>
 
-<p class="sub" style="margin-top:2px">Scores are Lighthouse category scores on a throttled mobile connection (the conditions Google measures). Desktop feels faster, but mobile is how most first-time visitors and Google see the site.</p>
+  <div class="progress">
+    <div class="pl"><span>Fix work shipped &amp; live</span><span id="pct"></span></div>
+    <div class="bar"><span id="barfill" style="width:0%"></span></div>
+  </div>
 
-<div class="okbox"><b>What's already healthy:</b> zero broken internal links across all 66 pages · XML sitemaps and robots.txt present · Open Graph social tags on every page · canonical URLs set · no layout shift (CLS 0) · cart/checkout correctly hidden from Google · the black-on-black button/card issue fixed earlier this week is confirmed resolved everywhere.</div>
+  <div class="callout">
+    <strong>What's left to flip live</strong>
+    1) <b>Re-paste all five page files</b> (Home, Team, Media, Events, Sponsors — v2 in <code>UPDATED_PAGES_2026-07-21/</code>) into their Elementor HTML widgets: this activates the new inquiry&rarr;spreadsheet pipeline on every page, and carries Sponsors' round-1 email fixes. &nbsp;
+    2) A <b>Terms of Usage</b> page still needs to be written (Privacy Policy is done and live). &nbsp;
+    Everything else in green below is already live on digi2u.org — footer year, footer email, footer links, newsletter routing, and the YouTube channel link were completed July 22 via the Elementor footer template and WordPress menus.
+  </div>
 
-<div class="toc">
-<b>The ranked list:</b> 18 changes, ordered by impact. <b>P1 (#1–4)</b> hurt visitors and donations today — do these first. <b>P2 (#5–9)</b> hurt search ranking and credibility. <b>P3 (#10–15)</b> are growth and hygiene. <b>P4 (#16–18)</b> are housekeeping. Click any item for evidence, the fix, and a <b>ready-to-paste fix pack</b> where one applies.
-</div>
+  <div class="legend" id="legend"></div>
+  <div id="pages"></div>
 
-<h2>Priority 1 — Critical: fixes that directly affect visitors &amp; donations</h2>
-
-<details class="item" open data-id="1">
-<summary><span class="rank">#1</span><span class="t">Cut page weight: every page loads the full payment stack + WordPress editor code</span><span class="chip p1">P1 · CRITICAL</span><span class="chip eff">Effort: medium</span><label class="donebox"><input type="checkbox" class="donechk"> Done</label></summary>
-<div class="body">
-  <div class="sec"><span class="k">Evidence</span>
-  <div class="scroll"><table>
-    <tr><th>Page</th><th>Lighthouse perf</th><th>First paint</th><th>Largest paint</th><th>Weight</th></tr>
-    <tr><td>Home</td><td>29/100</td><td>19.1 s</td><td>49.2 s</td><td>11.0 MB · 564 requests</td></tr>
-    <tr><td>Food Safety (program template)</td><td>29/100</td><td>5.4 s</td><td>6.2 s</td><td>10.4 MB</td></tr>
-    <tr><td>Donations</td><td>34/100</td><td>11.6 s</td><td>37.1 s</td><td>10.0 MB</td></tr>
-  </table></div>
-  The biggest downloads on the <i>homepage</i> are not your content — they're <b>Stripe (5+ scripts, ~1.9 MB), Zeffy, hCaptcha, reCAPTCHA and Google Pay</b> — the entire donation/payment stack loading on every page whether or not anyone donates. On top of that, WordPress's <b>editor</b> scripts (<code>block-editor.min.js</code> 323 KB + <code>components.min.js</code> 260 KB) are loading on the public site.</div>
-  <div class="sec"><span class="k">Why it matters</span> A 49-second largest paint on mobile means many visitors leave before the page draws. Page speed is also a Google ranking factor.</div>
-  <div class="sec"><span class="k">How to fix</span>
-  <ul>
-    <li>Load the Zeffy/donation embed <b>only on the Donate page</b> (or on-click). If your donation embed is pasted into a header/footer/popup template, move it to the Donate page only.</li>
-    <li>Stop the editor scripts loading on the front end with the snippet below.</li>
-    <li>Add page caching + lazy-loading (WP Rocket or the host's cache).</li>
-  </ul></div>
-  <div class="fixpack"><div class="fptitle">✂ Fix pack — copy &amp; paste</div>
-  Paste into your child theme's <code>functions.php</code> (Appearance → Theme File Editor) or a Code Snippets plugin. Test the site after — if a front-end block stops rendering, remove the last two lines of the dequeue list.
-  <div class="snippet"><span class="slab">PHP — functions.php</span><button class="copybtn">Copy</button><pre>/* Digi2U audit fix #1 — stop editor + payment scripts loading site-wide */
-add_action('wp_enqueue_scripts', function () {
-    // WordPress editor code does not belong on the public site
-    wp_dequeue_script('wp-block-editor');
-    wp_dequeue_script('wp-editor');
-    wp_dequeue_style('wp-block-editor');
-    wp_dequeue_script('wp-components');
-    wp_dequeue_style('wp-components');
-
-    // Load donation/payment scripts ONLY on the Donate page (slug below)
-    if (!is_page('donations-2')) {
-        wp_dequeue_script('zeffy-embed');   // adjust handle to your donation plugin
-        wp_dequeue_script('stripe');
-        wp_dequeue_script('stripe-js');
-    }
-}, 100);</pre></div>
-  <span style="font-size:12px;color:var(--muted)">Script "handles" vary by plugin — if the payment scripts still load, a free plugin like <b>Asset CleanUp</b> shows every script per page with an off switch, no code needed.</span>
+  <div class="foot">
+    <b>How this audit was verified:</b> each “Done — live” item was re-checked directly against the public digi2u.org pages on July 22, 2026 (badge removal, wording, email addresses, links, and titles confirmed present in the live HTML). “Ready” items exist as finished paste-ready files. Review requests were pulled from the live review database (Firebase) — nothing was omitted; positive notes are included for completeness.
   </div>
 </div>
-</details>
 
-<details class="item" open data-id="2">
-<summary><span class="rank">#2</span><span class="t">Compress the multi-megabyte images (7 MB photos on a 10 MB page)</span><span class="chip p1">P1 · CRITICAL</span><span class="chip eff">Effort: low</span><label class="donebox"><input type="checkbox" class="donechk"> Done</label></summary>
-<div class="body">
-  <div class="sec"><span class="k">Evidence</span> In just the first 100 of 1,013 media items: <b>12 files over 2 MB</b> (largest: 7.0 MB, 6.7 MB, 6.5 MB, 4.3 MB, 4.0 MB…), 22 more over 500 KB.</div>
-  <div class="sec"><span class="k">How to fix</span> Install a bulk optimizer (ShortPixel / Imagify / EWWW) and run the whole library with these settings — or ask Claude to batch-process the flagged files through the site connector.</div>
-  <div class="fixpack"><div class="fptitle">✂ Fix pack — settings to use</div>
-  <div class="snippet"><span class="slab">Optimizer settings</span><button class="copybtn">Copy</button><pre>Resize large images: max width 1920 px
-Compression: "Glossy" / quality 80
-Convert to WebP: ON (serve WebP to supported browsers)
-Optimize thumbnails: ON
-Target: no image file over 400 KB</pre></div>
-  </div>
-</div>
-</details>
-
-<details class="item" open data-id="3">
-<summary><span class="rank">#3</span><span class="t">"Lorem ipsum" placeholder text is live on 6 public pages — including Testimonies</span><span class="chip p1">P1 · CRITICAL</span><span class="chip eff">Effort: low</span><label class="donebox"><input type="checkbox" class="donechk"> Done</label></summary>
-<div class="body">
-  <div class="sec"><span class="k">Evidence</span> Placeholder/demo text in the live source of: <b>/testimonies/</b> (main navigation), /faqs/, /our-priorites/, /our-priorites-details/, /become-a-volunteer/, /our-team/.</div>
-  <div class="sec"><span class="k">How to fix</span> Replace the Testimonies placeholders with real quotes — the old site's TESTIMONIES page (see the <a href="./#testimonies">Page Review tab</a>, old side) contains the real testimonials to copy over. The other five pages are legacy pages — retire them via the redirect pack in <b>#6</b> instead of rewriting.</div>
-</div>
-</details>
-
-<details class="item" open data-id="4">
-<summary><span class="rank">#4</span><span class="t">Write meta descriptions — 63 of 66 pages have none</span><span class="chip p1">P1 · CRITICAL</span><span class="chip eff">Effort: low</span><label class="donebox"><input type="checkbox" class="donechk"> Done</label></summary>
-<div class="body">
-  <div class="sec"><span class="k">Evidence</span> Only 3 of 66 published pages have a meta description — the homepage, all 16 program pages, About, Team, Donate and Contact are all missing one.</div>
-  <div class="sec"><span class="k">How to apply</span> <b>If you use an SEO plugin</b> (Rank Math/Yoast — recommended): copy just the sentence and paste it into the plugin's "Meta description" field on each page. <b>If you edit raw HTML</b>: copy the full <code>&lt;meta&gt;</code> tag into the page's <code>&lt;head&gt;</code>.</div>
-  <div class="fixpack"><div class="fptitle">✂ Fix pack — a written meta description for all 31 main pages</div>
-  <button class="bigcopy" id="copyAllMeta">Copy ALL 31 meta tags</button>
-  <div id="metaList"></div>
-  </div>
-</div>
-</details>
-
-<h2>Priority 2 — High: search ranking &amp; credibility</h2>
-
-<details class="item" data-id="5">
-<summary><span class="rank">#5</span><span class="t">Add alt text to images — effectively the whole library is missing it</span><span class="chip p2">P2 · HIGH</span><span class="chip eff">Effort: low (automatable)</span><label class="donebox"><input type="checkbox" class="donechk"> Done</label></summary>
-<div class="body">
-  <div class="sec"><span class="k">Evidence</span> Media audit: <b>100 of the first 100</b> items scanned have no alt text (library: 1,013 items; media health 0/100).</div>
-  <div class="sec"><span class="k">How to fix</span> This one is per-image, so copy-paste doesn't scale — the practical routes are: (a) ask Claude to run <code>bulk_generate_alt_text</code> through the site connector (fastest), or (b) in WordPress Media Library, work through images used on the 27 main pages adding a one-sentence description of what the image shows ("Students assembling a 3D printer at the Digi2U Newark lab").</div>
-  <div class="fixpack"><div class="fptitle">✂ Fix pack — the formula for good alt text</div>
-  <div class="snippet"><span class="slab">Pattern</span><button class="copybtn">Copy</button><pre>[Who/what] + [doing what] + [where, if relevant]
-Good:  "Student piloting a training drone in the Digi2U warehouse"
-Good:  "ServSafe food safety certificate sample"
-Skip:  decorative divider/background images — leave alt empty on purpose
-Never: "image63.png", "photo", keyword stuffing</pre></div>
-  </div>
-</div>
-</details>
-
-<details class="item" data-id="6">
-<summary><span class="rank">#6</span><span class="t">Retire or redirect ~20 leftover old-design pages that are still live</span><span class="chip p2">P2 · HIGH</span><span class="chip eff">Effort: medium</span><label class="donebox"><input type="checkbox" class="donechk"> Done</label></summary>
-<div class="body">
-  <div class="sec"><span class="k">Evidence</span> Old duplicates and demo pages still public and indexed: /community-partners/, /audio-production-2/, /our-team/, /dontations/ (typo slug), /faqs/, /our-priorites/, /our-priorites-details/, /become-a-volunteer/, /gallery-masonry/, /gallery-justified/, /achievements/ (0 words), /corporate-sponsors/ (0 words), /studio-way/, plus 10 one-word event-plugin utility pages and duplicate donor-dashboard/donation-history pages.</div>
-  <div class="sec"><span class="k">How to fix</span> Two steps: (1) paste the redirect block below into <code>.htaccess</code> (host file manager, above the <code># BEGIN WordPress</code> line) — or recreate the same rules in the Redirection plugin; (2) unpublish the demo pages listed after it (WordPress → Pages → Draft).</div>
-  <div class="fixpack"><div class="fptitle">✂ Fix pack — redirects + unpublish list</div>
-  <div class="snippet"><span class="slab">.htaccess — 301 redirects</span><button class="copybtn">Copy</button><pre># Digi2U audit fix #6 — retire old-design duplicates
-Redirect 301 /community-partners/ https://digi2u.org/community-partners-2/
-Redirect 301 /audio-production-2/ https://digi2u.org/audio-production/
-Redirect 301 /our-team/ https://digi2u.org/team/
-Redirect 301 /dontations/ https://digi2u.org/donations-2/
-Redirect 301 /faqs/ https://digi2u.org/contact-us/
-Redirect 301 /our-priorites/ https://digi2u.org/about-us/
-Redirect 301 /our-priorites-details/ https://digi2u.org/about-us/
-Redirect 301 /become-a-volunteer/ https://digi2u.org/contact-us/
-Redirect 301 /gallery-masonry/ https://digi2u.org/media/
-Redirect 301 /gallery-justified/ https://digi2u.org/media/
-Redirect 301 /achievements/ https://digi2u.org/about-us/
-Redirect 301 /corporate-sponsors/ https://digi2u.org/sponsors/
-Redirect 301 /studio-way/ https://digi2u.org/about-us/</pre></div>
-  <div class="snippet"><span class="slab">Unpublish (set to Draft) — no redirect needed</span><button class="copybtn">Copy</button><pre>Event Venues (22794, 22795) · Venue Dashboard (22792, 22793)
-Submit Venue Form (22791) · Submit Organizer Form (22787, 22790)
-Event Organizers (22789) · Organizer Dashboard (22788)
-Donor Dashboard (8104 or 20631 — keep one, noindex it)
-Donation History (7 or 10211 — keep one, noindex it)
-Plus: the 24 old-design DRAFT pages once the team review is finished</pre></div>
-  </div>
-</div>
-</details>
-
-<details class="item" data-id="7">
-<summary><span class="rank">#7</span><span class="t">Brand red fails contrast: #FF0000 text/buttons on white are below WCAG AA</span><span class="chip p2">P2 · HIGH</span><span class="chip eff">Effort: very low</span><label class="donebox"><input type="checkbox" class="donechk"> Done</label></summary>
-<div class="body">
-  <div class="sec"><span class="k">Evidence</span> axe-core: 11–16 "serious" contrast failures per page, all one cause — pure red <code>#FF0000</code> on white (and white on red buttons) = 3.99:1; WCAG AA needs 4.5:1. Your design system already defines <code>--d2u-red-dark: #D90000</code> which passes at 4.6:1.</div>
-  <div class="sec"><span class="k">How to fix</span> Paste this into <b>Appearance → Customize → Additional CSS</b> (or ask Claude to apply it via the connector like the previous contrast fix):</div>
-  <div class="fixpack"><div class="fptitle">✂ Fix pack — copy &amp; paste CSS</div>
-  <div class="snippet"><span class="slab">CSS — Additional CSS</span><button class="copybtn">Copy</button><pre>/* Digi2U audit fix #7 — WCAG AA: pure #FF0000 is 3.99:1 on white (needs 4.5:1).
-   Shift interactive red to the brand's dark red. Large display headlines
-   (36px+) may keep pure red — large text only needs 3:1. */
-html:root { --d2u-red: #D90000; }</pre></div>
-  <span style="font-size:12px;color:var(--muted)">The <code>html:root</code> selector out-ranks the page's own <code>:root</code> definition, so this wins everywhere the variable is used.</span>
-  </div>
-</div>
-</details>
-
-<details class="item" data-id="8">
-<summary><span class="rank">#8</span><span class="t">Fix embarrassing titles &amp; slugs: "Donations-2", /photography-4/, /events-2/</span><span class="chip p2">P2 · HIGH</span><span class="chip eff">Effort: low</span><label class="donebox"><input type="checkbox" class="donechk"> Done</label></summary>
-<div class="body">
-  <div class="sec"><span class="k">Evidence</span> The Donate page's Google/tab title is literally <b>"Donations-2 - Digi2U"</b>. Duplicate-suffix slugs: /donations-2/, /photography-4/, /events-2/, /community-partners-2/.</div>
-  <div class="sec"><span class="k">How to fix</span> After #6's redirects free the clean names: rename each page title and slug in WordPress (Pages → Quick Edit), then add these redirects so old links keep working:</div>
-  <div class="fixpack"><div class="fptitle">✂ Fix pack — rename checklist + redirects</div>
-  <div class="snippet"><span class="slab">Rename in WordPress</span><button class="copybtn">Copy</button><pre>Page 24836: title "Donations-2"  → "Donate"           slug donations-2 → donate
-Page 22936: slug photography-4   → photography
-Page 21467: slug events-2        → events
-Page 23563: slug community-partners-2 → community-partners  (after #6 redirect updated)</pre></div>
-  <div class="snippet"><span class="slab">.htaccess — after renaming</span><button class="copybtn">Copy</button><pre>Redirect 301 /donations-2/ https://digi2u.org/donate/
-Redirect 301 /photography-4/ https://digi2u.org/photography/
-Redirect 301 /events-2/ https://digi2u.org/events/
-Redirect 301 /community-partners-2/ https://digi2u.org/community-partners/</pre></div>
-  <span style="font-size:12px;color:var(--muted)">Order matters: update the #6 rules that pointed at the old “-2” names to point at the clean names instead.</span>
-  </div>
-</div>
-</details>
-
-<details class="item" data-id="9">
-<summary><span class="rank">#9</span><span class="t">Clean up console errors, deprecated APIs &amp; third-party cookies (Best-practices 50/100)</span><span class="chip p2">P2 · HIGH</span><span class="chip eff">Effort: medium</span><label class="donebox"><input type="checkbox" class="donechk"> Done</label></summary>
-<div class="body">
-  <div class="sec"><span class="k">Evidence</span> Lighthouse: JS errors in console on load, deprecated browser APIs, third-party cookies (payment/captcha embeds), missing source maps.</div>
-  <div class="sec"><span class="k">How to fix</span> Most of this disappears when #1 stops the payment stack loading site-wide. After applying #1, re-run Lighthouse (PageSpeed Insights → pagespeed.web.dev) and chase whatever first-party errors remain.</div>
-</div>
-</details>
-
-<h2>Priority 3 — Medium: growth &amp; hygiene</h2>
-
-<details class="item" data-id="10">
-<summary><span class="rank">#10</span><span class="t">The blog is dormant: 3 posts, newest from 2023, 5 empty categories</span><span class="chip p3">P3 · MEDIUM</span><span class="chip eff">Effort: ongoing</span><label class="donebox"><input type="checkbox" class="donechk"> Done</label></summary>
-<div class="body">
-  <div class="sec"><span class="k">Evidence</span> 3 published posts (June 2023, ~200 words each), 2 drafts from Dec 2024, empty categories: 3D Printing &amp; Fabrication, Community Partnerships, STEAM Education, Success Stories, Cultural &amp; Creative Arts.</div>
-  <div class="sec"><span class="k">How to fix</span> Either commit to 1–2 posts/month (student success stories + program spotlights fit the empty categories; the connector can draft them for review) or remove Blog from navigation until there's a plan. A visibly stale blog is worse than none.</div>
-</div>
-</details>
-
-<details class="item" data-id="11">
-<summary><span class="rank">#11</span><span class="t">Connect Google Search Console</span><span class="chip p3">P3 · MEDIUM</span><span class="chip eff">Effort: very low</span><label class="donebox"><input type="checkbox" class="donechk"> Done</label></summary>
-<div class="body">
-  <div class="sec"><span class="k">How to fix</span> search.google.com/search-console → Add property → digi2u.org → verify via DNS or the HTML tag → submit the sitemap URL below. ~10 minutes, and you get Google's own data on queries, clicks and indexing problems.</div>
-  <div class="fixpack"><div class="fptitle">✂ Fix pack</div>
-  <div class="snippet"><span class="slab">Sitemap URL to submit</span><button class="copybtn">Copy</button><pre>https://digi2u.org/sitemap_index.xml</pre></div>
-  </div>
-</div>
-</details>
-
-<details class="item" data-id="12">
-<summary><span class="rank">#12</span><span class="t">Accessibility structure: missing main landmark, heading jumps, a nameless link</span><span class="chip p3">P3 · MEDIUM</span><span class="chip eff">Effort: low</span><label class="donebox"><input type="checkbox" class="donechk"> Done</label></summary>
-<div class="body">
-  <div class="sec"><span class="k">Evidence</span> axe-core on every template: no <code>&lt;main&gt;</code> landmark, 21–24 content nodes outside landmarks, heading levels that skip (h1→h3), one icon link with no accessible text. Certifications page has no H1 at all.</div>
-  <div class="fixpack"><div class="fptitle">✂ Fix pack — patterns to paste where each applies</div>
-  <div class="snippet"><span class="slab">HTML — wrap page content (theme template)</span><button class="copybtn">Copy</button><pre>&lt;main id="content" role="main"&gt;
-  ... page content ...
-&lt;/main&gt;</pre></div>
-  <div class="snippet"><span class="slab">HTML — icon-only links need a label</span><button class="copybtn">Copy</button><pre>&lt;a href="https://www.instagram.com/..." aria-label="Digi2U on Instagram"&gt;
-  &lt;i class="icon-instagram" aria-hidden="true"&gt;&lt;/i&gt;
-&lt;/a&gt;</pre></div>
-  <div class="snippet"><span class="slab">Rule for headings</span><button class="copybtn">Copy</button><pre>One h1 per page (the page title), then h2 for sections, h3 inside them.
-Never skip a level for styling — restyle with CSS instead.</pre></div>
-  </div>
-</div>
-</details>
-
-<details class="item" data-id="13">
-<summary><span class="rank">#13</span><span class="t">Media library bloat: 1,013 items, auto-generated names, many unused</span><span class="chip p3">P3 · MEDIUM</span><span class="chip eff">Effort: medium</span><label class="donebox"><input type="checkbox" class="donechk"> Done</label></summary>
-<div class="body">
-  <div class="sec"><span class="k">Evidence</span> First 100 items total 63.5 MB; titles like "image52"; 26 images under 300px used where larger is needed; many unattached.</div>
-  <div class="sec"><span class="k">How to fix</span> After #2's compression: run Media Cleaner (free plugin) to find unattached files — <b>take a full backup first</b>, review its list, then trash. Rename keepers with descriptive titles.</div>
-</div>
-</details>
-
-<details class="item" data-id="14">
-<summary><span class="rank">#14</span><span class="t">Old-site items still in menus; one empty menu</span><span class="chip p3">P3 · MEDIUM</span><span class="chip eff">Effort: very low</span><label class="donebox"><input type="checkbox" class="donechk"> Done</label></summary>
-<div class="body">
-  <div class="sec"><span class="k">Evidence</span> "Menu popup" still links to old pages (Become A Volunteer, Donation Campaigns, Upcoming Events); "Menu canvas" is empty. Appearance → Menus: delete both after the legacy pages are retired.</div>
-</div>
-</details>
-
-<details class="item" data-id="15">
-<summary><span class="rank">#15</span><span class="t">Two draft posts from 2024 + 24 old-design draft pages awaiting cleanup</span><span class="chip p3">P3 · MEDIUM</span><span class="chip eff">Effort: very low</span><label class="donebox"><input type="checkbox" class="donechk"> Done</label></summary>
-<div class="body">
-  <div class="sec"><span class="k">Evidence</span> Draft posts "NYCC 2024…" and "3D Printing: Revolutionizing Education…" — publish or delete. The 24 old-design draft pages can be deleted once the team's side-by-side review (Page Review tab) is finished.</div>
-</div>
-</details>
-
-<h2>Priority 4 — Low: housekeeping</h2>
-
-<details class="item" data-id="16">
-<summary><span class="rank">#16</span><span class="t">Uncategorized posts &amp; unused tag set</span><span class="chip p4">P4 · LOW</span><span class="chip eff">Effort: very low</span><label class="donebox"><input type="checkbox" class="donechk"> Done</label></summary>
-<div class="body"><div class="sec">2 posts sit in "Uncategorized"; the tag list (Charity, Church, WordPress…) is old theme demo data. Assign real categories; prune tags.</div></div>
-</details>
-
-<details class="item" data-id="17">
-<summary><span class="rank">#17</span><span class="t">Set the site's default language</span><span class="chip p4">P4 · LOW</span><span class="chip eff">Effort: very low</span><label class="donebox"><input type="checkbox" class="donechk"> Done</label></summary>
-<div class="body"><div class="sec">Site status reports "Default Language: not set" — set English (US) in Settings → General.</div></div>
-</details>
-
-<details class="item" data-id="18">
-<summary><span class="rank">#18</span><span class="t">Non-crawlable anchors (href="#") flagged by Lighthouse</span><span class="chip p4">P4 · LOW</span><span class="chip eff">Effort: very low</span><label class="donebox"><input type="checkbox" class="donechk"> Done</label></summary>
-<div class="body"><div class="sec">A few interactive elements use bare <code>href="#"</code>. Convert to <code>&lt;button type="button"&gt;</code> — cosmetic polish.</div></div>
-</details>
-
-<h2>Suggested order of work</h2>
-<p><b>Week 1 (quick wins):</b> #2 image compression → #4 meta descriptions → #5 alt text → #7 red contrast → #8 Donate title. <b>Week 2 (developer/admin session):</b> #1 payment-stack &amp; editor scripts → #3/#6 content cleanup and redirects → #11 Search Console. <b>Then:</b> the P3 list and a blog decision (#10). Re-run Lighthouse after Week 2 — Performance should move from ~29 to 70+.</p>
-
-<div class="foot">
-Method: full crawl of all 66 published pages/posts (zero broken internal links found); Google Lighthouse 13.4 (mobile emulation) on Home, Food Safety, Donations; axe-core 4.10 on 4 templates; WPwriter connector diagnostics. Generated July 10, 2026. Items #2, #4, #5, #7 can also be executed automatically through the site connector on request.
-</div>
-
-</div>
-
-<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
 <script>
-// ---- meta description fix pack (item #4) ----
-const METAS = [
-["Home — /", "Digi2U is a 501(c)(3) nonprofit in Newark, NJ providing hands-on STEAM workforce training — technology, media, and creative skills that lead to real careers."],
-["About Us — /about-us/", "Learn how Digi2U prepares adults for well-paid technology careers through hands-on STEAM training, community partnerships, and real-world projects."],
-["Programs — /programs/", "Explore 13 hands-on training tracks — 3D design, drones, film, audio, culinary arts, OSHA 30 and more — built to deliver marketable skills fast."],
-["Team — /team/", "Meet the team behind Digi2U — educators, creators, and community leaders driving STEAM workforce training in Newark and beyond."],
-["Events — /events-2/", "See upcoming Digi2U events, workshops, and community showcases — hands-on STEAM experiences in Newark, Jersey City, Atlanta, and Houston."],
-["Media — /media/", "Watch Digi2U in action — videos, press, and photos from our STEAM training programs and community events."],
-["Jobs — /careers/", "Explore job opportunities with Digi2U and our partner network — put your new skills to work in technology, media, and the trades."],
-["Contact Us — /contact-us/", "Get in touch with Digi2U in Jersey City, NJ. Call +1-201-374-3553 or email support@digi2u.org to enroll, partner, or volunteer."],
-["26 Blocks — /26-blocks/", "26 Blocks pairs Digi2U trainees with real community projects across Newark — learn the story and see the work."],
-["Testimonies — /testimonies/", "Hear from Digi2U students and partners — real stories of career changes powered by hands-on STEAM training."],
-["Sponsors — /sponsors/", "Meet the sponsors who power Digi2U's free STEAM training — and learn how your organization can join them."],
-["Community Partners — /community-partners-2/", "Digi2U partners with the C. Cherry Foundation and community organizations across New Jersey to create lasting impact."],
-["Certifications — /certifications/", "Earn industry-recognized certifications through Digi2U — ServSafe food safety, OSHA 30, and FAA drone licensing with hands-on preparation."],
-["Donate — /donations-2/", "Support free STEAM workforce training for adults in underserved communities. Every donation to Digi2U, a 501(c)(3) nonprofit, is tax-deductible."],
-["Blog — /blog/", "News, insights, and success stories from Digi2U — STEAM education, technology careers, and community impact."],
-["3D Design — /3d-design/", "Learn 3D modeling, printing, and fabrication at Digi2U — design software, prototyping, and production skills used in modern manufacturing."],
-["Drone — /drone/", "Master drone flight and aerial operations at Digi2U — hands-on training for real commercial applications."],
-["FAA Drone — /faa-drone/", "Prepare for the FAA Part 107 drone license with Digi2U — hands-on training and certification prep for commercial drone pilots."],
-["Staging & Rigging — /staging-rigging/", "Train in professional staging and rigging with Digi2U — the backstage skills behind live events, concerts, and productions."],
-["Fashion & Design — /fashion-design/", "Design, create, and customize with Digi2U's fashion program — from concept to finished garment with industry tools."],
-["Film & Television — /film-television/", "Tell stories through film and television — Digi2U trains you in camera, lighting, and production for careers in media."],
-["Marketing — /marketing/", "Learn digital marketing at Digi2U — social media, branding, and campaign skills that help businesses and careers grow."],
-["Photography — /photography-4/", "Build professional photography skills at Digi2U — composition, lighting, editing, and a portfolio that gets you hired."],
-["Podcast Streaming — /podcast-streaming/", "Launch and produce podcasts with Digi2U — recording, editing, streaming, and audience-building with professional equipment."],
-["Audio Production — /audio-production/", "Master sound recording, editing, and mixing at Digi2U — music, podcasts, and media production with industry-standard software."],
-["Health & Wellness — /health-and-wellness/", "Digi2U's health and wellness program builds the habits and knowledge that support strong careers and communities."],
-["Grants Program — /grants-program/", "Learn how Digi2U's grants program funds training, tools, and opportunity for underserved communities."],
-["Art & Design — /art-design/", "Unleash creativity through digital and visual arts at Digi2U — Adobe Creative Suite, illustration, and branding skills."],
-["OSHA 30 — /osha-30/", "Get OSHA 30 certified with Digi2U — comprehensive workplace-safety training for construction and general-industry careers."],
-["Food Safety — /food-safety/", "Earn your ServSafe food-safety credential with Digi2U — nationally recognized certification for restaurant and hospitality careers."],
-["Culinary Arts — /culinary-arts/", "Train in culinary arts at Digi2U — hands-on kitchen skills, food safety, and the craft behind food-service careers."]
-];
-const esc = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
-const list = document.getElementById("metaList");
-METAS.forEach(([page, desc]) => {
-  const div = document.createElement("div");
-  div.className = "snippet";
-  div.innerHTML = '<span class="slab">' + esc(page) + '</span><button class="copybtn">Copy</button><pre>&lt;meta name="description" content="' + esc(desc) + '"&gt;</pre>';
-  list.appendChild(div);
-});
-document.getElementById("copyAllMeta").onclick = function () {
-  const all = METAS.map(([p, d]) => "/* " + p + " */\n<meta name=\"description\" content=\"" + d.replace(/"/g, "&quot;") + "\">").join("\n\n");
-  copyText(all, this, "Copied all 31 ✓");
+const STATUSES = {
+  live:     { label: 'Done — live',            tile: 'Live on site' },
+  ready:    { label: 'Ready — needs paste',    tile: 'Ready to paste' },
+  verified: { label: 'Checked — already OK',   tile: 'Checked OK' },
+  decide:   { label: 'Needs member decision',  tile: 'Decisions' },
+  assets:   { label: 'Needs photos / assets',  tile: 'Need photos' },
+  queue:    { label: 'In work queue',          tile: 'In queue' },
+  ok:       { label: 'Positive — no action',   tile: 'Positive' },
 };
+const A = { pam: ['Pam','a-pam'], erica: ['Erica','a-erica'], tr: ['Team Reviewer','a-tr'] };
 
-// ---- copy buttons ----
-function copyText(text, btn, okLabel) {
-  const done = () => { const old = btn.textContent; btn.textContent = okLabel || "Copied ✓"; btn.classList.add("ok"); setTimeout(() => { btn.textContent = old; btn.classList.remove("ok"); }, 1800); };
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(text).then(done, () => fallbackCopy(text, done));
-  } else fallbackCopy(text, done);
-}
-function fallbackCopy(text, done) {
-  const ta = document.createElement("textarea");
-  ta.value = text; ta.style.cssText = "position:fixed;left:-9999px";
-  document.body.appendChild(ta); ta.select();
-  try { document.execCommand("copy"); done(); } catch (e) { alert("Copy failed — select the text manually."); }
-  ta.remove();
-}
-document.addEventListener("click", (e) => {
-  if (!e.target.classList.contains("copybtn")) return;
-  const pre = e.target.parentElement.querySelector("pre");
-  if (pre) copyText(pre.innerText, e.target);
-});
+const PAGES = [
+{ key:'home', title:'Home', wp:'20947', open:true, items:[
+ {a:'pam', t:'Remove studio way button', s:'live', d:'The “Studio Way” badge was removed from the mission photo.', c:['Studio Way badge','removed']},
+ {a:'tr', t:'Change name from studio way', s:'live', d:'Covered by the badge removal above.'},
+ {a:'pam', t:'Remove “mission” — can we say movement? Mission is defined, static footer language.', s:'live', d:'Both uses on the page were changed.', c:['Our Mission / Join The Mission','Our Movement / Join The Movement']},
+ {a:'pam', t:'admin@digi2u.org — who answers?', s:'live', d:'Every email on the page (contact card + inquiry form) now points to admin@digi2u.org. The “who answers it” part is an operations question for the team.', c:['support@digi2u.org','admin@digi2u.org']},
+ {a:'pam', t:'Newsletter did not send subscription info — should send to admin@digi2u.org', s:'live', d:'Root cause found: the footer newsletter form was silently sending to an unrelated Gmail address (numc.org@gmail.com). Recipient corrected in the Elementor footer template — subscriptions now deliver to admin@digi2u.org.', c:['numc.org@gmail.com','admin@digi2u.org']},
+ {a:'pam', t:'Footer copyright should read @2026', s:'live', d:'Footer template updated and published — shows on every page.', c:['Digi2u © 2025','Digi2u © 2026, All Rights Reserved']},
+ {a:'pam', t:'Contact, Cookies and Privacy links lead nowhere — populate Terms of Usage & Privacy', s:'live', d:'All three footer links now work: Contact → /contact-us/, Privacy → the Privacy Policy page (completed with Digi2U-specific details and published at /privacy-policy/), Cookies Notice → the policy’s Cookies section.', c:['# (dead links)','/contact-us/ · /privacy-policy/']},
+ {a:'pam', t:'Terms of Usage page', s:'queue', d:'Still to be written — the one remaining piece of this pin. Privacy is done.'},
+ {a:'pam', t:'YouTube links to wrong YouTube', s:'live', d:'Fixed in both places: the Media page link and the footer YouTube icon (which pointed to a single 20-year-old video, youtu.be/lGowRQCY7Xw). Both now open the correct channel.', c:['youtube.com/@digi2u · youtu.be/lGowRQCY7Xw','youtube.com/@digi2u_tech']},
+ {a:'pam', t:'Click-through to Marketing & Branding is instead Health and Wellness', s:'verified', d:'The home-page link correctly points to /marketing/. The problem is the Marketing page content itself — it is queued for rework (see below).'},
+ {a:'pam', t:'Click-through for Podcasting goes to duplicate Film and Television', s:'verified', d:'The home-page link correctly points to /podcast-streaming/. That page’s content is flagged “not correct info” and is queued for rework.'},
+ {a:'pam', t:'Drone pic is old — more modern drone, or a shot taken by a drone', s:'assets', d:'Waiting on a replacement image.'},
+ {a:'pam', t:'Swap this pic and remove 319 Pacific. What about men building at 309 Pacific?', s:'assets', d:'Waiting on the chosen replacement photo.'},
+ {a:'pam', t:'01–04 boxes get confused with the stat numbers — make these icons or pictures?', s:'decide', d:'Design decision for the members: icons, photos, or leave as numbers.'},
+ {a:'pam', t:'VIEW ALL 12 PROGRAMS adds additional info on the same programs (e.g. Prototyping) — too complex, or just right?', s:'decide', d:'Member decision on program listing depth.'},
+ {a:'pam', t:'Live site links to Zeffy — missing our GoFundMe, DonateStock and general ask', s:'decide', d:'Needs the GoFundMe / DonateStock URLs and a decision: keep the Zeffy pop-up or send people to the Donation page.'},
+ {a:'pam', t:'Our mission statement', s:'decide', d:'Needs the one master mission statement (from the business plan) to use consistently site-wide.'},
+ {a:'pam', t:'Get correct name from Justice', s:'decide', d:'Waiting on the correct caption/name from Justice.'},
+ {a:'pam', t:'Who answers? / who is creating the newsletter?', s:'decide', d:'Operations: assign an owner for inquiries and the newsletter.'},
+ {a:'pam', t:'Stock footage: Google image search shows our images used by others — stock or AI? Do we have licensing?', s:'decide', d:'Needs an image-provenance review before swaps are made.'},
+ {a:'pam', t:'What happened to the great AI art Qawn produced? Great contrast of on-site skills vs digital skills.', s:'decide', d:'Member decision to reintroduce the AI art set; assets to be pulled from the archive.'},
+ {a:'tr', t:'Remove caption', s:'decide', d:'Needs confirmation of which caption (the “Justice · 3D Design” caption is the likely target).'},
+ {a:'tr', t:'From Prototyping to Live Event Production / “Protoyping” / “Sound Design”', s:'decide', d:'Three seed pins on the ticker labels — needs a decision on the final label list.'},
+]},
+{ key:'team', title:'Team', wp:'21775', open:true, items:[
+ {a:'tr', t:'“ED” is not a title — just put Founder', s:'live', d:'Pam’s role label was corrected.', c:['Founder & ED','Founder']},
+ {a:'pam', t:'Get Involved is not connected and has the wrong email address (correct is admin@digi2u.org)', s:'live', d:'All 14 email references now use admin@digi2u.org (live). And the deeper “not connected” problem is solved: the form now submits into the Digi2U Website Inquiries Google Sheet — active once the v2 file is re-pasted.', c:['support@digi2u.org','admin@digi2u.org']},
+ {a:'pam', t:'Test Email on Team page failed', s:'ready', d:'Fixed for real: the form no longer depends on the visitor’s email app — it submits straight to the inquiry spreadsheet (with email fallback). Goes live when the v2 page files are re-pasted.'},
+ {a:'pam', t:'Test of Inquiry Email on Team page failed', s:'ready', d:'Same spreadsheet-pipeline fix — re-test after the v2 re-paste.'},
+ {a:'erica', t:'Alphabetize the left column of the Digi2U Master Review app, or put it in page order', s:'live', d:'Shipped July 18 — the review app sidebar now lists pages alphabetically within each group.'},
+ {a:'pam', t:'Jamaal needs new picture', s:'assets', d:'Waiting on the new photo.'},
+ {a:'pam', t:'Winner needs new photo', s:'assets', d:'Waiting on the new photo.'},
+ {a:'tr', t:'Change photo (4 pins)', s:'assets', d:'Four member photos flagged — waiting on replacements.'},
+ {a:'pam', t:'If Soko is here, so should Tali perhaps — Tali would help with his own entry', s:'decide', d:'Member decision; needs Tali’s bio + photo if approved.'},
+ {a:'pam', t:'Everybody should read their own bio click-throughs on the live site', s:'decide', d:'Action item for every member before sign-off.'},
+ {a:'pam', t:'Stats for review', s:'decide', d:'Depends on the master stats list (see Home).'},
+ {a:'pam', t:'Cohorts section / “change” / “correct”', s:'decide', d:'Short pins needing clarification at the member review.'},
+ {a:'pam', t:'Works correctly — goes to Join The Network: Mentor. Volunteer. Apprentice. Sponsor.', s:'ok'},
+ {a:'pam', t:'I like this big ask. “Respond in one business day” is a promise.', s:'ok', d:'Kept — noted as a service commitment the team must honor.'},
+ {a:'pam', t:'Nice!', s:'ok'},
+]},
+{ key:'media', title:'Media', wp:'9112', open:true, items:[
+ {a:'pam', t:'Goes to unpopulated “@digi2u” — we have a video on youtube.com/@digi2u_tech', s:'live', d:'The YouTube link now opens the correct channel.', c:['youtube.com/@digi2u','youtube.com/@digi2u_tech']},
+ {a:'pam', t:'Goes to media training, not podcasting', s:'verified', d:'The podcast tiles now link to /podcast-streaming/ — that page’s content itself is queued for rework.'},
+ {a:'pam', t:'Goes to Zeffy instead of the Donate page — cuts out GoFundMe and DonateStock. Do we want that?', s:'decide', d:'Same donation-strategy decision as on Home.'},
+ {a:'pam', t:'“Media+” header has great info but needs rearranging', s:'queue', d:'Layout rework — queued for the next content pass.'},
+ {a:'pam', t:'Remove the video frame that refers to 3D printing', s:'decide', d:'Needs confirmation of which frame before removal.'},
+ {a:'pam', t:'“Watch Digi2U in action” should play sooner, near the home page', s:'decide', d:'Placement decision for the members.'},
+ {a:'pam', t:'Not our pic — should we call it our productions? A Google search will tell you they’re stock.', s:'assets', d:'Replace with owned footage once the provenance review (Home) is done.'},
+ {a:'pam', t:'Blog click-through looks great — but are we ready to manage it? / Blog — who monitors?', s:'decide', d:'Operations: assign a blog owner before promoting it.'},
+ {a:'pam', t:'Are we ready for this? I don’t think we offer these services — it’s a lot of promise', s:'decide', d:'Members to trim the promised services list.'},
+ {a:'pam', t:'Check stats for consistency across all web pages', s:'decide', d:'Depends on the master stats list (see Home).'},
+ {a:'pam', t:'Keep', s:'ok'},
+ {a:'tr', t:'Use only our photos / remove caption / “Community Support” / Build A Newark — review photos, use best image', s:'assets', d:'Photo curation pass — waiting on selected images from the archive.'},
+]},
+{ key:'events', title:'Events', wp:'21467', open:true, items:[
+ {a:'pam', t:'Not “mission” — let’s use “goal” perhaps', s:'live', d:'Both occurrences in the page copy were changed.', c:['Digi2U’s mission is to expose…','Digi2U’s goal is to expose…']},
+ {a:'pam', t:'admin@ email routing', s:'live', d:'All page emails now point to admin@digi2u.org.', c:['support@digi2u.org','admin@digi2u.org']},
+ {a:'pam', t:'What happened to Rico Rich!', s:'decide', d:'Needs the event details to restore it.'},
+ {a:'pam', t:'This video does not play', s:'assets', d:'Needs a working video file / link.'},
+ {a:'pam', t:'Remove unfulfilled events', s:'decide', d:'Needs the list of which events to drop.'},
+ {a:'pam', t:'We have dozens of completed events to list, with pics from Justice’s archive', s:'assets', d:'Waiting on the archive material.'},
+ {a:'pam', t:'Justice needs to upload events straight to the website — Google Form from the on-site phone?', s:'decide', d:'Workflow decision + build; a good next project.'},
+ {a:'pam', t:'Do we want to send people off-site without warning? Our own click-through per event?', s:'decide', d:'Member decision on event page structure.'},
+ {a:'pam', t:'What is the template and procedure to grow this list going forward? (2 pins)', s:'decide', d:'Needs the event-listing template decision above.'},
+ {a:'pam', t:'Who is monitoring?', s:'decide', d:'Operations: assign an events page owner.'},
+ {a:'pam', t:'Events: Real Cohorts / Mission Master correct', s:'decide', d:'Tie-in to the master mission statement and cohort naming.'},
+]},
+{ key:'sponsors', title:'Sponsors', wp:'24300', open:true, items:[
+ {a:'pam', t:'admin@digi2u.org', s:'ready', d:'All 7 email references updated in sponsors-UPDATED.html — needs pasting into the Elementor widget to go live.', c:['support@digi2u.org','admin@digi2u.org']},
+ {a:'pam', t:'Can this be tightened up to give our corporate sponsors a good look?', s:'decide', d:'Layout direction for the members.'},
+ {a:'pam', t:'These are promises — let’s take note of them', s:'ok', d:'Noted for the operations checklist.'},
+]},
+{ key:'about', title:'About Us', wp:'8923', items:[
+ {a:'erica', t:'Photos of real students much sooner — a different face at least every other scroll (took 16 scrolls; old site showed an engaged student by scroll 3)', s:'queue', d:'Restructure of the page’s image rhythm — queued, and needs the approved student photo set.'},
+ {a:'erica', t:'Pam says the mission changes from page to page — it should stay the same as the business plan', s:'decide', d:'Blocked on the master mission statement (see Home).'},
+ {a:'erica', t:'We need a wireframe of the website — confirm every link and hyperlink goes where it should', s:'queue', d:'Site map + link check deliverable — can be generated next.'},
+ {a:'pam', t:'Check stats with all sources — we need one master list of stats for marketing, granting consistency and reliability', s:'decide', d:'Needs the members to bless one master stats list.'},
+ {a:'pam', t:'“Trained 25 adults and youth” must be compared with other claims / “25 people”', s:'decide', d:'Same master stats list.'},
+ {a:'pam', t:'Mission and vision question — pick the one you want from our material', s:'decide', d:'Same master mission statement.'},
+ {a:'pam', t:'“This is kind of mysterious”', s:'decide', d:'Copy clarification at member review.'},
+ {a:'pam', t:'Good live click-through / works well / nice pic / “all ages and all skill types is important”', s:'ok'},
+]},
+{ key:'3d', title:'3D Design', wp:'22289', items:[
+ {a:'pam', t:'Video not working', s:'assets', d:'Needs the working video file.'},
+ {a:'pam', t:'Put pic of humanoid / automotive / yellow cosmetics kit built by kids / kids’ dining-room furniture (multiple pins)', s:'assets', d:'Photo swap set — waiting on the chosen images.'},
+ {a:'tr', t:'Wrong photo (4 pins)', s:'assets', d:'Same photo swap set.'},
+ {a:'tr', t:'Show the girls from Girls in Art & Tech in this gallery — Summer OneStop kids good, but add the girls', s:'assets', d:'Waiting on those photos.'},
+ {a:'pam', t:'Is this humanoid Justice? / Dining room furniture (there are better pics)', s:'decide', d:'Confirm subjects and pick finals at member review.'},
+ {a:'pam', t:'Pics of adults building too (e.g. Lorraine) — perhaps “all ages”', s:'decide', d:'Curation decision.'},
+]},
+{ key:'partners', title:'Community Partners', wp:'23563', items:[
+ {a:'pam', t:'This page needs a formula and Justice’s corrections — make our partners look tight', s:'queue', d:'Content rework queued; needs Justice’s corrections.'},
+ {a:'pam', t:'Should this video be closer to the front? It’s not showing off partners', s:'decide'},
+ {a:'pam', t:'Many pics vs one good one for each', s:'decide'},
+ {a:'tr', t:'This is not Spinoff — it’s the Christina Cherry event / show photos from Spinoff / show setup photos / show team working photos (5 pins)', s:'assets', d:'Mislabeled and missing photos — waiting on the correct event images.'},
+]},
+{ key:'programs', title:'Program pages', wp:'multiple', items:[
+ {a:'tr', t:'Marketing — decision: rework', s:'queue', d:'Page content queued for a full rewrite (this is the real fix behind the Home “wrong click-through” pin).'},
+ {a:'tr', t:'Photography — decision: rework', s:'queue', d:'Queued for rewrite.'},
+ {a:'tr', t:'Podcast Streaming — “not correct info at all”', s:'queue', d:'Queued for rewrite.'},
+ {a:'tr', t:'Certifications — wrong content (2 pins)', s:'queue', d:'Queued for content correction.'},
+ {a:'tr', t:'Drone — change image, this is the first drone from 20 years ago', s:'assets', d:'Waiting on a modern drone image (same as Home).'},
+ {a:'tr', t:'Drone — keep this layout', s:'ok'},
+ {a:'tr', t:'FAA Drone — change photo', s:'assets'},
+ {a:'pam', t:'Grants — Queens pictures? / Health & Wellness — our picture?? / Staging & Rigging — use our pic (see pitch deck and Canva)', s:'assets', d:'Owned-photo swaps across three program pages.'},
+ {a:'erica', t:'Programs overview — we need to acquire and use info@digi2u.org', s:'decide', d:'Requires creating the info@ mailbox first.'},
+ {a:'tr', t:'Approved as-is (merge): Art & Design, Culinary Arts, Fashion & Design, Food Safety, OSHA 30, Grants, Health & Wellness, Staging & Rigging, FAA Drone, Drone', s:'ok', d:'Ten pages green-lit by Team Reviewer with decision “merge”.'},
+]},
+{ key:'pipeline', title:'New: Inquiry → Spreadsheet pipeline', wp:'all pages', open:true, items:[
+ {a:'pam', t:'Inquiries need a reliable home — forms failed and nobody could see submissions', s:'live', d:'Built July 22: a Google Form + linked Google Sheet (“Digi2U Website Inquiries (Responses)”) in the Digi2U Google account. Every site inquiry lands as a row — Timestamp, Name, Email, Phone, Subject, Message, and which Page it came from. Email notifications are on. Pipeline verified end-to-end with a test submission.'},
+ {a:'pam', t:'Site forms wired to the spreadsheet', s:'ready', d:'All five page files (Home, Team, Media, Events, Sponsors) carry the new form handler — visitors get a “Thank you” confirmation, the row appears in the sheet instantly, and an email fallback covers network failures. Activates when the v2 files are re-pasted into Elementor.'},
+]},
+{ key:'other', title:'Other pages', wp:'—', items:[
+ {a:'pam', t:'Jobs — admin@digi2u.org, who is answering? / who is handling volunteers & hiring? (4 pins)', s:'queue', d:'Jobs page email fix queued (page structure differs from the others); ownership questions for operations.'},
+ {a:'pam', t:'Jobs — past spring, almost summer: need your fall lineup', s:'decide', d:'Needs the fall program lineup.'},
+ {a:'pam', t:'Jobs — not a good pic, remove 319 Pacific / get correct event info + spelling from Justice', s:'assets'},
+ {a:'pam', t:'Jobs — great addition; maybe add our old Typeform strategy or GoHighLevel', s:'ok', d:'Noted for the operations roadmap.'},
+ {a:'pam', t:'Donation — very important page: simple and powerful. Do we want three campaigns? What are we asking for?', s:'decide', d:'Donation strategy decision (pairs with the GoFundMe / DonateStock question).'},
+ {a:'pam', t:'Donation — stats to check', s:'decide', d:'Master stats list.'},
+ {a:'tr', t:'Contact Us — write out each name fully', s:'decide', d:'Needs the full names to write in.'},
+ {a:'pam', t:'Testimonies — remove if we don’t have any testimony', s:'decide', d:'Member decision: gather testimonies or remove the page.'},
+]},
+];
 
-// ---- done checkboxes (synced live for the whole team) ----
-const DK = "digi2u-audit-done-v1";
-const DB_URL = "https://digi2u-review-default-rtdb.firebaseio.com";
-let db = null;
-if (typeof firebase !== "undefined") { try { firebase.initializeApp({ databaseURL: DB_URL }); db = firebase.database(); } catch (e) {} }
-let me = null;
-try { me = JSON.parse(localStorage.getItem("digi2u-master-review-v2-me") || "null"); } catch (e) {}
-let doneMap = {};
-try { doneMap = JSON.parse(localStorage.getItem(DK) || "{}"); } catch (e) {}
-function isDone(v) { return Boolean(v && (typeof v === "object" ? v.done : v)); }
-function refreshProgress() {
-  const total = document.querySelectorAll(".item").length;
-  const n = Object.values(doneMap).filter(isDone).length;
-  document.getElementById("prog").innerHTML = "<b>" + n + "</b> of " + total + " fixes done";
+function esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+let filter = null;
+
+function counts(){
+  const c = {};
+  PAGES.forEach(p => p.items.forEach(i => c[i.s] = (c[i.s]||0)+1));
+  return c;
 }
-function applyDone() {
-  document.querySelectorAll(".item").forEach(item => {
-    const id = item.dataset.id;
-    const chk = item.querySelector(".donechk");
-    const v = doneMap[id];
-    const on = isDone(v);
-    chk.checked = on;
-    item.classList.toggle("done", on);
-    let tag = item.querySelector(".bytag");
-    if (on && v && typeof v === "object" && v.by) {
-      if (!tag) { tag = document.createElement("span"); tag.className = "bytag"; item.querySelector(".donebox").after(tag); }
-      tag.textContent = "\u2713 " + v.by;
-      tag.style.color = v.color || "#1a9e4b";
-    } else if (tag) tag.remove();
-  });
-  refreshProgress();
+function render(){
+  const c = counts();
+  const order = ['live','ready','verified','decide','assets','queue','ok'];
+  document.getElementById('tiles').innerHTML = order.map(k =>
+    `<button class="tile" data-s="${k}" data-on="${filter===null||filter===k?1:0}" aria-pressed="${filter===k}">
+      <span class="n c-${k}">${c[k]||0}</span><span class="l">${STATUSES[k].tile}</span></button>`).join('');
+  document.querySelectorAll('.tile').forEach(b => b.onclick = () => { filter = (filter===b.dataset.s) ? null : b.dataset.s; render(); });
+
+  const done = (c.live||0)+(c.ready||0)+(c.verified||0);
+  const fixable = done+(c.assets||0)+(c.queue||0);
+  const pct = Math.round(100*done/fixable);
+  document.getElementById('pct').textContent = `${done} of ${fixable} fix items · ${pct}%`;
+  document.getElementById('barfill').style.width = pct+'%';
+
+  document.getElementById('legend').innerHTML = order.map(k=>`<span class="pill s-${k}">${STATUSES[k].label}</span>`).join('');
+
+  document.getElementById('pages').innerHTML = PAGES.map(p => {
+    const items = p.items.filter(i => !filter || i.s===filter);
+    if (!items.length) return '';
+    const mini = {}; p.items.forEach(i => mini[i.s]=(mini[i.s]||0)+1);
+    return `<section class="page-card"><details ${p.open||filter?'open':''}>
+      <summary class="page-head"><h2>${p.title}</h2><span class="wpid">WP #${p.wp}</span>
+        <span class="mini">${order.filter(k=>mini[k]).map(k=>`<span class="pill s-${k}">${mini[k]}</span>`).join('')}</span>
+        <span class="chev"><span class="op">▾</span><span class="cl">▸</span></span></summary>
+      ${items.map(i => `<div class="item">
+        <span class="who ${A[i.a][1]}">${A[i.a][0]}</span>
+        <div class="req"><span class="q">“${esc(i.t)}”</span>
+          ${i.d?`<div class="res">${esc(i.d)}</div>`:''}
+          ${i.c?`<span class="diff"><del>${esc(i.c[0])}</del><span class="arr">→</span><ins>${esc(i.c[1])}</ins></span>`:''}
+        </div>
+        <span class="st"><span class="pill s-${i.s}">${STATUSES[i.s].label}</span></span>
+      </div>`).join('')}
+    </details></section>`;
+  }).join('');
 }
-if (db) db.ref("review/audit").on("value", s => { doneMap = s.val() || {}; applyDone(); });
-document.querySelectorAll(".item").forEach(item => {
-  const id = item.dataset.id;
-  const chk = item.querySelector(".donechk");
-  chk.addEventListener("click", (e) => e.stopPropagation());
-  item.querySelector(".donebox").addEventListener("click", (e) => e.stopPropagation());
-  chk.addEventListener("change", () => {
-    const rec = { done: chk.checked, by: (me && me.name) || "", color: (me && me.color) || "", ts: Date.now() };
-    if (db) db.ref("review/audit/" + id).set(rec);
-    else { doneMap[id] = rec; try { localStorage.setItem(DK, JSON.stringify(doneMap)); } catch (e) {} applyDone(); }
-  });
-});
-applyDone();
+render();
 </script>
-</body>
-</html>
