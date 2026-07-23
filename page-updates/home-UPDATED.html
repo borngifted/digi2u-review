@@ -1,8 +1,8 @@
+<!-- d2u test marker -->
 <!--
 =====================================================================
-  DIGI2U — FILM & TELEVISION PRODUCTION PAGE
-  Real content + 6 learning module images from /film-television/
-  Maps to the live URL: /film-television/
+  DIGI2U — HOME PAGE (built with digi2u-redesign skill)
+  All inter-page links point to the live digi2u.org URL structure.
 =====================================================================
 -->
 <!--
@@ -294,7 +294,7 @@ function d2uSubmitInquiry(e) {
   fd.append('entry.2053814286', phone);
   fd.append('entry.1509303702', subject);
   fd.append('entry.1669567112', message);
-  fd.append('entry.1198200133', 'Film & Television');
+  fd.append('entry.1198200133', 'Home');
   fetch('https://docs.google.com/forms/d/e/1FAIpQLSc4hfIxV-DGX24LUzXIV44uRCUq2JOul_mUXfa_uzxXMMyeBw/formResponse', { method: 'POST', mode: 'no-cors', body: fd })
     .then(function() {
       form.reset();
@@ -321,234 +321,215 @@ function d2uSubmitInquiry(e) {
 </script>
 
 <style>
-  /* HERO */
-  .d2u-pd-hero { padding: 120px 0 80px; }
-  .d2u-pd-hero-grid { display: grid; grid-template-columns: 1.05fr 1fr; gap: 60px; align-items: center; max-width: 1200px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 2; }
-  .d2u-pd-hero h1 { font-size: clamp(40px, 6vw, 72px); font-weight: 900; line-height: 0.98; letter-spacing: -0.04em; margin-bottom: 24px; text-transform: uppercase; }
-  .d2u-pd-hero-kicker { font-size: 12px; font-weight: 800; color: var(--d2u-red); text-transform: uppercase; letter-spacing: 0.18em; margin-bottom: 18px; padding-bottom: 12px; border-bottom: 2px solid var(--d2u-red); display: inline-block; }
-  .d2u-pd-hero p { font-size: 18px; line-height: 1.65; color: var(--d2u-gray-dark); margin-bottom: 18px !important; }
-  .d2u-pd-hero-img { aspect-ratio: 4/5; background: var(--d2u-light-gray) center/cover no-repeat; background-image: url('https://digi2u.org/wp-content/uploads/2025/03/black-woman-videographer-developing-project-film-montage.jpg'); border: 2px solid var(--d2u-black); border-top: 6px solid var(--d2u-red); position: relative; }
-  .d2u-pd-hero-img::after { content:''; position:absolute; inset:0; background: linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.55) 100%); }
-  .d2u-pd-hero-tag { position: absolute; top: 18px; left: 18px; background: var(--d2u-red); color: var(--d2u-white); font-size: 11px; font-weight: 800; letter-spacing: 0.15em; text-transform: uppercase; padding: 8px 14px; z-index: 2; }
-  .d2u-pd-hero-caption { position: absolute; bottom: 22px; left: 22px; right: 22px; z-index: 2; color: var(--d2u-white); font-size: 14px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; text-shadow: 0 2px 6px rgba(0,0,0,0.6); }
+  .d2u-ticker { background: var(--d2u-black); color: var(--d2u-white); padding: 18px 0; overflow: hidden; position: relative; border-top: 3px solid var(--d2u-red); border-bottom: 3px solid var(--d2u-red); }
+  .d2u-ticker-track { display: flex; gap: 48px; animation: d2uTicker 35s linear infinite; white-space: nowrap; }
+  .d2u-ticker-item { display: inline-flex; align-items: center; gap: 16px; font-size: 14px; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase; }
+  .d2u-ticker-item::after { content:''; width: 10px; height: 10px; background: var(--d2u-red); display: inline-block; flex-shrink: 0; }
+  @keyframes d2uTicker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-  /* META BADGES */
-  .d2u-pd-meta { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0; border: 2px solid var(--d2u-black); margin: 14px 0 28px; max-width: 480px; }
-  .d2u-pd-meta-cell { padding: 16px 20px; border-right: 2px solid var(--d2u-black); background: var(--d2u-white); }
-  .d2u-pd-meta-cell:last-child { border-right: none; }
-  .d2u-pd-meta-label { font-size: 10px; font-weight: 800; color: var(--d2u-gray); text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 4px; }
-  .d2u-pd-meta-value { font-size: 14px; font-weight: 900; color: var(--d2u-black); text-transform: uppercase; }
+  .d2u-mission-split { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+  .d2u-mission-visual { position: relative; aspect-ratio: 4/5; background: var(--d2u-light-gray) center/cover no-repeat; background-image: url('https://digi2u.org/wp-content/uploads/2026/05/d2u-3d-justice-1.webp'); border: 2px solid var(--d2u-black); border-top: 6px solid var(--d2u-red); }
+  .d2u-mission-visual::after { content:''; position:absolute; inset:0; background: linear-gradient(180deg, transparent 55%, rgba(0,0,0,0.55) 100%); }
+  .d2u-mission-badge { position: absolute; top: 20px; left: 20px; background: var(--d2u-red); color: var(--d2u-white); font-size: 11px; font-weight: 800; letter-spacing: 0.15em; text-transform: uppercase; padding: 8px 14px; z-index: 2; }
+  .d2u-mission-caption { position: absolute; bottom: 22px; left: 22px; right: 22px; z-index: 2; color: var(--d2u-white); font-size: 14px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+  .d2u-mission-text p.d2u-big { font-size: 22px; line-height: 1.45; color: var(--d2u-gray-dark); font-weight: 400; margin-bottom: 28px !important; }
+  .d2u-mission-text p.d2u-big strong { color: var(--d2u-black); background: linear-gradient(transparent 70%, var(--d2u-red-soft) 70%); padding: 0 4px; font-weight: 800; }
 
-  /* WHAT YOU'LL LEARN — 6 IMAGE CARDS */
-  .d2u-learn-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-  .d2u-learn-card { background: var(--d2u-white); border: 2px solid var(--d2u-black); display: flex; flex-direction: column; transition: all 0.3s ease; overflow: hidden; }
-  .d2u-learn-card:hover { transform: translateY(-6px); box-shadow: var(--d2u-shadow-lift); }
-  .d2u-learn-img { width: 100%; aspect-ratio: 16/10; background: var(--d2u-light-gray) center/cover no-repeat; border-bottom: 2px solid var(--d2u-black); position: relative; transition: transform 0.4s ease; }
-  .d2u-learn-card:hover .d2u-learn-img { transform: scale(1.04); }
-  .d2u-learn-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 60%, rgba(0,0,0,0.35) 100%); }
-  .d2u-learn-num { position: absolute; top: 14px; left: 14px; background: var(--d2u-red); color: var(--d2u-white); font-size: 11px; font-weight: 900; letter-spacing: 0.15em; padding: 6px 12px; z-index: 2; }
-  .d2u-learn-body { padding: 26px 28px 30px; flex-grow: 1; display: flex; flex-direction: column; position: relative; }
-  .d2u-learn-body::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 0; background: var(--d2u-red); transition: height 0.2s; }
-  .d2u-learn-card:hover .d2u-learn-body::before { height: 4px; }
-  .d2u-page h3.d2u-learn-title { font-size: 18px; font-weight: 900; text-transform: uppercase; line-height: 1.2; margin-bottom: 12px; letter-spacing: -0.01em; }
-  .d2u-learn-desc { font-size: 14.5px; color: var(--d2u-gray-dark); line-height: 1.6; }
+  .d2u-pillars { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin: 32px 0 36px; border-top: 2px solid var(--d2u-black); border-left: 2px solid var(--d2u-black); }
+  .d2u-pillar { padding: 22px 20px; border-right: 2px solid var(--d2u-black); border-bottom: 2px solid var(--d2u-black); }
+  .d2u-pillar-k { font-size: 28px; font-weight: 900; color: var(--d2u-red); line-height: 1; margin-bottom: 6px; letter-spacing: -0.02em; }
+  .d2u-pillar-l { font-size: 12px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--d2u-black); }
 
-  /* COURSE DESCRIPTION INCLUSIONS */
-  .d2u-includes { background: var(--d2u-white); border: 2px solid var(--d2u-black); border-top: 6px solid var(--d2u-red); padding: 40px 44px; max-width: 920px; margin: 0 auto; }
-  .d2u-includes h3 { font-size: 22px; font-weight: 900; text-transform: uppercase; letter-spacing: -0.01em; margin-bottom: 8px; }
-  .d2u-includes > p { font-size: 15.5px; color: var(--d2u-gray-dark); line-height: 1.65; margin-bottom: 22px !important; }
-  .d2u-includes ul { list-style: none; padding: 0; margin: 0; border-top: 2px solid var(--d2u-black); }
-  .d2u-includes li { display: flex; gap: 14px; align-items: flex-start; padding: 14px 0; border-bottom: 1px solid var(--d2u-line); font-size: 15px; color: var(--d2u-charcoal); line-height: 1.6; }
-  .d2u-includes li:last-child { border-bottom: none; }
-  .d2u-includes li::before { content: ''; flex-shrink: 0; width: 8px; height: 8px; background: var(--d2u-red); margin-top: 8px; }
-  .d2u-includes li strong { color: var(--d2u-black); font-weight: 900; margin-right: 6px; }
+  .d2u-progs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .d2u-prog-card { background: var(--d2u-white); border: 2px solid var(--d2u-black); transition: all 0.3s ease; display: flex; flex-direction: column; overflow: hidden; text-decoration: none !important; color: inherit; }
+  .d2u-prog-card:hover { transform: translateY(-6px); box-shadow: var(--d2u-shadow-lift); color: inherit !important; }
+  .d2u-prog-card-img { width: 100%; height: 180px; background-color: var(--d2u-light-gray); background-size: cover; background-position: center; border-bottom: 2px solid var(--d2u-black); position: relative; transition: transform 0.3s ease; }
+  .d2u-prog-card:hover .d2u-prog-card-img { transform: scale(1.04); }
+  .d2u-prog-card-img::after { content:''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.35) 100%); }
+  .d2u-prog-card-tag { position: absolute; top: 14px; left: 14px; background: var(--d2u-red); color: var(--d2u-white); font-size: 10px; font-weight: 800; letter-spacing: 0.15em; text-transform: uppercase; padding: 6px 12px; z-index: 2; }
+  .d2u-prog-card-body { padding: 24px 26px 28px; flex-grow: 1; display: flex; flex-direction: column; }
+  .d2u-prog-card-kicker { font-size: 11px; font-weight: 800; color: var(--d2u-red); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 8px; }
+  .d2u-page h3.d2u-prog-card-title { font-size: 18px; font-weight: 900; line-height: 1.2; margin-bottom: 14px; letter-spacing: -0.01em; text-transform: uppercase; color: var(--d2u-black); }
+  .d2u-prog-card-link { font-size: 12px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--d2u-black); border-bottom: 2px solid var(--d2u-black); padding-bottom: 3px; align-self: flex-start; margin-top: auto; transition: all 0.2s; }
+  .d2u-prog-card:hover .d2u-prog-card-link { color: var(--d2u-red); border-bottom-color: var(--d2u-red); }
 
-  /* PRODUCTION GALLERY (Behind-the-Scenes) */
-  .d2u-prod-gallery { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-  .d2u-prod-gallery a { aspect-ratio: 4/3; background: var(--d2u-light-gray) center/cover no-repeat; cursor: pointer; transition: all 0.2s; position: relative; overflow: hidden; }
-  .d2u-prod-gallery a::after { content: ''; position: absolute; inset: 0; background: rgba(0,0,0,0); transition: background 0.2s; }
-  .d2u-prod-gallery a:hover::after { background: rgba(255,0,0,0.2); }
-  .d2u-prod-gallery a:hover { transform: scale(1.02); z-index: 2; }
-  .d2u-lb { display: none; position: fixed; inset: 0; z-index: 1000000; background: rgba(0,0,0,0.92); align-items: center; justify-content: center; padding: 30px; }
-  .d2u-lb.d2u-lb-open { display: flex; }
-  .d2u-lb img { max-width: 90vw; max-height: 85vh; object-fit: contain; border: 4px solid #000; border-top: 8px solid #FF0000; }
-  .d2u-lb-close { position: absolute; top: 24px; right: 24px; width: 50px; height: 50px; background: #000; color: #FFF; border: none; cursor: pointer; font-size: 26px; font-weight: 900; }
-  .d2u-lb-close:hover { background: #FF0000; }
+  .d2u-quick-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border: 2px solid var(--d2u-black); }
+  .d2u-quick-cell { padding: 32px 26px; background: var(--d2u-white); border-right: 1px solid var(--d2u-line); transition: all 0.25s; position: relative; text-decoration: none !important; color: inherit; display: flex; flex-direction: column; }
+  .d2u-quick-cell:last-child { border-right: none; }
+  .d2u-quick-cell::before { content:''; position: absolute; top: 0; left: 0; right: 0; height: 0; background: var(--d2u-red); transition: height 0.2s; }
+  .d2u-quick-cell:hover { background: var(--d2u-off-white); color: inherit !important; }
+  .d2u-quick-cell:hover::before { height: 4px; }
+  .d2u-quick-icon { width: 44px; height: 44px; background: var(--d2u-black); color: var(--d2u-white); display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 18px; margin-bottom: 16px; transition: background 0.2s; }
+  .d2u-quick-cell:hover .d2u-quick-icon { background: var(--d2u-red); }
+  .d2u-page h4.d2u-quick-title { font-size: 16px; font-weight: 900; text-transform: uppercase; line-height: 1.2; margin-bottom: 10px; letter-spacing: -0.01em; }
+  .d2u-quick-desc { font-size: 13px; color: var(--d2u-gray-dark); line-height: 1.55; }
 
   @media (max-width: 960px) {
-    .d2u-pd-hero-grid { grid-template-columns: 1fr; gap: 40px; }
-    .d2u-learn-grid { grid-template-columns: repeat(2, 1fr); }
-    .d2u-prod-gallery { grid-template-columns: repeat(3, 1fr); }
-    .d2u-pd-meta { max-width: none; }
+    .d2u-mission-split { grid-template-columns: 1fr; gap: 50px; }
+    .d2u-progs-grid { grid-template-columns: repeat(2, 1fr); }
+    .d2u-quick-grid { grid-template-columns: repeat(2, 1fr); }
+    .d2u-quick-cell:nth-child(2n) { border-right: none; }
+    .d2u-quick-cell:nth-child(-n+2) { border-bottom: 1px solid var(--d2u-line); }
   }
   @media (max-width: 600px) {
-    .d2u-learn-grid { grid-template-columns: 1fr; max-width: 460px; margin: 0 auto; }
-    .d2u-prod-gallery { grid-template-columns: repeat(2, 1fr); }
-    .d2u-includes { padding: 28px 26px; }
+    .d2u-progs-grid { grid-template-columns: 1fr; max-width: 460px; margin: 0 auto; }
+    .d2u-quick-grid { grid-template-columns: 1fr; }
+    .d2u-quick-cell { border-right: none !important; border-bottom: 1px solid var(--d2u-line); }
+    .d2u-quick-cell:last-child { border-bottom: none; }
+    .d2u-pillars { grid-template-columns: 1fr; }
   }
 </style>
 
 <div class="d2u-page">
 
   <!-- HERO -->
-  <section class="d2u-hero d2u-pd-hero">
-    <div class="d2u-pd-hero-grid">
-      <div>
-        <span class="d2u-eyebrow"><span class="d2u-dot"></span> Film &amp; Television Production &middot; Level 1 Basic Training</span>
-        <div class="d2u-pd-hero-kicker">Hands-On Training for the Next Generation of Filmmakers</div>
-        <h1>Master the Art of Film &amp; Television<span class="d2u-accent">.</span></h1>
-        <p>Our Film &amp; Television Production program provides an immersive learning experience in cinematography, directing, screenwriting, editing, and live broadcasting. Whether you aspire to be a filmmaker, TV producer, video editor, or on-screen talent, this program offers industry-level training to prepare you for a career in media production.</p>
-        <p>With hands-on access to professional equipment, production studios, and industry-standard software, students will gain real-world experience in film and television production while building a portfolio of work to showcase their skills.</p>
-        <div class="d2u-pd-meta">
-          <div class="d2u-pd-meta-cell"><div class="d2u-pd-meta-label">Course Level</div><div class="d2u-pd-meta-value">Beginner</div></div>
-          <div class="d2u-pd-meta-cell"><div class="d2u-pd-meta-label">Skills</div><div class="d2u-pd-meta-value">Comprehensive Film &amp; TV</div></div>
-        </div>
-        <div class="d2u-cta-row" style="justify-content:flex-start;">
-          <a href="#d2u-contact" class="d2u-btn-primary">Apply / Inquire <span class="d2u-arrow">&rarr;</span></a>
-          <a href="/programs/" class="d2u-btn-outline">All Programs</a>
-          <button type="button" class="d2u-btn-outline" onclick="d2uOpenModal()" style="border-style:dashed;">Sponsor Program</button>
-        </div>
+  <section class="d2u-hero">
+    <div class="d2u-wrap"><div class="d2u-hero-inner">
+      <span class="d2u-eyebrow"><span class="d2u-dot"></span> Digi2U &middot; 501(c)(3) Nonprofit &middot; Newark &middot; Jersey City &middot; Atlanta &middot; Houston</span>
+      <h1 class="d2u-hero-title">STEAM <span class="d2u-accent">workforce</span><br>training that builds<br>careers<span class="d2u-accent">.</span></h1>
+      <p class="d2u-hero-lede">Digi2U prepares adults for well-paid technology jobs and in-demand businesses through innovative, hands-on STEAM training &mdash; Science, Technology, Engineering, Arts, and Math &mdash; that excites, inspires, and delivers marketable skills.</p>
+      <div class="d2u-cta-row">
+        <button type="button" class="d2u-btn-primary" onclick="d2uOpenModal()">Donate Now <span class="d2u-arrow">&rarr;</span></button>
+        <a href="/programs/" class="d2u-btn-outline">Explore Programs</a>
       </div>
-      <div class="d2u-pd-hero-img">
-        <span class="d2u-pd-hero-tag">Production Studio</span>
-        <div class="d2u-pd-hero-caption">Behind the Scenes &middot; Digi2U Productions</div>
+      <div class="d2u-stats">
+        <div class="d2u-stat"><div class="d2u-stat-num">8,200</div><div class="d2u-stat-label">Teaching Hours</div></div>
+        <div class="d2u-stat"><div class="d2u-stat-num">51</div><div class="d2u-stat-label">Graduates</div></div>
+        <div class="d2u-stat"><div class="d2u-stat-num">35</div><div class="d2u-stat-label">Streamed Events</div></div>
+        <div class="d2u-stat"><div class="d2u-stat-num">3</div><div class="d2u-stat-label">Documentaries</div></div>
       </div>
+    </div></div>
+  </section>
+
+  <!-- TICKER -->
+  <section class="d2u-ticker" aria-hidden="true">
+    <div class="d2u-ticker-track">
+      <span class="d2u-ticker-item">STEAM Training</span>
+      <span class="d2u-ticker-item">3D Printing &amp; Prototyping</span>
+      <span class="d2u-ticker-item">Documentary Filmmaking</span>
+      <span class="d2u-ticker-item">Media Production</span>
+      <span class="d2u-ticker-item">Makerspace &amp; Woodworking</span>
+      <span class="d2u-ticker-item">Content Creation</span>
+      <span class="d2u-ticker-item">Mobile Media Labs</span>
+      <span class="d2u-ticker-item">STEAM Training</span>
+      <span class="d2u-ticker-item">3D Printing &amp; Prototyping</span>
+      <span class="d2u-ticker-item">Documentary Filmmaking</span>
+      <span class="d2u-ticker-item">Media Production</span>
+      <span class="d2u-ticker-item">Makerspace &amp; Woodworking</span>
+      <span class="d2u-ticker-item">Content Creation</span>
+      <span class="d2u-ticker-item">Mobile Media Labs</span>
     </div>
   </section>
 
-  <!-- COURSE OVERVIEW -->
+  <!-- MISSION -->
   <section class="d2u-section d2u-section-white">
     <div class="d2u-wrap">
-      <div class="d2u-section-head">
-        <span class="d2u-tag">Course Overview</span>
-        <h2 class="d2u-h2">Film &amp; Television<br>Production.</h2>
-        <p>This program covers all aspects of film and television production, ensuring students develop both creative storytelling techniques and technical expertise in a professional setting.</p>
+      <div class="d2u-mission-split">
+        <div class="d2u-mission-visual">
+          <div class="d2u-mission-caption">Justice &middot; 3D Design &amp; Fabrication &middot; Newark, NJ</div>
+        </div>
+        <div class="d2u-mission-text">
+          <span class="d2u-tag">Our Movement</span>
+          <h2 class="d2u-h2">Learn by doing.<br>Earn by building.</h2>
+          <p class="d2u-big">Digi2U prepares adults for <strong>well-paid technology jobs and in-demand businesses</strong> through hands-on STEAM training with real-life application. We collaborate with local organizations, schools, government, and businesses to expand access to technology and opportunity.</p>
+          <div class="d2u-pillars">
+            <div class="d2u-pillar"><div class="d2u-pillar-k">01</div><div class="d2u-pillar-l">Mentorship</div></div>
+            <div class="d2u-pillar"><div class="d2u-pillar-k">02</div><div class="d2u-pillar-l">Apprenticeship</div></div>
+            <div class="d2u-pillar"><div class="d2u-pillar-k">03</div><div class="d2u-pillar-l">Volunteerism</div></div>
+            <div class="d2u-pillar"><div class="d2u-pillar-k">04</div><div class="d2u-pillar-l">Sponsorship</div></div>
+          </div>
+          <div class="d2u-cta-row" style="justify-content: flex-start;">
+            <a href="/about-us/" class="d2u-btn-primary">About Digi2U <span class="d2u-arrow">&rarr;</span></a>
+            <a href="/team/" class="d2u-btn-outline">Meet The Team</a>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- WHAT YOU'LL LEARN -->
+  <!-- FEATURED PROGRAMS (links to actual program pages) -->
   <section class="d2u-section d2u-section-gray">
     <div class="d2u-wrap">
       <div class="d2u-section-head">
-        <span class="d2u-tag">What You'll Learn</span>
-        <h2 class="d2u-h2">Six modules.<br>End-to-end production.</h2>
-        <p>You'll gain hands-on experience in cinematography, directing, screenwriting, editing, and live broadcasting &mdash; using professional cameras, industry-standard software, and the techniques that drive working productions today.</p>
+        <span class="d2u-tag">Featured Programs</span>
+        <h2 class="d2u-h2">Twelve tracks.<br>One goal: marketable skills.</h2>
+        <p>From 3D fabrication to live event staging — every program leaves adult learners with skills, portfolios, and real career paths.</p>
       </div>
-
-      <div class="d2u-learn-grid">
-        <div class="d2u-learn-card">
-          <div class="d2u-learn-img" style="background-image:url('https://digi2u.org/wp-content/uploads/2025/02/camera-for-video-production-are-shooting-cinematography-stabilize-tool-stabilizer-control-machine--768x512.jpg');"><span class="d2u-learn-num">01</span></div>
-          <div class="d2u-learn-body">
-            <h3 class="d2u-learn-title">Cinematography &amp; Camera Operation</h3>
-            <p class="d2u-learn-desc">Master the fundamentals of camera angles, framing, lighting, and movement to capture compelling visuals.</p>
-          </div>
-        </div>
-        <div class="d2u-learn-card">
-          <div class="d2u-learn-img" style="background-image:url('https://digi2u.org/wp-content/uploads/2025/02/young-woman-sits-on-director-s-chair-on-set-768x512.jpg');"><span class="d2u-learn-num">02</span></div>
-          <div class="d2u-learn-body">
-            <h3 class="d2u-learn-title">Directing for Film &amp; TV</h3>
-            <p class="d2u-learn-desc">Learn how to manage a production, direct actors, and bring your creative vision to life on screen.</p>
-          </div>
-        </div>
-        <div class="d2u-learn-card">
-          <div class="d2u-learn-img" style="background-image:url('https://digi2u.org/wp-content/uploads/2025/02/top-view-notebook-camera-and-clapperboard-on-white-background--768x512.jpg');"><span class="d2u-learn-num">03</span></div>
-          <div class="d2u-learn-body">
-            <h3 class="d2u-learn-title">Screenwriting &amp; Storytelling</h3>
-            <p class="d2u-learn-desc">Develop the skills to write, structure, and refine scripts for films, TV shows, and digital media.</p>
-          </div>
-        </div>
-        <div class="d2u-learn-card">
-          <div class="d2u-learn-img" style="background-image:url('https://digi2u.org/wp-content/uploads/2025/02/design-student-working-on-video-editing-software-to-make-montage-768x432.jpg');"><span class="d2u-learn-num">04</span></div>
-          <div class="d2u-learn-body">
-            <h3 class="d2u-learn-title">Video Editing &amp; Post-Production</h3>
-            <p class="d2u-learn-desc">Gain hands-on experience with industry-standard editing software such as Adobe Premiere Pro, DaVinci Resolve, and Final Cut Pro.</p>
-          </div>
-        </div>
-        <div class="d2u-learn-card">
-          <div class="d2u-learn-img" style="background-image:url('https://digi2u.org/wp-content/uploads/2025/02/broadcasting-live-event-with-video-camera-768x576.jpg');"><span class="d2u-learn-num">05</span></div>
-          <div class="d2u-learn-body">
-            <h3 class="d2u-learn-title">Live Broadcast &amp; Studio Production</h3>
-            <p class="d2u-learn-desc">Train in multi-camera setups, green screen technology, and live streaming for television and online content.</p>
-          </div>
-        </div>
-        <div class="d2u-learn-card">
-          <div class="d2u-learn-img" style="background-image:url('https://digi2u.org/wp-content/uploads/2025/02/professional-sound-and-volume-adjusting-mixer-control-768x374.jpg');"><span class="d2u-learn-num">06</span></div>
-          <div class="d2u-learn-body">
-            <h3 class="d2u-learn-title">Sound &amp; Audio Production</h3>
-            <p class="d2u-learn-desc">Learn sound design, audio mixing, and dialogue recording techniques to enhance video quality.</p>
-          </div>
-        </div>
+      <div class="d2u-progs-grid">
+        <a href="/3d-design/" class="d2u-prog-card">
+          <div class="d2u-prog-card-img" style="background-image:url('https://digi2u.org/wp-content/uploads/elementor/thumbs/8d8989_e6d7ca67541c4a49ad94afd31689571dmv2.png-r0kt4t0n5ypogl3wfrofmvjk6zmx51yrizr6i2gys8.webp');"><span class="d2u-prog-card-tag">Beginner</span></div>
+          <div class="d2u-prog-card-body"><div class="d2u-prog-card-kicker">Build Your Own 3D Printer</div><h3 class="d2u-prog-card-title">3D Design &amp; Fabrication</h3><span class="d2u-prog-card-link">Learn More &rarr;</span></div>
+        </a>
+        <a href="/audio-production-2/" class="d2u-prog-card">
+          <div class="d2u-prog-card-img" style="background-image:url('https://digi2u.org/wp-content/uploads/elementor/thumbs/professional-sound-and-volume-adjusting-mixer-control-r18k3h1aiodza5dkn0m4ezitzji50h52j91zeimujc.jpg');"><span class="d2u-prog-card-tag">All Levels</span></div>
+          <div class="d2u-prog-card-body"><div class="d2u-prog-card-kicker">Mix &amp; Master Pro Sound</div><h3 class="d2u-prog-card-title">Audio Production</h3><span class="d2u-prog-card-link">Learn More &rarr;</span></div>
+        </a>
+        <a href="/film-television/" class="d2u-prog-card">
+          <div class="d2u-prog-card-img" style="background-image:url('https://digi2u.org/wp-content/uploads/elementor/thumbs/behind-the-scenes-or-making-of-film--r19h5wow04053i7cc37gr31pw602gk31vcusv7kc9k.jpg');"><span class="d2u-prog-card-tag">Production</span></div>
+          <div class="d2u-prog-card-body"><div class="d2u-prog-card-kicker">Tell Stories Through Film &amp; TV</div><h3 class="d2u-prog-card-title">Film &amp; Television Production</h3><span class="d2u-prog-card-link">Learn More &rarr;</span></div>
+        </a>
+        <a href="/drone/" class="d2u-prog-card">
+          <div class="d2u-prog-card-img" style="background-image:url('https://digi2u.org/wp-content/uploads/elementor/thumbs/agricultural-drone-on-a-background-of-blue-sky--r17qpkmgoa7ahg1b18f1nfzperrcw0clf4ptyd6zh4.jpg');"><span class="d2u-prog-card-tag">Aerial</span></div>
+          <div class="d2u-prog-card-body"><div class="d2u-prog-card-kicker">Master Drone Flight</div><h3 class="d2u-prog-card-title">Drone Technology &amp; Aerial Imaging</h3><span class="d2u-prog-card-link">Learn More &rarr;</span></div>
+        </a>
+        <a href="/marketing/" class="d2u-prog-card">
+          <div class="d2u-prog-card-img" style="background-image:url('https://digi2u.org/wp-content/uploads/elementor/thumbs/search-engine-marketing-56-r19s0xjv2zaavq7x140a0esu6mp0jof7mqufz3sftk.jpg');"><span class="d2u-prog-card-tag">Business</span></div>
+          <div class="d2u-prog-card-body"><div class="d2u-prog-card-kicker">Grow Your Brand</div><h3 class="d2u-prog-card-title">Marketing &amp; Brand Strategy</h3><span class="d2u-prog-card-link">Learn More &rarr;</span></div>
+        </a>
+        <a href="/podcast-streaming/" class="d2u-prog-card">
+          <div class="d2u-prog-card-img" style="background-image:url('https://digi2u.org/wp-content/uploads/elementor/thumbs/microphone-and-laptop-for-recording-podcast-or-live-stream-over-blue-background-blogging-concept--r19gag1d8qxmhdwl1zm0siva2v2rta6hvmqpks7qjc.jpg');"><span class="d2u-prog-card-tag">Media</span></div>
+          <div class="d2u-prog-card-body"><div class="d2u-prog-card-kicker">Broadcast Your Voice</div><h3 class="d2u-prog-card-title">Podcast &amp; Streaming Production</h3><span class="d2u-prog-card-link">Learn More &rarr;</span></div>
+        </a>
+      </div>
+      <div style="text-align:center;margin-top:48px;">
+        <a href="/programs/" class="d2u-btn-primary">View All 12 Programs <span class="d2u-arrow">&rarr;</span></a>
       </div>
     </div>
   </section>
 
-  <!-- COURSE DESCRIPTION / WHAT'S INCLUDED -->
+  <!-- QUICK NAV (links to all major site sections) -->
   <section class="d2u-section d2u-section-white">
     <div class="d2u-wrap">
       <div class="d2u-section-head">
-        <span class="d2u-tag">Course Description</span>
-        <h2 class="d2u-h2">What's included.</h2>
+        <span class="d2u-tag">Explore Digi2U</span>
+        <h2 class="d2u-h2">Everything in<br>one place.</h2>
       </div>
-      <div class="d2u-includes">
-        <h3>Real-world filmmaking and broadcasting experience</h3>
-        <p>Our Film &amp; Television Production Course is designed to provide students with real-world filmmaking and broadcasting experience. The program includes:</p>
-        <ul>
-          <li><strong>Hands-on training</strong> in cinematography, directing, and editing</li>
-          <li><strong>Live production experience</strong> with studio and on-location shoots</li>
-          <li><strong>Technical training</strong> with professional-grade cameras, lighting, and audio equipment</li>
-          <li><strong>Story development</strong> and screenwriting workshops</li>
-          <li><strong>Collaboration with industry professionals</strong> to gain real-world insights</li>
-        </ul>
-        <p style="margin-top:22px;">By the end of this program, students will have produced their own short films, television segments, and media projects &mdash; gaining the confidence and technical expertise needed to thrive in the film and TV industry.</p>
+      <div class="d2u-quick-grid">
+        <a href="/about-us/" class="d2u-quick-cell"><div class="d2u-quick-icon">A</div><h4 class="d2u-quick-title">About Us</h4><p class="d2u-quick-desc">Mission, vision, master plan, and the impact we've delivered to date.</p></a>
+        <a href="/team/" class="d2u-quick-cell"><div class="d2u-quick-icon">T</div><h4 class="d2u-quick-title">Our Team</h4><p class="d2u-quick-desc">The people behind every program — leadership, instructors, and partners.</p></a>
+        <a href="/community-partners-2/" class="d2u-quick-cell"><div class="d2u-quick-icon">C</div><h4 class="d2u-quick-title">Community Partners</h4><p class="d2u-quick-desc">Foundations, organizations, and groups that move the work forward.</p></a>
+        <a href="/sponsors/" class="d2u-quick-cell"><div class="d2u-quick-icon">$</div><h4 class="d2u-quick-title">Corporate Sponsors</h4><p class="d2u-quick-desc">Companies and foundations whose generosity fuels our programs.</p></a>
+        <a href="/programs/" class="d2u-quick-cell"><div class="d2u-quick-icon">P</div><h4 class="d2u-quick-title">Programs</h4><p class="d2u-quick-desc">All 12 hands-on STEAM tracks with full course details.</p></a>
+        <a href="/certifications/" class="d2u-quick-cell"><div class="d2u-quick-icon">★</div><h4 class="d2u-quick-title">Certifications</h4><p class="d2u-quick-desc">OSHA 30, ServSafe, FAA Part 107 — industry-recognized credentials.</p></a>
+        <a href="/events-2/" class="d2u-quick-cell"><div class="d2u-quick-icon">E</div><h4 class="d2u-quick-title">Events</h4><p class="d2u-quick-desc">Workshops, showcases, and the big partnerships we've produced.</p></a>
+        <a href="/media/" class="d2u-quick-cell"><div class="d2u-quick-icon">M</div><h4 class="d2u-quick-title">Media &amp; Blog</h4><p class="d2u-quick-desc">Documentaries, streamed events, and stories from our studios.</p></a>
       </div>
     </div>
   </section>
 
-  <!-- BEHIND THE SCENES GALLERY -->
-  <section class="d2u-section d2u-section-gray">
-    <div class="d2u-wrap">
-      <div class="d2u-section-head">
-        <span class="d2u-tag">Experience Film &amp; Television in Action</span>
-        <h2 class="d2u-h2">Behind the scenes<br>of our productions.</h2>
-        <p>Click any image to view full-size.</p>
-      </div>
-      <div class="d2u-prod-gallery" id="d2u-prod-gallery">
-        <a data-img="https://digi2u.org/wp-content/uploads/2025/03/behind-the-scenes-of-silhouette-working-people-that-making-movie-.jpg" style="background-image:url('https://digi2u.org/wp-content/uploads/2025/03/behind-the-scenes-of-silhouette-working-people-that-making-movie--300x169.jpg');"></a>
-        <a data-img="https://digi2u.org/wp-content/uploads/2025/02/filming-with-professional-camera.jpg" style="background-image:url('https://digi2u.org/wp-content/uploads/2025/02/filming-with-professional-camera-300x200.jpg');"></a>
-        <a data-img="https://digi2u.org/wp-content/uploads/2025/03/black-woman-videographer-developing-project-film-montage.jpg" style="background-image:url('https://digi2u.org/wp-content/uploads/2025/03/black-woman-videographer-developing-project-film-montage-300x200.jpg');"></a>
-        <a data-img="https://digi2u.org/wp-content/uploads/2025/02/young-woman-sits-on-director-s-chair-on-set.jpg" style="background-image:url('https://digi2u.org/wp-content/uploads/2025/02/young-woman-sits-on-director-s-chair-on-set-600x400.jpg');"></a>
-        <a data-img="https://digi2u.org/wp-content/uploads/2025/02/broadcasting-live-event-with-video-camera.jpg" style="background-image:url('https://digi2u.org/wp-content/uploads/2025/02/broadcasting-live-event-with-video-camera-600x450.jpg');"></a>
-        <a data-img="https://digi2u.org/wp-content/uploads/2025/02/design-student-working-on-video-editing-software-to-make-montage.jpg" style="background-image:url('https://digi2u.org/wp-content/uploads/2025/02/design-student-working-on-video-editing-software-to-make-montage-600x338.jpg');"></a>
-        <a data-img="https://digi2u.org/wp-content/uploads/2025/02/camera-for-video-production-are-shooting-cinematography-stabilize-tool-stabilizer-control-machine-.jpg" style="background-image:url('https://digi2u.org/wp-content/uploads/2025/02/camera-for-video-production-are-shooting-cinematography-stabilize-tool-stabilizer-control-machine--600x400.jpg');"></a>
-        <a data-img="https://digi2u.org/wp-content/uploads/2025/02/top-view-notebook-camera-and-clapperboard-on-white-background-.jpg" style="background-image:url('https://digi2u.org/wp-content/uploads/2025/02/top-view-notebook-camera-and-clapperboard-on-white-background--600x400.jpg');"></a>
-      </div>
-    </div>
-  </section>
-
-  <!-- 26 BLOCKS PARTNER CALLOUT -->
-  <section class="d2u-section d2u-section-white" style="padding:0 0 110px;">
+  <!-- MID CTA -->
+  <section class="d2u-section d2u-section-gray" style="padding:0 0 110px;">
     <div class="d2u-wrap">
       <div class="d2u-mid-cta">
         <div style="position:relative;z-index:2;">
-          <h2 class="d2u-mid-title">Want to see student work in the wild?</h2>
-          <p>Our partnership with 26 Blocks has produced feature documentaries on critical social issues &mdash; including <em>Sarah's Daughters Dare to Care</em> (now on Tubi).</p>
+          <h2 class="d2u-mid-title">Ready to put skills into the hands of adults ready to build what's next?</h2>
+          <p>Give once. Give monthly. Give stock. Every gift funds curriculum, tools, space, and the people who make it all work.</p>
         </div>
         <div class="d2u-mid-right">
-          <a href="/26-blocks/" class="d2u-btn-primary">26 Blocks Projects <span class="d2u-arrow">&rarr;</span></a>
+          <button type="button" class="d2u-btn-primary" onclick="d2uOpenModal()">Donate Now <span class="d2u-arrow">&rarr;</span></button>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- INQUIRY FORM -->
-  <section class="d2u-section d2u-section-gray" id="d2u-contact">
+  <!-- CONTACT TEASER -->
+  <section class="d2u-section d2u-section-white">
     <div class="d2u-wrap">
       <div class="d2u-contact-grid">
         <div class="d2u-contact-info">
-          <span class="d2u-tag">Program Inquiry</span>
-          <h2 class="d2u-h2">Apply to<br>Film &amp; Television.</h2>
-          <p>Provide your name, email, and any questions about the program. We typically respond within 24 hours.</p>
+          <span class="d2u-tag">Get in Touch</span>
+          <h2 class="d2u-h2">Have questions?<br>We're here.</h2>
+          <p>Whether you're considering joining a program, partnering, or just want to learn more about our work — our team is ready to talk.</p>
           <div class="d2u-contact-methods">
             <div class="d2u-contact-method"><div class="d2u-contact-icon">&#9993;</div><div><div class="d2u-contact-label">Email</div><a href="mailto:admin@digi2u.org" class="d2u-contact-value">admin@digi2u.org</a></div></div>
             <div class="d2u-contact-method"><div class="d2u-contact-icon">&#9742;</div><div><div class="d2u-contact-label">Phone</div><a href="tel:+12013743553" class="d2u-contact-value">+1 (201) 374-3553</a></div></div>
@@ -557,16 +538,16 @@ function d2uSubmitInquiry(e) {
           <div class="d2u-nonprofit-note"><strong>501(c)(3) Nonprofit</strong>EIN: 88-3213984. All donations tax-deductible.</div>
         </div>
         <form class="d2u-form-card" onsubmit="return d2uSubmitInquiry(event);">
-          <h3>Program Inquiry Form</h3>
-          <p>Provide your name, e-mail, program of interest, and any additional questions to begin our program registration.</p>
+          <h3>Inquiry Form</h3>
+          <p>Fill out the form to get more information about Digi2U.</p>
           <div class="d2u-form-row">
             <input class="d2u-field" id="d2u-f-name" type="text" placeholder="Name" required>
             <input class="d2u-field" id="d2u-f-email" type="email" placeholder="Email" required>
           </div>
           <input class="d2u-field" id="d2u-f-phone" type="tel" placeholder="Phone (optional)">
-          <input class="d2u-field" id="d2u-f-subject" type="text" placeholder="Subject" required value="Film & Television Production">
+          <input class="d2u-field" id="d2u-f-subject" type="text" placeholder="Subject" required>
           <textarea class="d2u-field d2u-textarea" id="d2u-f-message" placeholder="Message" required></textarea>
-          <button type="submit" class="d2u-btn-primary d2u-form-btn">Send <span class="d2u-arrow">&rarr;</span></button>
+          <button type="submit" class="d2u-btn-primary d2u-form-btn">Submit <span class="d2u-arrow">&rarr;</span></button>
           <p id="d2u-form-status" style="margin-top:14px;font-size:13px;color:var(--d2u-gray);text-align:center;"></p>
         </form>
       </div>
@@ -575,50 +556,14 @@ function d2uSubmitInquiry(e) {
 
   <!-- FINAL CTA -->
   <!-- D2U-CIA-STRIP --><section class="d2u-cia-injected" style="padding:70px 24px;background:#FAFAFA;border-top:6px solid #FF0000"><div style="max-width:1200px;margin:0 auto"><div style="text-align:center;margin-bottom:36px"><span style="display:inline-block;font-size:11px;font-weight:800;letter-spacing:0.18em;text-transform:uppercase;color:#FF0000;padding-bottom:8px;border-bottom:2px solid #FF0000">Community in Action</span><h2 style="font-size:clamp(28px,4vw,44px);font-weight:900;letter-spacing:-0.03em;line-height:1.05;margin:14px 0 6px;text-transform:uppercase;color:#000">Real cohorts.<br>Real moments.</h2><p style="font-size:15px;color:#4A4A4A;max-width:600px;margin:8px auto 0">Snapshots from Digi2U classrooms, mobile labs, and partner events.</p></div><div class="d2u-cia-grid-injected" style="display:grid;grid-template-columns:repeat(6,1fr);gap:6px"><a href="https://digi2u.org/wp-content/uploads/2026/05/d2u-3d-justice-1.webp" target="_blank" rel="noopener" style="aspect-ratio:4/5;background:#eee url('https://digi2u.org/wp-content/uploads/2026/05/d2u-3d-justice-1.webp') center/cover no-repeat;display:block;position:relative;text-decoration:none"><span style="position:absolute;left:10px;right:10px;bottom:10px;color:#fff;font-size:11px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;text-shadow:0 1px 3px rgba(0,0,0,0.7);line-height:1.3">Justice — 3D Cohort</span></a><a href="https://digi2u.org/wp-content/uploads/2026/05/d2u-3d-justice-3.webp" target="_blank" rel="noopener" style="aspect-ratio:4/5;background:#eee url('https://digi2u.org/wp-content/uploads/2026/05/d2u-3d-justice-3.webp') center/cover no-repeat;display:block;position:relative;text-decoration:none"><span style="position:absolute;left:10px;right:10px;bottom:10px;color:#fff;font-size:11px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;text-shadow:0 1px 3px rgba(0,0,0,0.7);line-height:1.3">Build · Newark, NJ</span></a><a href="https://digi2u.org/wp-content/uploads/2026/05/d2u-newark-3d-1.webp" target="_blank" rel="noopener" style="aspect-ratio:4/5;background:#eee url('https://digi2u.org/wp-content/uploads/2026/05/d2u-newark-3d-1.webp') center/cover no-repeat;display:block;position:relative;text-decoration:none"><span style="position:absolute;left:10px;right:10px;bottom:10px;color:#fff;font-size:11px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;text-shadow:0 1px 3px rgba(0,0,0,0.7);line-height:1.3">Newark Bootcamp</span></a><a href="https://digi2u.org/wp-content/uploads/2026/05/d2u-pacific-extra-01.webp" target="_blank" rel="noopener" style="aspect-ratio:4/5;background:#eee url('https://digi2u.org/wp-content/uploads/2026/05/d2u-pacific-extra-01.webp') center/cover no-repeat;display:block;position:relative;text-decoration:none"><span style="position:absolute;left:10px;right:10px;bottom:10px;color:#fff;font-size:11px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;text-shadow:0 1px 3px rgba(0,0,0,0.7);line-height:1.3">Training · 317 Pacific</span></a><a href="https://digi2u.org/wp-content/uploads/2026/05/d2u-spinoff-newark-2.webp" target="_blank" rel="noopener" style="aspect-ratio:4/5;background:#eee url('https://digi2u.org/wp-content/uploads/2026/05/d2u-spinoff-newark-2.webp') center/cover no-repeat;display:block;position:relative;text-decoration:none"><span style="position:absolute;left:10px;right:10px;bottom:10px;color:#fff;font-size:11px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;text-shadow:0 1px 3px rgba(0,0,0,0.7);line-height:1.3">Spin-Off Open Deck</span></a><a href="https://digi2u.org/wp-content/uploads/2026/05/d2u-cherry-xmas-3.webp" target="_blank" rel="noopener" style="aspect-ratio:4/5;background:#eee url('https://digi2u.org/wp-content/uploads/2026/05/d2u-cherry-xmas-3.webp') center/cover no-repeat;display:block;position:relative;text-decoration:none"><span style="position:absolute;left:10px;right:10px;bottom:10px;color:#fff;font-size:11px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;text-shadow:0 1px 3px rgba(0,0,0,0.7);line-height:1.3">Cherry Foundation Christmas</span></a></div></div></section><style>@media(max-width:960px){.d2u-cia-grid-injected{grid-template-columns:repeat(3,1fr) !important}}@media(max-width:600px){.d2u-cia-grid-injected{grid-template-columns:repeat(2,1fr) !important}}</style><section class="d2u-final">
-    <span class="d2u-tag">Lights · Camera · Action</span>
-    <h2 class="d2u-h2 d2u-final-title">Tell stories<span class="d2u-accent">.</span><br>Build a career<span class="d2u-accent">.</span></h2>
-    <p class="d2u-final-lede">Real instructors. Real cameras. Real productions. Step onto set ready to ship work that matters.</p>
+    <span class="d2u-tag">Join The Movement</span>
+    <h2 class="d2u-h2 d2u-final-title">Learn. Build<span class="d2u-accent">.</span><br>Earn. Repeat<span class="d2u-accent">.</span></h2>
+    <p class="d2u-final-lede">Digi2U exists to unlock well-paid tech jobs and in-demand businesses for adult learners, creatives, and entrepreneurs.</p>
     <div class="d2u-cta-row">
-      <button type="button" class="d2u-btn-primary" onclick="d2uOpenModal()">Donate Now <span class="d2u-arrow">&rarr;</span></button>
-      <a href="/programs/" class="d2u-btn-outline">All Programs</a>
-      <a href="#d2u-contact" class="d2u-btn-outline">Apply / Inquire</a>
+      <button type="button" class="d2u-btn-primary" onclick="d2uOpenModal()">Make a Donation <span class="d2u-arrow">&rarr;</span></button>
+      <a href="/contact-us/" class="d2u-btn-outline">Contact Us</a>
     </div>
   </section>
 
   <button type="button" class="d2u-btn-primary d2u-sticky" id="d2u-sticky-btn" onclick="d2uOpenModal()">Donate Now <span class="d2u-arrow">&rarr;</span></button>
-
-  <!-- IMAGE LIGHTBOX -->
-  <div class="d2u-lb" id="d2u-lb" onclick="d2uCloseLb(event)">
-    <button type="button" class="d2u-lb-close" onclick="d2uCloseLb(true)" aria-label="Close">&times;</button>
-    <img decoding="async" id="d2u-lb-img" src="" alt="">
-  </div>
 </div>
-
-<script>
-(function(){
-  document.querySelectorAll('.d2u-prod-gallery a').forEach(function(a){
-    a.addEventListener('click', function(e){
-      e.preventDefault();
-      var src = a.getAttribute('data-img') || a.style.backgroundImage.replace(/^url\(["']?|["']?\)$/g,'');
-      var lb = document.getElementById('d2u-lb');
-      var img = document.getElementById('d2u-lb-img');
-      img.src = src;
-      lb.classList.add('d2u-lb-open');
-      document.body.style.overflow = 'hidden';
-    });
-  });
-})();
-function d2uCloseLb(eOrForce){
-  var lb = document.getElementById('d2u-lb');
-  if (eOrForce === true || (eOrForce && eOrForce.target && eOrForce.target.id === 'd2u-lb')) {
-    lb.classList.remove('d2u-lb-open');
-    document.body.style.overflow = '';
-  }
-}
-document.addEventListener('keydown', function(e){
-  if (e.key === 'Escape') {
-    var lb = document.getElementById('d2u-lb');
-    if (lb && lb.classList.contains('d2u-lb-open')) { lb.classList.remove('d2u-lb-open'); document.body.style.overflow = ''; }
-  }
-});
-</script>

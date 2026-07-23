@@ -315,12 +315,7 @@ function d2uSubmitInquiry(e) {
       status.innerHTML = 'Thank you! Your message has been received. We respond within one business day.';
     })
     .catch(function() {
-      var body = 'Name: ' + name + '
-Email: ' + email + '
-Phone: ' + (phone || 'N/A') + '
-
-Message:
-' + message;
+      var body = 'Name: ' + name + '\nEmail: ' + email + '\nPhone: ' + (phone || 'N/A') + '\n\nMessage:\n' + message;
       window.location.href = 'mailto:admin@digi2u.org?subject=' + encodeURIComponent('[Inquiry] ' + subject) + '&body=' + encodeURIComponent(body);
       status.innerHTML = 'Opening your email app... If nothing happens, email us at <a href="mailto:admin@digi2u.org" style="color:#FF0000;font-weight:600;">admin@digi2u.org</a>';
     });
@@ -426,6 +421,16 @@ Message:
     </div>
   </section>
 
+  <section class="d2u-section d2u-section-white" id="d2u-pd-gallery-sec">
+    <div class="d2u-wrap">
+      <div class="d2u-section-head">
+        <span class="d2u-tag">In Action</span>
+        <h2 class="d2u-h2" id="d2u-pd-gallery-title"></h2>
+      </div>
+      <div id="d2u-pd-gallery-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;"></div>
+    </div>
+  </section>
+
   <section class="d2u-section d2u-section-white" style="padding:0 0 110px;">
     <div class="d2u-wrap">
       <div class="d2u-mid-cta">
@@ -509,11 +514,12 @@ var D2U_PROGRAMS = {
   'marketing': { img: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1400&q=80', tag: 'Business', kicker: 'Grow Your Brand with Digital & Social Strategies', title: 'Marketing & Brand Strategy', short: 'Develop, promote, and grow a brand using social media marketing, content creation, SEO, and advertising strategies.', desc: 'Ideal for entrepreneurs, business owners, and marketing professionals. Build the strategy, content, and ad systems that reliably grow audiences and revenue.', desc2: 'Hands-on practice with real campaigns — learners leave with running ads, content calendars, and tracked results, not just slides.', meta: [['Focus','Organic + Paid'],['For','Founders + Pros']], bullets: [['Brand Foundations','Positioning, voice, and visuals that make a brand memorable.'],['Content Strategy','Plan, produce, and publish across the right channels.'],['Social Media','Instagram, TikTok, YouTube, and X strategies that compound.'],['SEO & Search','On-page, keywords, local SEO, and content built to rank.'],['Paid Advertising','Meta and Google ads with real campaign setup.']] },
   'photography': { img: 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=1400&q=80', tag: 'Creative', kicker: 'Stunning Images with Professional Techniques', title: 'Photography', short: 'Skills in camera operation, lighting, composition, and photo editing.', desc: 'Learn portrait, commercial, event, and storytelling photography techniques while building a professional portfolio.', desc2: 'Field shoots with Digi2U instructors plus hands-on time on real client work — students leave with published-ready images and confidence.', meta: [['Genres','Portrait / Event / Commercial'],['Outcome','Published Portfolio']], bullets: [['Camera & Exposure','Aperture, shutter, ISO and how they shape an image.'],['Lighting','Natural light, strobes, and continuous lighting setups.'],['Composition','Framing, lines, and storytelling that elevates every shot.'],['Post-Processing','Lightroom and Photoshop workflows from cull to export.'],['Portfolio + Client Work','Portraits, events, and commercial pieces ready to publish.']] },
   'podcast': { img: 'https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=1400&q=80', tag: 'Media', kicker: 'Broadcast Your Voice & Engage Audiences', title: 'Podcast & Streaming Production', short: 'Master audio recording, live broadcasting, and digital storytelling for podcasts and live-streamed content.', desc: 'Learn how to use professional microphones, recording software, and audience engagement strategies to grow an online presence.', desc2: 'Build a show, ship episodes, and grow — with the same studio infrastructure Digi2U uses for its own productions.', meta: [['Format','Live + On-Demand'],['Tools','Pro Audio + OBS']], bullets: [['Studio Setup','Mics, interfaces, mixers, multi-host environments.'],['Show Format','Episode structures audiences stick with.'],['Live Streaming','OBS, StreamYard, and multi-platform broadcasts.'],['Editing & Publishing','Cut, sweeten, and ship to Spotify, Apple, YouTube.'],['Audience Growth','Release strategy, guests, and community-building.']] },
-  'staging': { img: 'https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?w=1400&q=80', tag: 'Live Events', kicker: 'Build, Design, and Execute Stage Setups', title: 'Staging & Rigging for Live Events', short: 'Stage design, rigging safety, lighting installation, and event setup for concerts, theater, and live broadcasts.', desc: 'Gain technical expertise in stage construction, equipment handling, and event production management.', desc2: 'Hands-on training mirrors Digi2U\'s real production partnerships — including The Spin-Off Open Deck, Comicon, and KRS-One\'s Temple of Hip Hop events.', meta: [['Focus','Rigging + Lights'],['Safety','Industry Standards']], bullets: [['Stage Design','Layouts, sightlines, and structure for concerts and theater.'],['Rigging Safety','Load calculations, hardware, and industry safety standards.'],['Lighting Installation','Fixtures, power, and rigging for compelling live looks.'],['Event Production','Run-of-show, crew coordination, gear management.'],['Live Broadcast Setup','Integrate staging with streaming and multi-cam.']] }
-};
-
-var D2U_CERTS = {
-  'osha-30': { img: 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=1400&q=80', tag: 'Certification', kicker: 'Workplace Safety & Hazard Prevention', title: 'OSHA 30 Construction Certification Training', short: 'Hands-on hazard recognition and OSHA compliance training for construction environments.', desc: 'Students conduct workplace safety assessments, identifying potential hazards in simulated or real construction environments. They document findings in a hazard report outlining preventive measures, risk controls, and OSHA compliance recommendations to enhance job-site safety.', desc2: 'The credential opens doors in construction, manufacturing, and trades — and helps employers maintain safer, more compliant job sites.', meta: [['Credential','OSHA 30'],['Industry','Construction']], bullets: [['Hazard Recognition','Identify and document common construction-site hazards.'],['Risk Controls','Apply OSHA-aligned preventive measures.'],['Safety Reporting','Build a clear, professional safety report.'],['Compliance','Understand the regulatory framework and worker rights.'],['Career Path','Doors in construction, manufacturing, and trades.']] },
+  'staging': { img: 'https://digi2u.org/wp-content/uploads/2025/02/stage-in-the-abandoned-theatre-1024x684.jpg', tag: 'Beginner', kicker: 'Build, Design, and Execute Safe & Professional Stage Setups', title: 'Master Staging & Rigging for Live Events', short: 'Our Staging & Rigging program provides hands-on training in stage setup, rigging safety, lighting installation, and structural design for live events, concerts, theater productions, and broadcasts. This program equips students with the technical skills and safety knowledge required to work behind the scenes in event production, stage management, and rigging operations.', desc: 'With access to professional-grade equipment, real-world projects, and expert instructors, participants will learn how to construct stable stage environments, rig lighting and audio setups, and ensure safety compliance for high-profile productions.', desc2: 'Level 1 Basic Training — Course Overview: This program covers all aspects of live event production, ensuring students develop both technical skills and problem-solving abilities needed for safe and efficient stage setups.', extraHtml: '<h3 style="font-size:22px;margin:34px 0 12px;text-transform:uppercase;">What You&#x27;ll Learn</h3><p style="margin-bottom:12px;">In our Staging &amp; Rigging program, you’ll gain hands-on experience in stage construction, rigging safety, lighting installation, and live event setup. Learn how to assemble and secure stage structures, operate rigging equipment, and ensure industry-standard safety compliance for concerts, theater productions, and live events.</p>', galleryTitle: 'Experience Staging & Rigging in action.', gallery: ['https://digi2u.org/wp-content/uploads/2025/02/stage-in-the-abandoned-theatre-1024x684.jpg','https://digi2u.org/wp-content/uploads/2025/03/lights-on-the-stage-1024x683.jpg','https://digi2u.org/wp-content/uploads/2025/02/AdobeStock_324608366-scaled-1-1024x683.webp'], meta: [['Course Level','Beginner'],['Skills','Comprehensive Staging & Rigging Training']], bullets: [
+    ['Stage construction techniques','Learn how to assemble and secure stage structures for live events, concerts, and theater productions.','https://digi2u.org/wp-content/uploads/2025/02/stage-in-the-abandoned-theatre-1024x684.jpg'],
+    ['Rigging Safety & Load Calculations','Understand weight distribution, load limits, and best practices to ensure stage stability and safety.','https://digi2u.org/wp-content/uploads/2025/03/lights-on-the-stage-1024x683.jpg'],
+    ['Lighting & Sound Rigging','Master the setup of lighting rigs and sound equipment for professional event execution.','https://digi2u.org/wp-content/uploads/2025/02/AdobeStock_324608366-scaled-1-1024x683.webp'],
+    ['Equipment Setup & Maintenance','Gain technical expertise in handling, assembling, and maintaining rigging and staging equipment.','https://digi2u.org/wp-content/uploads/2025/03/spotlights-on-stage-1.jpg'],
+    ['On-Site Troubleshooting & Problem-Solving','Learn how to quickly assess and fix issues during live event setups.','https://digi2u.org/wp-content/uploads/2025/02/worker-builds-a-concert-stage-worker-in-blue-shirt-standing-on-stepladder-installing-big-stand-1024x576.jpg']] },
   'food-safety': { img: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1400&q=80', tag: 'Certification', kicker: 'Master Safe Food Handling & Sanitation', title: 'ServSafe Food Safety Training & Certification', short: 'Nationally recognized food-safety credential for restaurants, catering, and hospitality workers.', desc: 'Learn safe food handling, sanitation standards, allergen awareness, and regulatory compliance — the industry-standard credential for food-service careers.', desc2: 'Everything your team needs to pass inspections, protect customers, and qualify for food-service employment in any U.S. state.', meta: [['Credential','ServSafe'],['Industry','Food Service']], bullets: [['Safe Handling','Time, temperature, cross-contamination control.'],['Sanitation','Cleaning, sanitizing, and pest management standards.'],['Allergens','Identify and prevent allergen incidents.'],['Compliance','Meet local, state, and federal food-safety rules.'],['Career Path','Restaurants, catering, hospitality, institutional food service.']] },
   'faa-drone': { img: 'https://images.unsplash.com/photo-1473968512647-3e447244af8f?w=1400&q=80', tag: 'Certification', kicker: 'Become a Certified Commercial Drone Pilot', title: 'Part 107 Drone Certification Training', short: 'Prepare for the FAA Part 107 Remote Pilot certification — required to operate a drone commercially in the U.S.', desc: 'Covers airspace, regulations, weather, emergency procedures, and test-ready skill building. Move from basic flight to commercial-ready operations under instructor supervision.', desc2: 'Learners leave ready to take the FAA knowledge test and begin commercial work in filmmaking, real estate, surveying, or inspection.', meta: [['Credential','FAA Part 107'],['Industry','Aerial / Media']], bullets: [['FAA Regulations','Airspace classes, waivers, and Part 107 rules.'],['Weather','Reading conditions and decision-making.'],['Emergency Procedures','Lost-link, recovery, and safety drills.'],['Test Prep','Direct preparation for the FAA knowledge test.'],['Commercial Use','Film, real estate, surveying, and inspection.']] }
 };
@@ -544,9 +550,18 @@ var D2U_CERTS = {
   var lg = document.getElementById('d2u-pd-learn-grid');
   lg.innerHTML = (p.bullets || []).map(function(b, i){
     var n = (i+1).toString().padStart(2,'0');
-    return '<div class="d2u-pd-learn-cell"><div class="d2u-pd-learn-num">' + n + '</div><h4>'+b[0]+'</h4><p>'+b[1]+'</p></div>';
+    var media = b[2] ? '<img src="'+b[2]+'" alt="'+b[0]+'" loading="lazy" style="width:100%;height:170px;object-fit:cover;border:2px solid var(--d2u-black);margin-bottom:16px;">' : '<div class="d2u-pd-learn-num">' + n + '</div>';
+    return '<div class="d2u-pd-learn-cell">' + media + '<h4>'+b[0]+'</h4><p>'+b[1]+'</p></div>';
   }).join('');
 
+  if (p.extraHtml) document.getElementById('d2u-pd-overview-extras').innerHTML += p.extraHtml;
+  var gsec = document.getElementById('d2u-pd-gallery-sec');
+  if (gsec) {
+    if (p.gallery && p.gallery.length) {
+      document.getElementById('d2u-pd-gallery-title').textContent = p.galleryTitle || (p.title + ' in action.');
+      document.getElementById('d2u-pd-gallery-grid').innerHTML = p.gallery.map(function(g){ return '<img src="'+g+'" alt="'+p.title+'" loading="lazy" style="width:100%;height:230px;object-fit:cover;border:2px solid var(--d2u-black);">'; }).join('');
+    } else { gsec.style.display = 'none'; }
+  }
   var subjEl = document.getElementById('d2u-f-subject');
   if (subjEl) subjEl.value = p.title;
 })();

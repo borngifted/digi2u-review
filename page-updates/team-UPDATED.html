@@ -1,0 +1,1626 @@
+<!--
+=====================================================================
+  DIGI2U — TEAM PAGE (matches Home + Donations design system)
+  ---------------------------------------------------------------------
+  Same brand language as /donate/ and home:
+    • White background + Red (#FF0000) + Black
+    • Heavy uppercase display type
+    • Thick borders, red accent rails
+    • Click-to-open lightbox for every team member (full bio + links)
+    • Zeffy donation modal reused for "Donate" CTAs
+    • Working inquiry form (mailto admin@digi2u.org)
+
+  EDITING TEAM MEMBERS:
+  Scroll to the bottom of the file. The D2U_TEAM JS object holds
+  every person's photo, name, title, bio, expertise list, and links.
+  Edit there — the markup below renders automatically.
+
+  INSTALL IN ELEMENTOR:
+  1. Edit your /team/ page → Elementor
+  2. Page Settings → Elementor Full Width
+  3. Drag an HTML widget → paste this whole file
+  4. Update
+=====================================================================
+-->
+
+<style>
+  /* ===== Root palette (also available to moved modals) ===== */
+  :root {
+    --d2u-red: #FF0000;
+    --d2u-red-dark: #D90000;
+    --d2u-red-soft: #FFE8E8;
+    --d2u-red-tint: #FFF5F5;
+    --d2u-black: #000000;
+    --d2u-charcoal: #1A1A1A;
+    --d2u-white: #FFFFFF;
+    --d2u-off-white: #FAFAFA;
+    --d2u-light-gray: #F4F4F4;
+    --d2u-gray: #8A8A8A;
+    --d2u-gray-dark: #4A4A4A;
+    --d2u-line: rgba(0, 0, 0, 0.1);
+    --d2u-line-strong: rgba(0, 0, 0, 0.18);
+    --d2u-shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.06);
+    --d2u-shadow-lift: 0 20px 60px rgba(0, 0, 0, 0.1);
+    --d2u-shadow-red: 0 10px 30px rgba(255, 0, 0, 0.25);
+  }
+  .d2u-page {
+    --d2u-red: #FF0000;
+    --d2u-red-dark: #D90000;
+    --d2u-red-soft: #FFE8E8;
+    --d2u-red-tint: #FFF5F5;
+    --d2u-black: #000000;
+    --d2u-charcoal: #1A1A1A;
+    --d2u-white: #FFFFFF;
+    --d2u-off-white: #FAFAFA;
+    --d2u-light-gray: #F4F4F4;
+    --d2u-gray: #8A8A8A;
+    --d2u-gray-dark: #4A4A4A;
+    --d2u-line: rgba(0, 0, 0, 0.1);
+    --d2u-line-strong: rgba(0, 0, 0, 0.18);
+    --d2u-shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.06);
+    --d2u-shadow-lift: 0 20px 60px rgba(0, 0, 0, 0.1);
+    --d2u-shadow-red: 0 10px 30px rgba(255, 0, 0, 0.25);
+
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: var(--d2u-black);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    background: var(--d2u-white);
+  }
+  .d2u-page *, .d2u-page *::before, .d2u-page *::after { box-sizing: border-box; }
+  .d2u-page h1, .d2u-page h2, .d2u-page h3, .d2u-page h4, .d2u-page h5 {
+    margin: 0; padding: 0; color: var(--d2u-black); font-weight: 900;
+    letter-spacing: -0.02em;
+  }
+  .d2u-page p { margin: 0; padding: 0; }
+  .d2u-page a { text-decoration: none; }
+  .d2u-page img { max-width: 100%; height: auto; display: block; }
+  .d2u-wrap { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+  /* ============ HERO ============ */
+  .d2u-hero {
+    background: var(--d2u-white);
+    color: var(--d2u-black);
+    padding: 110px 0 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .d2u-hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+  }
+  .d2u-hero::after {
+    content: ''; position: absolute;
+    top: 30%; right: -15%;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(255, 0, 0, 0.1) 0%, transparent 60%);
+    filter: blur(60px);
+    pointer-events: none;
+  }
+  .d2u-hero-inner {
+    position: relative; z-index: 2;
+    max-width: 980px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .d2u-eyebrow {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--d2u-red-tint);
+    border: 1px solid var(--d2u-red);
+    padding: 10px 20px;
+    font-size: 12px; font-weight: 700;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    margin-bottom: 32px;
+    color: var(--d2u-black);
+  }
+  .d2u-eyebrow .d2u-dot {
+    width: 8px; height: 8px;
+    background: var(--d2u-red);
+    box-shadow: 0 0 12px var(--d2u-red);
+    animation: d2uPulse 1.8s infinite;
+  }
+  @keyframes d2uPulse { 0%,100%{opacity:1; transform:scale(1);} 50%{opacity:0.5; transform:scale(1.3);} }
+
+  .d2u-page h1.d2u-hero-title {
+    font-size: clamp(48px, 8vw, 96px);
+    font-weight: 900; line-height: 0.98;
+    letter-spacing: -0.04em;
+    margin-bottom: 28px;
+    color: var(--d2u-black);
+    text-transform: uppercase;
+  }
+  .d2u-hero-title .d2u-accent { color: var(--d2u-red); }
+  .d2u-hero-lede {
+    font-size: 20px; line-height: 1.5;
+    color: var(--d2u-gray-dark);
+    margin-bottom: 44px !important;
+    max-width: 680px;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    font-weight: 400;
+  }
+  .d2u-cta-row {
+    display: flex; flex-wrap: wrap; gap: 14px;
+    align-items: center; justify-content: center;
+  }
+
+  /* ============ BUTTONS ============ */
+  .d2u-btn-primary {
+    display: inline-flex; align-items: center; gap: 12px;
+    background: var(--d2u-red);
+    color: var(--d2u-white) !important;
+    padding: 18px 36px;
+    font-weight: 700; font-size: 15px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    border-radius: 0;
+    border: 2px solid var(--d2u-red);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none !important;
+    box-shadow: var(--d2u-shadow-red);
+    font-family: inherit;
+  }
+  .d2u-btn-primary:hover {
+    background: var(--d2u-red-dark);
+    border-color: var(--d2u-red-dark);
+    color: var(--d2u-white) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 14px 36px rgba(255, 0, 0, 0.4);
+  }
+  .d2u-btn-primary .d2u-arrow { transition: transform 0.25s ease; }
+  .d2u-btn-primary:hover .d2u-arrow { transform: translateX(4px); }
+  .d2u-btn-outline {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: transparent;
+    color: var(--d2u-black) !important;
+    padding: 16px 30px;
+    font-weight: 700; font-size: 15px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    border-radius: 0;
+    border: 2px solid var(--d2u-black);
+    transition: all 0.2s;
+    text-decoration: none !important;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .d2u-btn-outline:hover {
+    background: var(--d2u-black);
+    color: var(--d2u-white) !important;
+  }
+
+  /* ============ STATS ============ */
+  .d2u-stats {
+    position: relative; z-index: 2;
+    margin-top: 70px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    max-width: 980px;
+    margin-left: auto;
+    margin-right: auto;
+    border: 2px solid var(--d2u-black);
+  }
+  .d2u-stat {
+    text-align: center;
+    padding: 32px 20px;
+    background: var(--d2u-white);
+    border-right: 2px solid var(--d2u-black);
+  }
+  .d2u-stat:last-child { border-right: none; }
+  .d2u-stat-num {
+    font-size: clamp(32px, 4vw, 48px);
+    font-weight: 900;
+    color: var(--d2u-red);
+    line-height: 1;
+    margin-bottom: 10px;
+    letter-spacing: -0.02em;
+  }
+  .d2u-stat-label {
+    font-size: 12px;
+    color: var(--d2u-black);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 700;
+  }
+
+  /* ============ TICKER MARQUEE ============ */
+  .d2u-ticker {
+    background: var(--d2u-black);
+    color: var(--d2u-white);
+    padding: 18px 0;
+    overflow: hidden;
+    position: relative;
+    border-top: 3px solid var(--d2u-red);
+    border-bottom: 3px solid var(--d2u-red);
+  }
+  .d2u-ticker-track {
+    display: flex; gap: 48px;
+    animation: d2uTicker 35s linear infinite;
+    white-space: nowrap;
+  }
+  .d2u-ticker-item {
+    display: inline-flex; align-items: center; gap: 16px;
+    font-size: 14px; font-weight: 800;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  .d2u-ticker-item::after {
+    content: '';
+    width: 10px; height: 10px;
+    background: var(--d2u-red);
+    display: inline-block;
+    flex-shrink: 0;
+  }
+  @keyframes d2uTicker {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* ============ SECTIONS ============ */
+  .d2u-section { padding: 110px 0; }
+  .d2u-section-white { background: var(--d2u-white); }
+  .d2u-section-gray { background: var(--d2u-off-white); }
+  .d2u-section-black { background: var(--d2u-black); color: var(--d2u-white); }
+  .d2u-section-black h2, .d2u-section-black h3, .d2u-section-black h4 { color: var(--d2u-white); }
+
+  .d2u-section-head { text-align: center; max-width: 780px; margin: 0 auto 68px; }
+  .d2u-tag {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-size: 12px; font-weight: 700;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--d2u-red);
+    margin-bottom: 20px;
+  }
+  .d2u-tag::before {
+    content: ''; display: inline-block;
+    width: 28px; height: 2px;
+    background: var(--d2u-red);
+  }
+  .d2u-page h2.d2u-h2 {
+    font-size: clamp(36px, 5.5vw, 60px);
+    font-weight: 900; line-height: 1.02;
+    letter-spacing: -0.03em;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+  .d2u-section-head p {
+    font-size: 18px;
+    color: var(--d2u-gray-dark);
+    font-weight: 400;
+  }
+  .d2u-section-black .d2u-section-head p { color: rgba(255,255,255,0.75); }
+
+  /* ============ TEAM GRID (LEADERSHIP) ============ */
+  .d2u-team-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+  }
+  .d2u-team-grid.d2u-team-grid-4 {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 22px;
+  }
+  .d2u-member {
+    appearance: none;
+    -webkit-appearance: none;
+    background: var(--d2u-white);
+    border: 2px solid var(--d2u-black);
+    padding: 0;
+    font: inherit;
+    color: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: flex; flex-direction: column;
+    overflow: hidden;
+  }
+  .d2u-member:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--d2u-shadow-lift);
+  }
+  .d2u-member:focus-visible {
+    outline: 3px solid var(--d2u-red);
+    outline-offset: 3px;
+  }
+  .d2u-member-img {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    background-color: var(--d2u-light-gray);
+    background-size: cover;
+    background-position: center top;
+    border-bottom: 2px solid var(--d2u-black);
+    position: relative;
+    transition: transform 0.4s ease;
+  }
+  .d2u-member-img::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 55%, rgba(0,0,0,0.5) 100%);
+  }
+  .d2u-member:hover .d2u-member-img { transform: scale(1.04); }
+  .d2u-member-badge {
+    position: absolute; top: 14px; left: 14px;
+    background: var(--d2u-red);
+    color: var(--d2u-white);
+    font-size: 10px; font-weight: 800;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    padding: 6px 12px;
+    z-index: 2;
+  }
+  .d2u-member-body {
+    padding: 22px 24px 26px;
+    display: flex; flex-direction: column;
+    flex-grow: 1;
+    position: relative;
+  }
+  .d2u-member-body::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 0;
+    background: var(--d2u-red);
+    transition: height 0.2s;
+  }
+  .d2u-member:hover .d2u-member-body::before { height: 4px; }
+  .d2u-member-role {
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--d2u-red);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 8px;
+  }
+  .d2u-page h3.d2u-member-name {
+    font-size: 22px;
+    font-weight: 900;
+    line-height: 1.15;
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+  }
+  .d2u-team-grid-4 .d2u-page h3.d2u-member-name,
+  .d2u-team-grid-4 h3.d2u-member-name {
+    font-size: 18px;
+  }
+  .d2u-member-tagline {
+    font-size: 13.5px;
+    color: var(--d2u-gray-dark);
+    line-height: 1.5;
+    margin-bottom: 18px !important;
+    flex-grow: 1;
+  }
+  .d2u-member-readmore {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 11px; font-weight: 800;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--d2u-black);
+    border-bottom: 2px solid var(--d2u-black);
+    padding-bottom: 3px;
+    align-self: flex-start;
+    transition: all 0.2s;
+  }
+  .d2u-member:hover .d2u-member-readmore {
+    color: var(--d2u-red);
+    border-bottom-color: var(--d2u-red);
+  }
+  .d2u-member-readmore span { transition: transform 0.2s; }
+  .d2u-member:hover .d2u-member-readmore span { transform: translateX(4px); }
+
+  /* ============ VALUES ============ */
+  .d2u-values {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border: 2px solid var(--d2u-white);
+  }
+  .d2u-value {
+    padding: 38px 28px;
+    background: var(--d2u-charcoal);
+    border-right: 1px solid rgba(255,255,255,0.15);
+    transition: all 0.25s ease;
+    position: relative;
+  }
+  .d2u-value:last-child { border-right: none; }
+  .d2u-value:hover { background: var(--d2u-black); }
+  .d2u-value::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 0;
+    background: var(--d2u-red);
+    transition: height 0.2s;
+  }
+  .d2u-value:hover::before { height: 5px; }
+  .d2u-value-num {
+    font-size: 12px; font-weight: 800;
+    letter-spacing: 0.15em;
+    color: var(--d2u-red);
+    margin-bottom: 16px;
+    display: block;
+  }
+  .d2u-page h4.d2u-value-title {
+    font-size: 22px; font-weight: 900;
+    color: var(--d2u-white);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    letter-spacing: -0.02em;
+  }
+  .d2u-value-desc {
+    font-size: 14px;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.6;
+  }
+
+  /* ============ JOIN US CTA ============ */
+  .d2u-join-cta {
+    background: var(--d2u-white);
+    color: var(--d2u-black);
+    padding: 70px 60px;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 40px;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    border: 2px solid var(--d2u-black);
+    border-left: 8px solid var(--d2u-red);
+  }
+  .d2u-join-cta::after {
+    content: 'TEAM';
+    position: absolute;
+    right: -40px; bottom: -90px;
+    font-size: 260px; font-weight: 900;
+    color: rgba(255, 0, 0, 0.05);
+    letter-spacing: -0.05em;
+    pointer-events: none;
+    line-height: 1;
+  }
+  .d2u-page h2.d2u-join-title {
+    font-size: clamp(30px, 4vw, 44px);
+    font-weight: 900; line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin-bottom: 14px;
+    color: var(--d2u-black);
+    text-transform: uppercase;
+  }
+  .d2u-join-cta p {
+    font-size: 17px;
+    color: var(--d2u-gray-dark);
+    font-weight: 500;
+  }
+  .d2u-join-right { text-align: right; position: relative; z-index: 2; }
+
+  /* ============ CONTACT + FORM ============ */
+  .d2u-contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 70px;
+    align-items: start;
+  }
+  .d2u-contact-info > p {
+    font-size: 17px;
+    color: var(--d2u-gray-dark);
+    margin-bottom: 40px !important;
+    line-height: 1.6;
+  }
+  .d2u-contact-methods {
+    display: grid; gap: 16px;
+    margin-bottom: 40px;
+  }
+  .d2u-contact-method {
+    display: flex; gap: 18px; align-items: center;
+    padding: 20px 24px;
+    background: var(--d2u-white);
+    border: 2px solid var(--d2u-black);
+    transition: all 0.2s;
+  }
+  .d2u-contact-method:hover {
+    border-color: var(--d2u-red);
+    transform: translateX(4px);
+  }
+  .d2u-contact-icon {
+    width: 48px; height: 48px;
+    background: var(--d2u-black);
+    color: var(--d2u-white);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; font-size: 22px;
+    transition: background 0.2s;
+  }
+  .d2u-contact-method:hover .d2u-contact-icon { background: var(--d2u-red); }
+  .d2u-contact-label {
+    font-size: 11px; color: var(--d2u-gray);
+    text-transform: uppercase; letter-spacing: 0.15em;
+    font-weight: 700; margin-bottom: 4px;
+  }
+  .d2u-contact-value {
+    font-size: 16px;
+    color: var(--d2u-black) !important;
+    font-weight: 700;
+    text-decoration: none !important;
+  }
+  .d2u-contact-value:hover { color: var(--d2u-red) !important; }
+  .d2u-nonprofit-note {
+    padding: 22px;
+    background: var(--d2u-white);
+    color: var(--d2u-black);
+    font-size: 14px;
+    line-height: 1.6;
+    border: 2px solid var(--d2u-black);
+    border-left: 6px solid var(--d2u-red);
+  }
+  .d2u-nonprofit-note strong {
+    display: block;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 6px;
+    color: var(--d2u-red);
+    font-weight: 800;
+    font-size: 12px;
+  }
+
+  .d2u-form-card {
+    background: var(--d2u-white);
+    padding: 48px;
+    border: 2px solid var(--d2u-black);
+    border-top: 6px solid var(--d2u-red);
+  }
+  .d2u-form-card h3 {
+    font-size: 28px; font-weight: 900;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+  }
+  .d2u-form-card > p {
+    font-size: 15px;
+    color: var(--d2u-gray-dark);
+    margin-bottom: 28px !important;
+  }
+  .d2u-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+  .d2u-field {
+    display: block; width: 100%;
+    padding: 16px 18px;
+    border: 2px solid var(--d2u-line-strong);
+    border-radius: 0;
+    font-size: 15px;
+    font-family: inherit;
+    color: var(--d2u-black);
+    background: var(--d2u-white);
+    transition: all 0.2s;
+    margin-bottom: 14px;
+  }
+  .d2u-field:focus {
+    outline: none;
+    border-color: var(--d2u-red);
+    box-shadow: 0 0 0 3px rgba(255, 0, 0, 0.1);
+  }
+  .d2u-field::placeholder { color: var(--d2u-gray); }
+  .d2u-field.d2u-textarea { min-height: 130px; resize: vertical; line-height: 1.5; }
+  .d2u-form-row .d2u-field { margin-bottom: 0; }
+  .d2u-form-btn { width: 100%; margin-top: 10px; justify-content: center; }
+
+  /* ============ FINAL CTA ============ */
+  .d2u-final {
+    text-align: center;
+    padding: 120px 40px;
+    background: var(--d2u-white);
+    color: var(--d2u-black);
+    position: relative;
+    overflow: hidden;
+    border-top: 6px solid var(--d2u-red);
+  }
+  .d2u-final::before, .d2u-final::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(255, 0, 0, 0.06) 0%, transparent 70%);
+    filter: blur(60px);
+    pointer-events: none;
+  }
+  .d2u-final::before { left: -10%; }
+  .d2u-final::after { right: -10%; }
+  .d2u-final > * { position: relative; z-index: 2; }
+  .d2u-page h2.d2u-final-title {
+    font-size: clamp(40px, 6vw, 72px);
+    font-weight: 900;
+    line-height: 0.98;
+    letter-spacing: -0.04em;
+    margin: 0 auto 24px;
+    max-width: 860px;
+    color: var(--d2u-black);
+    text-transform: uppercase;
+  }
+  .d2u-final-title .d2u-accent { color: var(--d2u-red); }
+  .d2u-final-lede {
+    font-size: 18px;
+    color: var(--d2u-gray-dark);
+    max-width: 640px;
+    margin: 0 auto 40px !important;
+  }
+  .d2u-final .d2u-cta-row { justify-content: center; }
+
+  /* ============ MODAL (shared base) ============ */
+  .d2u-modal {
+    display: none;
+    position: fixed !important;
+    top: 0 !important; left: 0 !important;
+    right: 0 !important; bottom: 0 !important;
+    width: 100vw !important; height: 100vh !important;
+    z-index: 999999 !important;
+    background: rgba(0, 0, 0, 0.85) !important;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    padding: 30px 20px;
+    overflow-y: auto;
+    animation: d2uFadeIn 0.2s ease;
+    margin: 0 !important;
+  }
+  .d2u-modal.d2u-modal-open {
+    display: flex !important;
+    align-items: flex-start;
+    justify-content: center;
+  }
+  @keyframes d2uFadeIn { from { opacity: 0; } to { opacity: 1; } }
+  .d2u-modal-inner {
+    background: #FFFFFF;
+    width: 100%; max-width: 760px;
+    border: 2px solid #000000;
+    border-top: 6px solid #FF0000;
+    position: relative;
+    animation: d2uSlideUp 0.3s ease;
+  }
+  @keyframes d2uSlideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  .d2u-modal-header {
+    padding: 22px 28px;
+    border-bottom: 2px solid #000000;
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 20px; background: #FFFFFF;
+  }
+  .d2u-modal-title {
+    font-size: 16px; font-weight: 900;
+    text-transform: uppercase; letter-spacing: 0.05em;
+    color: #000000;
+  }
+  .d2u-modal-title span { color: #FF0000; margin-right: 8px; }
+  .d2u-modal-close {
+    width: 40px; height: 40px;
+    background: #000000; color: #FFFFFF;
+    border: none; cursor: pointer;
+    font-size: 20px; font-weight: 900;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s;
+    font-family: inherit; flex-shrink: 0;
+  }
+  .d2u-modal-close:hover { background: #FF0000; }
+  .d2u-modal-body { padding: 0; background: #FFFFFF; }
+  .d2u-modal-body iframe { border: 0 !important; width: 100% !important; display: block; }
+
+  /* ============ TEAM MEMBER LIGHTBOX ============ */
+  .d2u-tm-modal-inner {
+    max-width: 880px;
+    padding: 0;
+    overflow: visible;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #000000;
+    background: #FFFFFF;
+  }
+  .d2u-tm-modal-inner * { box-sizing: border-box; }
+  .d2u-tm-close {
+    position: absolute;
+    top: 18px; right: 18px;
+    z-index: 10;
+    width: 44px; height: 44px;
+    background: #000000; color: #FFFFFF;
+    border: none; cursor: pointer;
+    font-size: 22px; font-weight: 900;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.35);
+    transition: background 0.2s;
+    font-family: inherit;
+  }
+  .d2u-tm-close:hover { background: #FF0000; }
+  .d2u-tm-grid {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 0;
+  }
+  .d2u-tm-img {
+    width: 100%;
+    height: 100%;
+    min-height: 380px;
+    background-color: #F4F4F4;
+    background-size: cover;
+    background-position: center top;
+    border-right: 2px solid #000000;
+  }
+  .d2u-tm-body {
+    padding: 40px 44px 44px;
+    background: #FFFFFF;
+    color: #000000;
+  }
+  .d2u-tm-role {
+    display: inline-block;
+    font-size: 11px; font-weight: 800;
+    color: #FF0000;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin: 0 0 14px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #FF0000;
+  }
+  h2.d2u-tm-name {
+    font-size: clamp(26px, 3.4vw, 36px);
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    margin: 0 0 8px;
+    line-height: 1.05;
+    color: #000000;
+  }
+  .d2u-tm-tagline {
+    font-size: 14px;
+    color: #8A8A8A;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 700;
+    margin-bottom: 22px;
+  }
+  p.d2u-tm-bio {
+    font-size: 15.5px;
+    color: #4A4A4A;
+    line-height: 1.7;
+    margin: 0 0 22px;
+    font-weight: 400;
+  }
+  p.d2u-tm-bio + p.d2u-tm-bio { margin-top: -8px; }
+  .d2u-tm-subhead {
+    font-size: 11px; font-weight: 800;
+    color: #8A8A8A;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 12px;
+  }
+  .d2u-tm-expertise {
+    list-style: none;
+    margin: 0 0 26px;
+    padding: 0;
+    display: flex; flex-wrap: wrap;
+    gap: 8px;
+  }
+  .d2u-tm-expertise li {
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 8px 14px;
+    border: 2px solid #000000;
+    color: #000000;
+    background: #FFFFFF;
+  }
+  .d2u-tm-experience {
+    margin: 0 0 26px;
+    border-top: 2px solid #000000;
+    border-bottom: 2px solid #000000;
+  }
+  .d2u-tm-exp-row {
+    padding: 16px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+  }
+  .d2u-tm-experience > .d2u-tm-exp-row:last-child { border-bottom: none; }
+  .d2u-tm-exp-row-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-bottom: 4px;
+  }
+  .d2u-tm-exp-role {
+    font-size: 14.5px;
+    font-weight: 900;
+    color: #000000;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+  }
+  .d2u-tm-exp-dates {
+    font-size: 11px;
+    font-weight: 800;
+    color: #FF0000;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+  .d2u-tm-exp-company {
+    font-size: 12px;
+    font-weight: 700;
+    color: #8A8A8A;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 8px;
+  }
+  .d2u-tm-exp-desc {
+    font-size: 14px;
+    color: #4A4A4A;
+    line-height: 1.6;
+  }
+  .d2u-tm-links {
+    display: flex; flex-wrap: wrap; gap: 10px;
+    margin-top: 4px;
+    padding-top: 22px;
+    border-top: 2px solid #000000;
+  }
+  .d2u-tm-link {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 12px; font-weight: 800;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 12px 18px;
+    border: 2px solid #000000;
+    color: #000000;
+    background: #FFFFFF;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .d2u-tm-link:hover {
+    background: #FF0000;
+    border-color: #FF0000;
+    color: #FFFFFF;
+  }
+  @media (max-width: 720px) {
+    .d2u-tm-grid { grid-template-columns: 1fr; }
+    .d2u-tm-img { min-height: 280px; aspect-ratio: 4/3; border-right: none; border-bottom: 2px solid #000000; }
+    .d2u-tm-body { padding: 32px 28px 36px; }
+  }
+
+  /* ============ STICKY BUTTON ============ */
+  .d2u-sticky {
+    position: fixed;
+    bottom: 24px; right: 24px;
+    z-index: 9999;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+    pointer-events: none;
+  }
+  .d2u-sticky.d2u-visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 960px) {
+    .d2u-hero { padding: 70px 0 60px; }
+    .d2u-stats { grid-template-columns: repeat(2, 1fr); }
+    .d2u-stat:nth-child(2n) { border-right: none; }
+    .d2u-stat:nth-child(-n+2) { border-bottom: 2px solid var(--d2u-black); }
+    .d2u-team-grid { grid-template-columns: repeat(2, 1fr); }
+    .d2u-team-grid.d2u-team-grid-4 { grid-template-columns: repeat(2, 1fr); }
+    .d2u-values { grid-template-columns: repeat(2, 1fr); }
+    .d2u-value:nth-child(2n) { border-right: none; }
+    .d2u-value:nth-child(-n+2) { border-bottom: 1px solid rgba(255,255,255,0.15); }
+    .d2u-join-cta { grid-template-columns: 1fr; padding: 54px 36px; text-align: center; }
+    .d2u-join-right { text-align: center; }
+    .d2u-contact-grid { grid-template-columns: 1fr; gap: 50px; }
+    .d2u-section { padding: 80px 0; }
+    .d2u-final { padding: 80px 24px; }
+    .d2u-join-cta::after { font-size: 160px; bottom: -50px; }
+  }
+  @media (max-width: 600px) {
+    .d2u-stats { grid-template-columns: 1fr; }
+    .d2u-stat { border-right: none; border-bottom: 2px solid var(--d2u-black); }
+    .d2u-stat:last-child { border-bottom: none; }
+    .d2u-team-grid { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; }
+    .d2u-team-grid.d2u-team-grid-4 { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; }
+    .d2u-values { grid-template-columns: 1fr; }
+    .d2u-value { border-right: none !important; border-bottom: 1px solid rgba(255,255,255,0.15); }
+    .d2u-value:last-child { border-bottom: none; }
+    .d2u-form-card { padding: 28px; }
+    .d2u-form-row { grid-template-columns: 1fr; }
+    .d2u-sticky { bottom: 16px; right: 16px; left: 16px; }
+    .d2u-sticky.d2u-btn-primary { justify-content: center; padding: 16px 24px; }
+    .d2u-join-cta { padding: 40px 24px; }
+    .d2u-join-cta::after { display: none; }
+    .d2u-modal { padding: 15px 10px; }
+  }
+</style>
+
+<div class="d2u-page">
+
+  <!-- ============ HERO ============ -->
+  <section class="d2u-hero">
+    <div class="d2u-wrap">
+      <div class="d2u-hero-inner">
+        <span class="d2u-eyebrow"><span class="d2u-dot"></span> Team Leadership &middot; Digi2U</span>
+        <h1 class="d2u-hero-title">Meet the<br>minds behind<br>Digi2U<span class="d2u-accent">.</span></h1>
+        <p class="d2u-hero-lede">A passionate team dedicated to innovation and community impact &mdash; industry professionals, educators, and creatives committed to empowering individuals through technology, education, and digital media.</p>
+        <div class="d2u-cta-row">
+          <a href="#d2u-leadership" class="d2u-btn-primary">
+            Meet The Team
+            <span class="d2u-arrow">&rarr;</span>
+          </a>
+          <a href="#d2u-join" class="d2u-btn-outline">Join The Network</a>
+        </div>
+
+        <div class="d2u-stats">
+          <div class="d2u-stat">
+            <div class="d2u-stat-num">4</div>
+            <div class="d2u-stat-label">Cities Served</div>
+          </div>
+          <div class="d2u-stat">
+            <div class="d2u-stat-num">12</div>
+            <div class="d2u-stat-label">Core Programs</div>
+          </div>
+          <div class="d2u-stat">
+            <div class="d2u-stat-num">3</div>
+            <div class="d2u-stat-label">Certifications</div>
+          </div>
+          <div class="d2u-stat">
+            <div class="d2u-stat-num">2,000+</div>
+            <div class="d2u-stat-label">Community Hours</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TICKER ============ -->
+  <section class="d2u-ticker" aria-hidden="true">
+    <div class="d2u-ticker-track">
+      <span class="d2u-ticker-item">Mentorship</span>
+      <span class="d2u-ticker-item">Apprenticeship</span>
+      <span class="d2u-ticker-item">Volunteerism</span>
+      <span class="d2u-ticker-item">Sponsorship</span>
+      <span class="d2u-ticker-item">Community First</span>
+      <span class="d2u-ticker-item">STEAM For Adults</span>
+      <span class="d2u-ticker-item">Real-Life Project Based Learning</span>
+      <span class="d2u-ticker-item">Mentorship</span>
+      <span class="d2u-ticker-item">Apprenticeship</span>
+      <span class="d2u-ticker-item">Volunteerism</span>
+      <span class="d2u-ticker-item">Sponsorship</span>
+      <span class="d2u-ticker-item">Community First</span>
+      <span class="d2u-ticker-item">STEAM For Adults</span>
+      <span class="d2u-ticker-item">Real-Life Project Based Learning</span>
+    </div>
+  </section>
+
+  <!-- ============ LEADERSHIP ============ -->
+  <section class="d2u-section d2u-section-white" id="d2u-leadership">
+    <div class="d2u-wrap">
+      <div class="d2u-section-head">
+        <span class="d2u-tag">Team Leadership</span>
+        <h2 class="d2u-h2">A passionate team<br>driving the mission.</h2>
+        <p>Tap any team member to read their full bio, experience, and expertise.</p>
+      </div>
+
+      <div class="d2u-team-grid d2u-team-grid-4" id="d2u-leadership-grid"></div>
+    </div>
+  </section>
+
+  <!-- ============ VALUES ============ -->
+  <section class="d2u-section d2u-section-black">
+    <div class="d2u-wrap">
+      <div class="d2u-section-head">
+        <span class="d2u-tag">How We Show Up</span>
+        <h2 class="d2u-h2">Four values<br>everyone signs.</h2>
+        <p>These aren't slogans &mdash; they're the criteria we hire, mentor, and promote against.</p>
+      </div>
+
+      <div class="d2u-values">
+        <div class="d2u-value">
+          <span class="d2u-value-num">01</span>
+          <h4 class="d2u-value-title">Community First</h4>
+          <p class="d2u-value-desc">We build with the communities we serve, not for them. Local voices shape every program.</p>
+        </div>
+        <div class="d2u-value">
+          <span class="d2u-value-num">02</span>
+          <h4 class="d2u-value-title">Hands On Always</h4>
+          <p class="d2u-value-desc">Real tools. Real projects. Real outcomes. Theory matters &mdash; but doing the work is how skills stick.</p>
+        </div>
+        <div class="d2u-value">
+          <span class="d2u-value-num">03</span>
+          <h4 class="d2u-value-title">Pay It Forward</h4>
+          <p class="d2u-value-desc">Mentorship, apprenticeship, volunteerism, sponsorship &mdash; everyone who's helped is asked to help next.</p>
+        </div>
+        <div class="d2u-value">
+          <span class="d2u-value-num">04</span>
+          <h4 class="d2u-value-title">Excellence Without Ego</h4>
+          <p class="d2u-value-desc">High standards, low drama. We push for great work and treat each other with respect along the way.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ JOIN US ============ -->
+  <section class="d2u-section d2u-section-white" id="d2u-join" style="padding: 110px 0;">
+    <div class="d2u-wrap">
+      <div class="d2u-join-cta">
+        <div style="position: relative; z-index: 2;">
+          <span class="d2u-tag">Join The Network</span>
+          <h2 class="d2u-join-title">Mentor. Volunteer.<br>Apprentice. Sponsor.</h2>
+          <p>The Digi2U team isn't just staff &mdash; it's a network of people pouring time, talent, and resources into the next generation of adult learners. Step in.</p>
+        </div>
+        <div class="d2u-join-right">
+          <a href="/contact-us/" class="d2u-btn-primary">
+            Get Involved
+            <span class="d2u-arrow">&rarr;</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CONTACT + FORM ============ -->
+  <section class="d2u-section d2u-section-gray" id="d2u-contact">
+    <div class="d2u-wrap">
+      <div class="d2u-contact-grid">
+
+        <div class="d2u-contact-info">
+          <span class="d2u-tag">Get in Touch with Digi2U</span>
+          <h2 class="d2u-h2">Want to join,<br>partner, or fund?</h2>
+          <p>Whether you're applying to volunteer, exploring board opportunities, or pitching a partnership &mdash; reach our team and we'll respond within one business day.</p>
+
+          <div class="d2u-contact-methods">
+            <div class="d2u-contact-method">
+              <div class="d2u-contact-icon">&#9993;</div>
+              <div>
+                <div class="d2u-contact-label">Email</div>
+                <a href="mailto:admin@digi2u.org" class="d2u-contact-value">admin@digi2u.org</a>
+              </div>
+            </div>
+            <div class="d2u-contact-method">
+              <div class="d2u-contact-icon">&#9742;</div>
+              <div>
+                <div class="d2u-contact-label">Phone</div>
+                <a href="tel:+12013743553" class="d2u-contact-value">+1 (201) 374-3553</a>
+              </div>
+            </div>
+            <div class="d2u-contact-method">
+              <div class="d2u-contact-icon">&#9873;</div>
+              <div>
+                <div class="d2u-contact-label">Office</div>
+                <span class="d2u-contact-value">317 Pacific Avenue, Jersey City, NJ 07304</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="d2u-nonprofit-note">
+            <strong>501(c)(3) Nonprofit</strong>
+            Digi2U is a tax-exempt nonprofit organization. EIN: 88-3213984. All donations are tax-deductible to the fullest extent allowed by law.
+          </div>
+        </div>
+
+        <form class="d2u-form-card" id="d2u-inquiry-form" onsubmit="return d2uSubmitInquiry(event);">
+          <h3>Inquiry Form</h3>
+          <p>Tell us how you'd like to engage &mdash; volunteer, board, partner, sponsor, or general question.</p>
+          <div class="d2u-form-row">
+            <input class="d2u-field" id="d2u-f-name" type="text" placeholder="Name" required>
+            <input class="d2u-field" id="d2u-f-email" type="email" placeholder="Email" required>
+          </div>
+          <input class="d2u-field" id="d2u-f-phone" type="tel" placeholder="Phone (optional)">
+          <input class="d2u-field" id="d2u-f-subject" type="text" placeholder="Subject" required>
+          <textarea class="d2u-field d2u-textarea" id="d2u-f-message" placeholder="Message" required></textarea>
+          <button type="submit" class="d2u-btn-primary d2u-form-btn">
+            Submit
+            <span class="d2u-arrow">&rarr;</span>
+          </button>
+          <p id="d2u-form-status" style="margin-top: 14px; font-size: 13px; color: var(--d2u-gray); text-align: center;"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FINAL CTA ============ -->
+  <!-- D2U-CIA-STRIP --><section class="d2u-cia-injected" style="padding:70px 24px;background:#FAFAFA;border-top:6px solid #FF0000"><div style="max-width:1200px;margin:0 auto"><div style="text-align:center;margin-bottom:36px"><span style="display:inline-block;font-size:11px;font-weight:800;letter-spacing:0.18em;text-transform:uppercase;color:#FF0000;padding-bottom:8px;border-bottom:2px solid #FF0000">Community in Action</span><h2 style="font-size:clamp(28px,4vw,44px);font-weight:900;letter-spacing:-0.03em;line-height:1.05;margin:14px 0 6px;text-transform:uppercase;color:#000">Real cohorts.<br>Real moments.</h2><p style="font-size:15px;color:#4A4A4A;max-width:600px;margin:8px auto 0">Snapshots from Digi2U classrooms, mobile labs, and partner events.</p></div><div class="d2u-cia-grid-injected" style="display:grid;grid-template-columns:repeat(6,1fr);gap:6px"><a href="https://digi2u.org/wp-content/uploads/2026/05/d2u-3d-justice-1.webp" target="_blank" rel="noopener" style="aspect-ratio:4/5;background:#eee url('https://digi2u.org/wp-content/uploads/2026/05/d2u-3d-justice-1.webp') center/cover no-repeat;display:block;position:relative;text-decoration:none"><span style="position:absolute;left:10px;right:10px;bottom:10px;color:#fff;font-size:11px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;text-shadow:0 1px 3px rgba(0,0,0,0.7);line-height:1.3">Justice — 3D Cohort</span></a><a href="https://digi2u.org/wp-content/uploads/2026/05/d2u-3d-justice-3.webp" target="_blank" rel="noopener" style="aspect-ratio:4/5;background:#eee url('https://digi2u.org/wp-content/uploads/2026/05/d2u-3d-justice-3.webp') center/cover no-repeat;display:block;position:relative;text-decoration:none"><span style="position:absolute;left:10px;right:10px;bottom:10px;color:#fff;font-size:11px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;text-shadow:0 1px 3px rgba(0,0,0,0.7);line-height:1.3">Build · Newark, NJ</span></a><a href="https://digi2u.org/wp-content/uploads/2026/05/d2u-newark-3d-1.webp" target="_blank" rel="noopener" style="aspect-ratio:4/5;background:#eee url('https://digi2u.org/wp-content/uploads/2026/05/d2u-newark-3d-1.webp') center/cover no-repeat;display:block;position:relative;text-decoration:none"><span style="position:absolute;left:10px;right:10px;bottom:10px;color:#fff;font-size:11px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;text-shadow:0 1px 3px rgba(0,0,0,0.7);line-height:1.3">Newark Bootcamp</span></a><a href="https://digi2u.org/wp-content/uploads/2026/05/d2u-pacific-extra-01.webp" target="_blank" rel="noopener" style="aspect-ratio:4/5;background:#eee url('https://digi2u.org/wp-content/uploads/2026/05/d2u-pacific-extra-01.webp') center/cover no-repeat;display:block;position:relative;text-decoration:none"><span style="position:absolute;left:10px;right:10px;bottom:10px;color:#fff;font-size:11px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;text-shadow:0 1px 3px rgba(0,0,0,0.7);line-height:1.3">Training · 317 Pacific</span></a><a href="https://digi2u.org/wp-content/uploads/2026/05/d2u-spinoff-newark-2.webp" target="_blank" rel="noopener" style="aspect-ratio:4/5;background:#eee url('https://digi2u.org/wp-content/uploads/2026/05/d2u-spinoff-newark-2.webp') center/cover no-repeat;display:block;position:relative;text-decoration:none"><span style="position:absolute;left:10px;right:10px;bottom:10px;color:#fff;font-size:11px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;text-shadow:0 1px 3px rgba(0,0,0,0.7);line-height:1.3">Spin-Off Open Deck</span></a><a href="https://digi2u.org/wp-content/uploads/2026/05/d2u-cherry-xmas-3.webp" target="_blank" rel="noopener" style="aspect-ratio:4/5;background:#eee url('https://digi2u.org/wp-content/uploads/2026/05/d2u-cherry-xmas-3.webp') center/cover no-repeat;display:block;position:relative;text-decoration:none"><span style="position:absolute;left:10px;right:10px;bottom:10px;color:#fff;font-size:11px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;text-shadow:0 1px 3px rgba(0,0,0,0.7);line-height:1.3">Cherry Foundation Christmas</span></a></div></div></section><style>@media(max-width:960px){.d2u-cia-grid-injected{grid-template-columns:repeat(3,1fr) !important}}@media(max-width:600px){.d2u-cia-grid-injected{grid-template-columns:repeat(2,1fr) !important}}</style><section class="d2u-final">
+    <span class="d2u-tag">Become Part Of It</span>
+    <h2 class="d2u-h2 d2u-final-title">Same mission<span class="d2u-accent">.</span><br>Bigger team<span class="d2u-accent">.</span></h2>
+    <p class="d2u-final-lede">If you've read this far, you're already aligned. Let's build the next chapter of Digi2U together.</p>
+    <div class="d2u-cta-row">
+      <button type="button" class="d2u-btn-primary" onclick="d2uOpenModal()">
+        Donate &amp; Support
+        <span class="d2u-arrow">&rarr;</span>
+      </button>
+      <a href="/about-us/" class="d2u-btn-outline">About Digi2U</a>
+      <a href="/contact-us/" class="d2u-btn-outline">Join The Team</a>
+    </div>
+  </section>
+
+  <!-- ============ STICKY BUTTON ============ -->
+  <button type="button" class="d2u-btn-primary d2u-sticky" id="d2u-sticky-btn" onclick="d2uOpenModal()">
+    Donate Now
+    <span class="d2u-arrow">&rarr;</span>
+  </button>
+
+  <!-- ============ TEAM MEMBER LIGHTBOX ============ -->
+  <div class="d2u-modal" id="d2u-tm-modal" onclick="d2uCloseTmOnBackdrop(event)">
+    <div class="d2u-modal-inner d2u-tm-modal-inner" onclick="event.stopPropagation()">
+      <button type="button" class="d2u-modal-close d2u-tm-close" onclick="d2uCloseTm()" aria-label="Close">&times;</button>
+      <div class="d2u-tm-grid">
+        <div class="d2u-tm-img" id="d2u-tm-img"></div>
+        <div class="d2u-tm-body">
+          <div class="d2u-tm-role" id="d2u-tm-role"></div>
+          <h2 class="d2u-tm-name" id="d2u-tm-name"></h2>
+          <div class="d2u-tm-tagline" id="d2u-tm-tagline"></div>
+          <div id="d2u-tm-bio"></div>
+          <div class="d2u-tm-subhead" id="d2u-tm-experience-head" style="display:none;">Experience</div>
+          <div class="d2u-tm-experience" id="d2u-tm-experience"></div>
+          <div class="d2u-tm-subhead" id="d2u-tm-expertise-head" style="display:none;">Expertise</div>
+          <ul class="d2u-tm-expertise" id="d2u-tm-expertise"></ul>
+          <div class="d2u-tm-links" id="d2u-tm-links"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ DONATION MODAL (Zeffy) ============ -->
+  <div class="d2u-modal" id="d2u-donation-modal" onclick="d2uCloseModalOnBackdrop(event)">
+    <div class="d2u-modal-inner" onclick="event.stopPropagation()">
+      <div class="d2u-modal-header">
+        <div class="d2u-modal-title"><span>&#9733;</span>Donate to Digi2U</div>
+        <button type="button" class="d2u-modal-close" onclick="d2uCloseModal()" aria-label="Close">&times;</button>
+      </div>
+      <div class="d2u-modal-body">
+        <div style="position:relative;overflow:hidden;height:720px;width:100%;">
+          <iframe
+            id="d2u-zeffy-iframe"
+            title="Donation form powered by Zeffy"
+            style="position: absolute; border: 0; top:0; left:0; bottom:0; right:0; width:100%; height:100%;"
+            src="https://www.zeffy.com/embed/donation-form/donate-to-change-lives-3894"
+            allowpaymentrequest
+            allowtransparency="true"
+            loading="lazy"></iframe>
+        </div>
+        <div style="padding: 14px 24px; background: #FAFAFA; border-top: 1px solid rgba(0,0,0,0.1); text-align: center;">
+          <p style="font-size: 13px; color: #4A4A4A;">Having trouble? <a href="https://www.zeffy.com/donation-form/donate-to-change-lives-3894" target="_blank" rel="noopener" style="color: #FF0000; font-weight: 700; text-decoration: underline;">Open donation form in a new tab &rarr;</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* =====================================================================
+   TEAM DATA — EDIT THIS BLOCK to update people
+   Each entry needs:
+     id, role (red kicker), name, tagline (subtitle), bio (string or array
+     of paragraphs), img (URL), expertise [array of tags], links [array of
+     {label, href}], group: 'leadership' | 'board' | 'advisors',
+     badge (optional small label, e.g., "Founder & Executive Director")
+   ===================================================================== */
+var D2U_TEAM = [
+  {
+    id: 'pamela-timpson',
+    group: 'leadership',
+    role: 'Founder',
+    name: 'Pamela Timpson',
+    tagline: 'Founder & Executive Director · Digi2u.org',
+    img: 'https://digi2u.org/wp-content/uploads/2025/01/Pam-261x300.png',
+    bio: 'Pamela Timpson is a dedicated community development professional with a passion for building stronger, more connected communities. Through strategic outreach and meaningful engagement, she works to bridge gaps and create lasting positive change for the people Digi2u.org serves.',
+    experience: [
+      {
+        role: 'Community Development Lead',
+        company: 'Digi2u.org',
+        dates: '2023 – Present',
+        desc: 'Pamela leads community outreach and development initiatives, fostering partnerships and programs that empower residents and strengthen ties between the organization and the communities it serves.'
+      }
+    ],
+    expertise: [
+      'Community Engagement & Outreach',
+      'Stakeholder Relations & Partnership Building',
+      'Program Development & Implementation',
+      'Nonprofit Community Strategy',
+      'Grassroots Organizing'
+    ],
+    links: [{ label: 'Email', href: 'mailto:admin@digi2u.org' }]
+  },
+  {
+    id: 'jesse-cerami',
+    group: 'leadership',
+    role: 'Director of Programming',
+    name: 'Jesse \'Justice\' Cerami',
+    tagline: 'Professional Development Specialist | Digi2u.org',
+    img: 'https://digi2u.org/wp-content/uploads/2025/01/IMG_1010-300x300.jpg',
+    bio: 'Jesse Cerami is a professional development specialist committed to empowering individuals with the skills and knowledge needed to thrive in today\'s evolving workforce. His work focuses on creating meaningful learning experiences that translate directly into real-world opportunity.',
+    experience: [
+      {
+        role: 'Director of Programming — $100K personal investment in 3D fab',
+        company: 'Digi2u.org',
+        dates: '2023 – Present',
+        desc: 'Jesse designs and delivers professional development programs that equip community members with in-demand skills, preparing them for careers in an increasingly digital economy.'
+      }
+    ],
+    expertise: [
+      'Training Program Design & Delivery',
+      'Curriculum Development',
+      'Workforce Development Strategy',
+      'Career Coaching & Mentorship',
+      'Adult Education'
+    ],
+    links: [{ label: 'Email', href: 'mailto:admin@digi2u.org' }]
+  },
+  {
+    id: 'queen-wright',
+    group: 'leadership',
+    role: 'Director of Grants',
+    name: 'Dr. Queen Esther Marrero',
+    tagline: 'Grants & Funding Director | Digi2u.org',
+    img: 'https://digi2u.org/wp-content/uploads/2025/02/IMG_773F357C9B3F-1-215x300.jpeg',
+    bio: 'Dr. Queen Wright brings deep expertise and academic rigor to the world of grants and nonprofit funding. Her strategic approach to identifying and securing funding opportunities has been instrumental in advancing Digi2u.org\'s mission and expanding its impact across underserved communities.',
+    experience: [
+      {
+        role: 'Director of Grants — 30+ yr Army career',
+        company: 'Digi2u.org',
+        dates: '2023 – Present',
+        desc: 'Dr. Wright oversees the full grants lifecycle — from research and writing to submission and compliance — ensuring the organization maintains a strong pipeline of funding to sustain and grow its programs.'
+      }
+    ],
+    expertise: [
+      'Grant Writing & Strategy',
+      'Nonprofit Funding & Compliance',
+      'Budget Development & Management',
+      'Federal & Foundation Grants',
+      'Program Evaluation & Reporting'
+    ],
+    links: [{ label: 'Email', href: 'mailto:admin@digi2u.org' }]
+  },
+  {
+    id: 'april-marrero',
+    group: 'leadership',
+    role: 'Grant Admin',
+    name: 'April Marrero',
+    tagline: 'Grant Administrator | Digi2u.org',
+    img: 'https://digi2u.org/wp-content/uploads/2025/02/IMG_2BD32005009E-1-224x300.jpeg',
+    bio: 'April Marrero is a detail-oriented grant administrator who ensures all funded projects are properly managed, reported, and compliant. Her meticulous approach to grant oversight keeps operations running smoothly and maintains the trust of funders and stakeholders alike.',
+    experience: [
+      {
+        role: 'Grant Administrator',
+        company: 'Digi2u.org',
+        dates: '2023 – Present',
+        desc: 'April manages grant documentation, financial tracking, and reporting requirements, providing the administrative backbone that allows Digi2u.org to remain in good standing with all funding partners.'
+      }
+    ],
+    expertise: [
+      'Grant Administration & Compliance',
+      'Financial Tracking & Reporting',
+      'Documentation Management',
+      'Funder Relations',
+      'Nonprofit Operations'
+    ],
+    links: [{ label: 'Email', href: 'mailto:admin@digi2u.org' }]
+  },
+  {
+    id: 'jamaal-carlos',
+    group: 'leadership',
+    role: 'Marketing',
+    name: 'Jamaal Carlos Johnson Sr.',
+    tagline: 'Marketing Director | Digi2u.org',
+    img: 'https://digi2u.org/wp-content/uploads/2025/01/Jamaal-288x300.png',
+    bio: 'Jamaal Carlos is a creative and strategic marketing professional with a talent for crafting compelling brand stories and building meaningful connections with audiences. He drives Digi2u.org\'s visibility and reach through innovative campaigns that resonate with the communities the organization serves.',
+    experience: [
+      {
+        role: 'Marketing Director',
+        company: 'Digi2u.org',
+        dates: '2023 – Present',
+        desc: 'Jamaal leads all marketing and communications efforts, developing strategies that amplify Digi2u.org\'s mission and attract partners, participants, and supporters aligned with its goals.'
+      }
+    ],
+    expertise: [
+      'Digital Marketing & Advertising',
+      'Brand Strategy & Identity',
+      'Social Media Management',
+      'Content Creation & Copywriting',
+      'Campaign Analytics'
+    ],
+    links: [{ label: 'Email', href: 'mailto:admin@digi2u.org' }]
+  },
+  {
+    id: 'tyqawn-headen',
+    group: 'leadership',
+    role: 'Web Development',
+    name: 'Tyqawn Headen',
+    tagline: 'Tech & VFX Specialist | Levl Studio | Founder of Work Official LLC',
+    img: 'https://digi2u.org/wp-content/uploads/2025/01/Qawn-300x300.png',
+    bio: 'Tyqawn Headen is a visionary Tech and VFX Specialist with a passion for merging technology and creativity to shape compelling visual experiences. As a leader in the entertainment and digital media industries, he consistently pushes the boundaries of storytelling through innovative solutions, cutting-edge technology, and collaborative leadership.',
+    experience: [
+      {
+        role: 'Head of Technology & Systems',
+        company: 'Levl Studio',
+        dates: '2023 – Present',
+        desc: 'Tyqawn plays a pivotal role at Levl Studio, leveraging advanced VFX workflows to enhance film, television, and digital platforms. His contributions are central to the Conspirators TV show on ALLBLK.'
+      },
+      {
+        role: 'Founder',
+        company: 'Work Official LLC',
+        dates: '2015 – Present',
+        desc: 'Tyqawn founded Work Official LLC, a forward-thinking media agency dedicated to empowering individuals and businesses in their transition to the digital era through creative services and brand development.'
+      },
+      {
+        role: 'Co-Founder · Director Digi2U King Road',
+        company: 'Digi2u.org',
+        dates: '2023 – Present',
+        desc: 'As an active contributor to Digi2u.org, Tyqawn helps bridge the gap between technology and underserved communities.'
+      }
+    ],
+    expertise: [
+      'Visual Effects (VFX)',
+      'Technology Integration',
+      'AI-Powered Platforms',
+      'Media Production',
+      'Leadership & Consulting'
+    ],
+    links: [{ label: 'Email', href: 'mailto:admin@digi2u.org' }]
+  },
+  {
+    id: 'christopher-soko',
+    group: 'leadership',
+    role: 'Video Production & Design',
+    name: 'Christopher Soko',
+    tagline: 'Video Production & Design Lead | Digi2u.org',
+    img: 'https://digi2u.org/wp-content/uploads/2025/01/IMG_1011-300x300.jpg',
+    bio: 'Christopher Soko is a talented video producer and designer with a passion for visual storytelling. He brings ideas to life through compelling multimedia content that communicates Digi2u.org\'s mission with clarity, creativity, and lasting impact.',
+    experience: [
+      {
+        role: 'Video Production & Design Lead',
+        company: 'Digi2u.org',
+        dates: '2023 – Present',
+        desc: 'Christopher leads the creation of video and design assets that support Digi2u.org\'s programs, events, and communications — ensuring every piece of content reflects the organization\'s brand and values.'
+      }
+    ],
+    expertise: [
+      'Video Production & Direction',
+      'Graphic & Motion Design',
+      'Post-Production & Editing',
+      'Visual Storytelling',
+      'Brand & Creative Strategy'
+    ],
+    links: [{ label: 'Email', href: 'mailto:admin@digi2u.org' }]
+  },
+  {
+    id: 'shetima-garuba',
+    group: 'leadership',
+    role: 'Video & Audio Production',
+    name: 'Shetima Garuba',
+    tagline: 'Video & Audio Production Specialist | Digi2u.org',
+    img: 'https://digi2u.org/wp-content/uploads/2025/01/IMG_1014-300x300.jpg',
+    bio: 'Shetima Garuba is a versatile media professional specializing in both video and audio production. Her ability to craft rich, immersive audiovisual experiences makes her an invaluable contributor to Digi2u.org\'s content and storytelling efforts.',
+    experience: [
+      {
+        role: 'Video & Audio Production Specialist',
+        company: 'Digi2u.org',
+        dates: '2023 – Present',
+        desc: 'Shetima handles end-to-end video and audio production for Digi2u.org, from recording and editing to mixing and final delivery — ensuring all media output meets a high standard of quality and professionalism.'
+      }
+    ],
+    expertise: [
+      'Audio Recording & Mixing',
+      'Video Production & Editing',
+      'Sound Design & Post-Production',
+      'Podcast Production',
+      'Live Event A/V Support'
+    ],
+    links: [{ label: 'Email', href: 'mailto:admin@digi2u.org' }]
+  }
+];
+
+/* ============ TEAM RENDERER ============ */
+function d2uRenderTeam() {
+  var groups = { leadership: [], board: [], advisors: [] };
+  D2U_TEAM.forEach(function(p){
+    if (groups[p.group]) groups[p.group].push(p);
+  });
+
+  function memberCard(p) {
+    var bioFirst = Array.isArray(p.bio) ? p.bio[0] : (p.bio || '');
+    var teaser = bioFirst.length > 130 ? bioFirst.slice(0, 130).replace(/\s+\S*$/, '') + '…' : bioFirst;
+    return ''
+      + '<button type="button" class="d2u-member" data-id="' + p.id + '">'
+      +   '<div class="d2u-member-img" style="background-image:url(\'' + p.img + '\');">'
+      +     (p.badge ? '<div class="d2u-member-badge">' + p.badge + '</div>' : '')
+      +   '</div>'
+      +   '<div class="d2u-member-body">'
+      +     '<div class="d2u-member-role">' + p.role + '</div>'
+      +     '<h3 class="d2u-member-name">' + p.name + '</h3>'
+      +     '<p class="d2u-member-tagline">' + teaser + '</p>'
+      +     '<span class="d2u-member-readmore">Read Bio <span>&rarr;</span></span>'
+      +   '</div>'
+      + '</button>';
+  }
+
+  ['leadership','board','advisors'].forEach(function(key){
+    var grid = document.getElementById('d2u-' + key + '-grid');
+    if (!grid) return;
+    if (!groups[key].length) { grid.innerHTML = ''; return; }
+    grid.innerHTML = groups[key].map(memberCard).join('');
+    grid.querySelectorAll('.d2u-member').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        d2uOpenTm(btn.getAttribute('data-id'));
+      });
+    });
+  });
+}
+
+function d2uOpenTm(id) {
+  var p = null;
+  for (var i = 0; i < D2U_TEAM.length; i++) {
+    if (D2U_TEAM[i].id === id) { p = D2U_TEAM[i]; break; }
+  }
+  if (!p) return;
+
+  document.getElementById('d2u-tm-img').style.backgroundImage = "url('" + p.img + "')";
+  document.getElementById('d2u-tm-role').textContent = p.role || '';
+  document.getElementById('d2u-tm-name').textContent = p.name || '';
+  var tag = document.getElementById('d2u-tm-tagline');
+  if (p.tagline) { tag.innerHTML = p.tagline; tag.style.display = ''; } else { tag.style.display = 'none'; }
+
+  // Bio (string OR array of paragraphs)
+  var bioEl = document.getElementById('d2u-tm-bio');
+  var paras = Array.isArray(p.bio) ? p.bio : (p.bio ? [p.bio] : []);
+  bioEl.innerHTML = paras.map(function(t){
+    return '<p class="d2u-tm-bio">' + t + '</p>';
+  }).join('');
+
+  // Experience timeline
+  var expHead = document.getElementById('d2u-tm-experience-head');
+  var expEl = document.getElementById('d2u-tm-experience');
+  if (p.experience && p.experience.length) {
+    expHead.style.display = '';
+    expEl.style.display = '';
+    expEl.innerHTML = p.experience.map(function(row){
+      return ''
+        + '<div class="d2u-tm-exp-row">'
+        +   '<div class="d2u-tm-exp-row-head">'
+        +     '<div class="d2u-tm-exp-role">' + (row.role || '') + '</div>'
+        +     '<div class="d2u-tm-exp-dates">' + (row.dates || '') + '</div>'
+        +   '</div>'
+        +   '<div class="d2u-tm-exp-company">' + (row.company || '') + '</div>'
+        +   '<div class="d2u-tm-exp-desc">' + (row.desc || '') + '</div>'
+        + '</div>';
+    }).join('');
+  } else {
+    expHead.style.display = 'none';
+    expEl.style.display = 'none';
+    expEl.innerHTML = '';
+  }
+
+  // Expertise tags
+  var expHead = document.getElementById('d2u-tm-expertise-head');
+  var expEl = document.getElementById('d2u-tm-expertise');
+  if (p.expertise && p.expertise.length) {
+    expHead.style.display = '';
+    expEl.innerHTML = p.expertise.map(function(t){ return '<li>' + t + '</li>'; }).join('');
+  } else {
+    expHead.style.display = 'none';
+    expEl.innerHTML = '';
+  }
+
+  // Links
+  var linksEl = document.getElementById('d2u-tm-links');
+  if (p.links && p.links.length) {
+    linksEl.style.display = '';
+    linksEl.innerHTML = p.links.map(function(l){
+      var external = /^https?:/.test(l.href);
+      return '<a class="d2u-tm-link" href="' + l.href + '"'
+        + (external ? ' target="_blank" rel="noopener"' : '')
+        + '>' + l.label + ' <span>&rarr;</span></a>';
+    }).join('');
+  } else {
+    linksEl.style.display = 'none';
+    linksEl.innerHTML = '';
+  }
+
+  var modal = document.getElementById('d2u-tm-modal');
+  if (modal.parentNode !== document.body) document.body.appendChild(modal);
+  modal.classList.add('d2u-modal-open');
+  modal.scrollTop = 0;
+  document.body.style.overflow = 'hidden';
+}
+function d2uCloseTm() {
+  var modal = document.getElementById('d2u-tm-modal');
+  if (modal) modal.classList.remove('d2u-modal-open');
+  document.body.style.overflow = '';
+}
+function d2uCloseTmOnBackdrop(e) {
+  if (e.target.id === 'd2u-tm-modal') d2uCloseTm();
+}
+
+/* ============ ZEFFY DONATION MODAL ============ */
+document.addEventListener('DOMContentLoaded', function() {
+  var modal = document.getElementById('d2u-donation-modal');
+  if (modal && modal.parentNode !== document.body) document.body.appendChild(modal);
+  var tmModal = document.getElementById('d2u-tm-modal');
+  if (tmModal && tmModal.parentNode !== document.body) document.body.appendChild(tmModal);
+  d2uRenderTeam();
+});
+(function() {
+  var modal = document.getElementById('d2u-donation-modal');
+  if (modal && document.body && modal.parentNode !== document.body) document.body.appendChild(modal);
+  var tm = document.getElementById('d2u-tm-modal');
+  if (tm && document.body && tm.parentNode !== document.body) document.body.appendChild(tm);
+})();
+
+function d2uOpenModal() {
+  var modal = document.getElementById('d2u-donation-modal');
+  if (!modal) {
+    window.open('https://www.zeffy.com/donation-form/donate-to-change-lives-3894', '_blank');
+    return;
+  }
+  if (modal.parentNode !== document.body) document.body.appendChild(modal);
+  modal.classList.add('d2u-modal-open');
+  document.body.style.overflow = 'hidden';
+}
+function d2uCloseModal() {
+  var modal = document.getElementById('d2u-donation-modal');
+  if (modal) modal.classList.remove('d2u-modal-open');
+  document.body.style.overflow = '';
+}
+function d2uCloseModalOnBackdrop(e) {
+  if (e.target.id === 'd2u-donation-modal') d2uCloseModal();
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') { d2uCloseModal(); d2uCloseTm(); }
+});
+
+/* ============ INQUIRY FORM ============ */
+function d2uSubmitInquiry(e) {
+  e.preventDefault();
+  var form = e.target;
+  var name = document.getElementById('d2u-f-name').value.trim();
+  var email = document.getElementById('d2u-f-email').value.trim();
+  var phone = (document.getElementById('d2u-f-phone')||{}).value || '';
+  var subject = (document.getElementById('d2u-f-subject')||{}).value || 'Inquiry';
+  var message = document.getElementById('d2u-f-message').value.trim();
+  var status = document.getElementById('d2u-form-status');
+  status.textContent = 'Sending...';
+  var fd = new FormData();
+  fd.append('entry.1150649426', name);
+  fd.append('entry.1540006152', email);
+  fd.append('entry.2053814286', phone);
+  fd.append('entry.1509303702', subject);
+  fd.append('entry.1669567112', message);
+  fd.append('entry.1198200133', 'Team');
+  fetch('https://docs.google.com/forms/d/e/1FAIpQLSc4hfIxV-DGX24LUzXIV44uRCUq2JOul_mUXfa_uzxXMMyeBw/formResponse', { method: 'POST', mode: 'no-cors', body: fd })
+    .then(function() {
+      form.reset();
+      status.innerHTML = 'Thank you! Your message has been received. We respond within one business day.';
+    })
+    .catch(function() {
+      var body = 'Name: ' + name + '\nEmail: ' + email + '\nPhone: ' + (phone || 'N/A') + '\n\nMessage:\n' + message;
+      window.location.href = 'mailto:admin@digi2u.org?subject=' + encodeURIComponent('[Inquiry] ' + subject) + '&body=' + encodeURIComponent(body);
+      status.innerHTML = 'Opening your email app... If nothing happens, email us at <a href="mailto:admin@digi2u.org" style="color:#FF0000;font-weight:600;">admin@digi2u.org</a>';
+    });
+  return false;
+}
+
+/* ============ STICKY BUTTON ============ */
+(function(){
+  var sticky = document.getElementById('d2u-sticky-btn');
+  var hero = document.querySelector('.d2u-hero');
+  if (!sticky || !hero) return;
+  window.addEventListener('scroll', function(){
+    var heroBottom = hero.offsetTop + hero.offsetHeight;
+    if (window.scrollY > heroBottom) {
+      sticky.classList.add('d2u-visible');
+    } else {
+      sticky.classList.remove('d2u-visible');
+    }
+  });
+})();
+</script>
