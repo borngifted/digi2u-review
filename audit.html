@@ -121,7 +121,7 @@
   .item:last-child { border-bottom: none; }
   .who { font-size: 11px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; padding-top: 2px; }
   .who::before { content: ''; display: inline-block; width: 8px; height: 8px; margin-right: 6px; background: currentColor; }
-  .who.a-pam { color: var(--pam); } .who.a-erica { color: var(--erica); } .who.a-tr { color: var(--tr); }
+  .who.a-pam { color: var(--pam); } .who.a-erica { color: var(--erica); } .who.a-tr { color: var(--tr); } .who.a-upd { color: var(--queue); }
   .req { font-size: 14px; }
   .req .q { color: var(--ink); }
   .res { margin-top: 6px; font-size: 13px; color: var(--muted); }
@@ -173,7 +173,7 @@
     <span class="eyebrow"><span class="dot"></span>Digi2U &middot; Website Review &middot; Round 1</span>
     <h1>Change Audit<span class="acc">.</span></h1>
     <p class="lede">Every request submitted on the review site, item by item — what is live on digi2u.org and what still needs a member decision, photos, or content. Applied changes show the exact before &rarr; after. Members: add your comments at the bottom of any page section.</p>
-    <p class="stamp">Verified against the live site &middot; Updated July 22, 2026 (footer + inquiry pipeline round) &middot; Source: review pins by Pam, Erica &amp; Justice</p>
+    <p class="stamp">Verified against the live site &middot; Updated July 23, 2026 (old-site content restoration round) &middot; Source: review pins by Pam, Erica &amp; Justice</p>
   </div>
 </header>
 
@@ -187,8 +187,8 @@
   </div>
 
   <div class="callout">
-    <strong>Where things stand</strong>
-    Every completed fix is <b>pasted and verified live</b> on digi2u.org — including the inquiry&rarr;spreadsheet pipeline on all five pages, the footer corrections, and the published Privacy Policy. The one remaining build item is a <b>Terms of Usage</b> page. Everything else waiting is in blue (member decisions) or orange (photos/assets) below — <b>leave a comment under any page section</b> to weigh in.
+    <strong>New: July 23 restoration round</strong>
+    Ten program pages were rebuilt with the <b>original site's information word-for-word plus pictures throughout</b> (Marketing, Photography, Drone, FAA Drone, Fashion &amp; Design, Art &amp; Design, Food Safety, OSHA 30, Grants, Health &amp; Wellness, Staging &amp; Rigging) — and deployment is now fully automated, no more manual pasting. Inquiry forms now feed the spreadsheet from <b>19 pages</b>, verified end-to-end as a real visitor. Still ahead: 3D Design, 26 Blocks, Community Partners, Events and About Us rebuilds (these get the real Digi2U photo sets), a proper Podcast Streaming page, and the Terms of Usage page. <b>Leave a comment under any section</b> to weigh in.
   </div>
 
   <div class="legend" id="legend"></div>
@@ -209,7 +209,7 @@ const STATUSES = {
   queue:    { label: 'In work queue',          tile: 'In queue' },
   ok:       { label: 'Positive — no action',   tile: 'Positive' },
 };
-const A = { pam: ['Pam','a-pam'], erica: ['Erica','a-erica'], tr: ['Justice','a-tr'] };
+const A = { pam: ['Pam','a-pam'], erica: ['Erica','a-erica'], tr: ['Justice','a-tr'], upd: ['Site Update','a-upd'] };
 
 const PAGES = [
 { key:'home', title:'Home', wp:'20947', open:true, items:[
@@ -222,7 +222,7 @@ const PAGES = [
  {a:'pam', t:'Contact, Cookies and Privacy links lead nowhere — populate Terms of Usage & Privacy', s:'live', d:'All three footer links now work: Contact → /contact-us/, Privacy → the Privacy Policy page (completed with Digi2U-specific details and published at /privacy-policy/), Cookies Notice → the policy’s Cookies section.', c:['# (dead links)','/contact-us/ · /privacy-policy/']},
  {a:'pam', t:'Terms of Usage page', s:'queue', d:'Still to be written — the one remaining piece of this pin. Privacy is done.'},
  {a:'pam', t:'YouTube links to wrong YouTube', s:'live', d:'Fixed in both places: the Media page link and the footer YouTube icon (which pointed to a single 20-year-old video, youtu.be/lGowRQCY7Xw). Both now open the correct channel.', c:['youtube.com/@digi2u · youtu.be/lGowRQCY7Xw','youtube.com/@digi2u_tech']},
- {a:'pam', t:'Click-through to Marketing & Branding is instead Health and Wellness', s:'verified', d:'The home-page link correctly points to /marketing/. The problem is the Marketing page content itself — it is queued for rework (see below).'},
+ {a:'pam', t:'Click-through to Marketing & Branding is instead Health and Wellness', s:'live', d:'Root cause found and fixed July 23: the Marketing page was accidentally set to display the Health & Wellness program data. It now shows the correct Marketing content, restored word-for-word from the original site.', c:['page data selector: wellness','marketing']},
  {a:'pam', t:'Click-through for Podcasting goes to duplicate Film and Television', s:'verified', d:'The home-page link correctly points to /podcast-streaming/. That page’s content is flagged “not correct info” and is queued for rework.'},
  {a:'pam', t:'Drone pic is old — more modern drone, or a shot taken by a drone', s:'assets', d:'Waiting on a replacement image.'},
  {a:'pam', t:'Swap this pic and remove 319 Pacific. What about men building at 309 Pacific?', s:'assets', d:'Waiting on the chosen replacement photo.'},
@@ -311,8 +311,8 @@ const PAGES = [
  {a:'tr', t:'This is not Spinoff — it’s the Christina Cherry event / show photos from Spinoff / show setup photos / show team working photos (5 pins)', s:'assets', d:'Mislabeled and missing photos — waiting on the correct event images.'},
 ]},
 { key:'programs', title:'Program pages', wp:'multiple', items:[
- {a:'tr', t:'Marketing — decision: rework', s:'queue', d:'Page content queued for a full rewrite (this is the real fix behind the Home “wrong click-through” pin).'},
- {a:'tr', t:'Photography — decision: rework', s:'queue', d:'Queued for rewrite.'},
+ {a:'tr', t:'Marketing — decision: rework', s:'live', d:'Rebuilt July 23 with the original site’s full course content (five modules, course description, inquiry details) and nine pictures placed throughout.'},
+ {a:'tr', t:'Photography — decision: rework', s:'live', d:'Rebuilt July 23 with the original site’s full course content and pictures on every module.'},
  {a:'tr', t:'Podcast Streaming — “not correct info at all”', s:'queue', d:'Queued for rewrite.'},
  {a:'tr', t:'Certifications — wrong content (2 pins)', s:'queue', d:'Queued for content correction.'},
  {a:'tr', t:'Drone — change image, this is the first drone from 20 years ago', s:'assets', d:'Waiting on a modern drone image (same as Home).'},
@@ -322,9 +322,16 @@ const PAGES = [
  {a:'erica', t:'Programs overview — we need to acquire and use info@digi2u.org', s:'decide', d:'Requires creating the info@ mailbox first.'},
  {a:'tr', t:'Approved as-is (merge): Art & Design, Culinary Arts, Fashion & Design, Food Safety, OSHA 30, Grants, Health & Wellness, Staging & Rigging, FAA Drone, Drone', s:'ok', d:'Ten pages green-lit by Justice with decision “merge”.'},
 ]},
+{ key:'restore', title:'New: Original content restored (July 23)', wp:'10 pages', open:true, items:[
+ {a:'upd', t:'Program pages rebuilt to match the original site exactly, with pictures throughout', s:'live', d:'Marketing, Photography, Drone, FAA Drone, Fashion & Design, Art & Design, Food Safety, OSHA 30, Grants Program, Health & Wellness, and Staging & Rigging now carry the original site’s information word-for-word — headlines, course overviews, every learning module, course level and skills — with the original pictures: a hero photo, a photo on each module, and an “In Action” gallery per page.'},
+ {a:'upd', t:'Deployment is now automated', s:'live', d:'Page updates go live directly through the site editor — no more manual copy-paste step. Approved changes can be live within minutes.'},
+ {a:'upd', t:'FAA Drone page: original site had OSHA-30 text pasted into its course overview', s:'decide', d:'The original page carried this copy error, so that paragraph was left out rather than reproduced. Members: a proper FAA Part 107 overview paragraph is needed.'},
+ {a:'upd', t:'Coming next: 3D Design, 26 Blocks, Community Partners, Events, About Us rebuilds', s:'queue', d:'These pages get the real Digi2U photo collections (3D builds, 26 Blocks, Spinoff, Christina Cherry, NJIT, CTAP, Newark) — which also resolves the mislabeled-event and “use our photos” pins.'},
+]},
 { key:'pipeline', title:'New: Inquiry → Spreadsheet pipeline', wp:'all pages', open:true, items:[
  {a:'pam', t:'Inquiries need a reliable home — forms failed and nobody could see submissions', s:'live', d:'Built July 22: a Google Form + linked Google Sheet (“Digi2U Website Inquiries (Responses)”) in the Digi2U Google account. Every site inquiry lands as a row — Timestamp, Name, Email, Phone, Subject, Message, and which Page it came from. Email notifications are on. Pipeline verified end-to-end with a test submission.'},
- {a:'pam', t:'Site forms wired to the spreadsheet', s:'live', d:'All five pages (Home, Team, Media, Events, Sponsors) pasted and verified live — visitors get a “Thank you” confirmation and the row appears in the sheet instantly, with an email fallback if the network fails.'},
+ {a:'pam', t:'Site forms wired to the spreadsheet', s:'live', d:'Now live on 19 pages — Home, Team, Media, Events, Sponsors, Contact, About, Programs, and all eleven program pages. Each entry shows which page it came from. Verified July 23 by submitting through the real page form as a visitor: confirmation shown, row landed in the sheet.'},
+ {a:'upd', t:'Form reliability fix (July 23)', s:'live', d:'A code error introduced during the July 22 form wiring briefly broke the inquiry form and donate pop-up on updated pages. Found during quality checks, fixed everywhere, and every page re-verified with an automated code validator plus a real test submission.'},
 ]},
 { key:'other', title:'Other pages', wp:'—', items:[
  {a:'pam', t:'Jobs — admin@digi2u.org, who is answering? / who is handling volunteers & hiring? (4 pins)', s:'queue', d:'Jobs page email fix queued (page structure differs from the others); ownership questions for operations.'},
