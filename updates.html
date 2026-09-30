@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Digi2U — Site Progress Update</title>
+<meta name="description" content="Team update: what has been done to digi2u.org as of September 30, 2026. All changes are live.">
+<style>
+  :root { --ink:#111; --muted:#5b5b5b; --line:#e4e4e4; --red:#d71920; --bg:#fff; --soft:#f7f7f7; --ok:#1a9e4b; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.6 Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif; }
+  a { color:var(--red); text-decoration:none; }
+  a:hover { text-decoration:underline; text-underline-offset:3px; }
+  .wrap { max-width:1000px; margin:0 auto; padding:0 18px; }
+  header.hero { background:#0c0c0c; color:#fff; padding:54px 0 42px; }
+  .brand { font-weight:900; letter-spacing:-.02em; font-size:22px; margin-bottom:22px; }
+  .brand b { color:var(--red); }
+  .chip { display:inline-block; font-size:12px; font-weight:800; letter-spacing:.14em; text-transform:uppercase; border:1px solid rgba(255,255,255,.35); padding:6px 12px; margin-bottom:16px; }
+  h1 { margin:0 0 12px; font-size:clamp(34px,7vw,64px); font-weight:900; line-height:.98; text-transform:uppercase; letter-spacing:-.02em; }
+  h1 span { color:var(--red); }
+  .meta { color:#c9c9c9; font-size:15px; margin-top:6px; }
+  .intro { margin:16px 0 0; max-width:680px; color:#d9d9d9; font-size:18px; }
+  main { padding:40px 0 20px; }
+  .lead { font-size:17px; color:var(--muted); border-left:3px solid var(--red); padding:4px 0 4px 16px; margin:0 0 34px; }
+  h2 { font-size:13px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); margin:38px 0 4px; }
+  h2 .date { color:var(--red); }
+  .rule { height:2px; background:var(--red); width:46px; margin:8px 0 20px; }
+  .item { border:1px solid var(--line); border-radius:12px; padding:18px 20px; margin:14px 0; background:var(--bg); }
+  .item h3 { margin:0 0 6px; font-size:19px; font-weight:800; display:flex; align-items:flex-start; gap:10px; }
+  .item h3 .tick { color:var(--ok); flex:none; font-size:18px; line-height:1.4; }
+  .item p { margin:0 0 4px; color:#333; }
+  .item .links { margin-top:10px; font-size:14px; color:var(--muted); }
+  .item .links a { margin-right:14px; font-weight:600; white-space:nowrap; }
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  @media(max-width:680px){ .grid2 { grid-template-columns:1fr; } }
+  .mapcard { background:#0c0c0c; color:#fff; border-radius:14px; padding:26px 24px; margin:18px 0 8px; }
+  .mapcard h3 { margin:0 0 6px; font-size:22px; font-weight:900; text-transform:uppercase; letter-spacing:-.01em; }
+  .mapcard p { color:#cfcfcf; margin:0 0 16px; max-width:640px; }
+  .mapcard .btns a { display:inline-block; border:1.5px solid #fff; color:#fff; padding:11px 20px; border-radius:6px; font-weight:700; font-size:14px; margin:0 10px 10px 0; text-transform:uppercase; letter-spacing:.03em; }
+  .mapcard .btns a:hover { background:#fff; color:#0c0c0c; text-decoration:none; }
+  .maptree { columns:2; column-gap:40px; margin-top:8px; }
+  @media(max-width:680px){ .maptree { columns:1; } }
+  .maptree .grp { break-inside:avoid; margin-bottom:16px; }
+  .maptree .grp strong { display:block; color:#fff; font-size:13px; letter-spacing:.06em; text-transform:uppercase; border-bottom:1px solid rgba(255,255,255,.2); padding-bottom:5px; margin-bottom:6px; }
+  .maptree .grp a { display:block; color:#d4d4d4; font-size:14px; padding:2px 0; }
+  .maptree .grp a:hover { color:#fff; }
+  footer { border-top:1px solid var(--line); padding:26px 0 44px; color:var(--muted); font-size:14px; }
+  .pill { display:inline-block; background:#eafbf0; color:#137a39; font-weight:700; font-size:12px; padding:3px 10px; border-radius:20px; letter-spacing:.03em; }
+</style>
+</head>
+<body>
+<header class="hero"><div class="wrap">
+  <div class="brand">DIGI<b>2</b>U</div>
+  <div class="chip">Team Update</div>
+  <h1>Site <span>Progress</span></h1>
+  <div class="meta">Status as of <strong>September 30, 2026</strong> &middot; digi2u.org &middot; <span class="pill" style="background:#1a9e4b;color:#fff;">All changes live</span></div>
+  <p class="intro">A running summary of what has been done to the live site for the team. Every item below is published and can be checked from the links provided.</p>
+</div></header>
+
+<main class="wrap">
+  <p class="lead">This update covers the work completed today, plus the other changes shipped earlier this week. The full site map is at the bottom.</p>
+
+  <h2>Shipped today &mdash; <span class="date">September 30</span></h2>
+  <div class="rule"></div>
+
+  <div class="item">
+    <h3><span class="tick">&#10003;</span> Donate button added to every hero</h3>
+    <p>A <strong>&ldquo;Donate Now&rdquo;</strong> button now appears in the hero of every page across the site &mdash; 32 pages, matching the homepage. It links straight to the donation page, so supporters can give from anywhere on the site.</p>
+    <div class="links">See it live:
+      <a href="https://digi2u.org/marketing/" target="_blank" rel="noopener">Marketing</a>
+      <a href="https://digi2u.org/3d-design/" target="_blank" rel="noopener">3D Design</a>
+      <a href="https://digi2u.org/about-us/" target="_blank" rel="noopener">About</a>
+      <a href="https://digi2u.org/events-2/" target="_blank" rel="noopener">Events</a>
+    </div>
+  </div>
+
+  <div class="item">
+    <h3><span class="tick">&#10003;</span> Program pages made consistent</h3>
+    <p>Confirmed <strong>every page opens with a video header</strong>. The 12 program pages were normalized to one consistent layout, and the Health &amp; Wellness page was cleaned up (empty gaps removed, headings unified with the rest).</p>
+    <div class="links">Examples:
+      <a href="https://digi2u.org/health-and-wellness/" target="_blank" rel="noopener">Health &amp; Wellness</a>
+      <a href="https://digi2u.org/drone/" target="_blank" rel="noopener">Drone</a>
+      <a href="https://digi2u.org/programs/" target="_blank" rel="noopener">All Programs</a>
+    </div>
+  </div>
+
+  <div class="item">
+    <h3><span class="tick">&#10003;</span> Content reorganized</h3>
+    <p>The <strong>&ldquo;Digi2U Systems&rdquo;</strong> section was moved onto the About page. The <strong>Partnerships</strong> block &mdash; partner cards plus the Community Partners and Corporate Supporters carousels &mdash; was moved onto the Community Partners page, where it fits better.</p>
+    <div class="links">
+      <a href="https://digi2u.org/about-us/" target="_blank" rel="noopener">About</a>
+      <a href="https://digi2u.org/community-partners-2/" target="_blank" rel="noopener">Community Partners</a>
+    </div>
+  </div>
+
+  <div class="item">
+    <h3><span class="tick">&#10003;</span> Faster page loads</h3>
+    <p>Removed two redundant fonts that were loading on <strong>every page</strong>: a 454&nbsp;KB icon font used for a single mail icon (switched to a font already loaded), and a duplicate 58&nbsp;KB FontAwesome set that the menu was loading on top of the theme&rsquo;s. <strong>No visual change</strong> &mdash; pages simply load lighter, which helps most on mobile.</p>
+  </div>
+
+  <h2>Also recent &mdash; <span class="date">this week</span></h2>
+  <div class="rule"></div>
+  <div class="grid2">
+    <div class="item">
+      <h3><span class="tick">&#10003;</span> Homepage rebuilt</h3>
+      <p>The homepage was rebuilt from the latest design, keeping the AiR program card in place. <span style="color:var(--muted);font-size:14px;">(Sep 29)</span></p>
+      <div class="links"><a href="https://digi2u.org/" target="_blank" rel="noopener">View homepage</a></div>
+    </div>
+    <div class="item">
+      <h3><span class="tick">&#10003;</span> AI Readiness (AiR) program page</h3>
+      <p>A new program page for <strong>AI Readiness (AiR)</strong> was added under Programs. <span style="color:var(--muted);font-size:14px;">(Sep 26)</span></p>
+      <div class="links"><a href="https://digi2u.org/ai-readiness/" target="_blank" rel="noopener">View AiR page</a></div>
+    </div>
+  </div>
+
+  <h2>Site Map</h2>
+  <div class="rule"></div>
+  <div class="mapcard">
+    <h3>Full Site Map</h3>
+    <p>A complete site map page was created listing every public page on digi2u.org &mdash; useful for the team, for navigation, and for search engines. It is unlisted (not in the menu) and lives on the live site.</p>
+    <div class="btns">
+      <a href="https://digi2u.org/sitemap/" target="_blank" rel="noopener">Live site map &#8599;</a>
+      <a href="./sitemap.html" target="_blank" rel="noopener">Open copy here &#8599;</a>
+    </div>
+    <div class="maptree">
+      <div class="grp"><strong>Home</strong>
+        <a href="https://digi2u.org/" target="_blank" rel="noopener">Home</a>
+        <a href="https://digi2u.org/contact-us/" target="_blank" rel="noopener">Contact Us</a>
+        <a href="https://digi2u.org/faqs/" target="_blank" rel="noopener">FAQs</a>
+        <a href="https://digi2u.org/privacy-policy/" target="_blank" rel="noopener">Privacy Policy</a>
+      </div>
+      <div class="grp"><strong>About</strong>
+        <a href="https://digi2u.org/about-us/" target="_blank" rel="noopener">Our Story</a>
+        <a href="https://digi2u.org/team/" target="_blank" rel="noopener">Meet the Team</a>
+        <a href="https://digi2u.org/impact/" target="_blank" rel="noopener">Impact</a>
+        <a href="https://digi2u.org/community-partners-2/" target="_blank" rel="noopener">Community Partners</a>
+        <a href="https://digi2u.org/sponsors/" target="_blank" rel="noopener">Sponsors</a>
+        <a href="https://digi2u.org/careers/" target="_blank" rel="noopener">Careers</a>
+      </div>
+      <div class="grp"><strong>Programs</strong>
+        <a href="https://digi2u.org/programs/" target="_blank" rel="noopener">All Programs</a>
+        <a href="https://digi2u.org/3d-design/" target="_blank" rel="noopener">3D Design</a>
+        <a href="https://digi2u.org/ai-readiness/" target="_blank" rel="noopener">AI Readiness (AiR)</a>
+        <a href="https://digi2u.org/art-design/" target="_blank" rel="noopener">Art &amp; Design</a>
+        <a href="https://digi2u.org/audio-production-2/" target="_blank" rel="noopener">Audio Production</a>
+        <a href="https://digi2u.org/culinary-arts/" target="_blank" rel="noopener">Culinary Arts</a>
+        <a href="https://digi2u.org/drone/" target="_blank" rel="noopener">Drone</a>
+        <a href="https://digi2u.org/fashion-design/" target="_blank" rel="noopener">Fashion Design</a>
+        <a href="https://digi2u.org/film-television/" target="_blank" rel="noopener">Film &amp; Television</a>
+        <a href="https://digi2u.org/health-and-wellness/" target="_blank" rel="noopener">Health &amp; Wellness</a>
+        <a href="https://digi2u.org/marketing/" target="_blank" rel="noopener">Marketing</a>
+        <a href="https://digi2u.org/photography-4/" target="_blank" rel="noopener">Photography</a>
+        <a href="https://digi2u.org/podcast-streaming/" target="_blank" rel="noopener">Podcast &amp; Streaming</a>
+        <a href="https://digi2u.org/staging-rigging/" target="_blank" rel="noopener">Staging &amp; Rigging</a>
+      </div>
+      <div class="grp"><strong>Certifications</strong>
+        <a href="https://digi2u.org/certifications/" target="_blank" rel="noopener">All Certifications</a>
+        <a href="https://digi2u.org/faa-drone/" target="_blank" rel="noopener">FAA Drone (Part 107)</a>
+        <a href="https://digi2u.org/food-safety/" target="_blank" rel="noopener">Food Safety</a>
+        <a href="https://digi2u.org/osha-30/" target="_blank" rel="noopener">OSHA 30</a>
+      </div>
+      <div class="grp"><strong>Projects</strong>
+        <a href="https://digi2u.org/projects/" target="_blank" rel="noopener">All Projects</a>
+        <a href="https://digi2u.org/26-blocks/" target="_blank" rel="noopener">26 Blocks</a>
+      </div>
+      <div class="grp"><strong>Events &amp; News</strong>
+        <a href="https://digi2u.org/events-2/" target="_blank" rel="noopener">Events Calendar</a>
+        <a href="https://digi2u.org/blog/" target="_blank" rel="noopener">News / Blog</a>
+      </div>
+      <div class="grp"><strong>Get Involved</strong>
+        <a href="https://digi2u.org/dontations/" target="_blank" rel="noopener">Donate</a>
+        <a href="https://digi2u.org/careers/" target="_blank" rel="noopener">Careers &amp; Volunteering</a>
+        <a href="https://digi2u.org/sponsors/" target="_blank" rel="noopener">Become a Sponsor</a>
+        <a href="https://digi2u.org/contact-us/" target="_blank" rel="noopener">Partner With Us</a>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="wrap">
+  Digi2U site update &middot; prepared September 30, 2026 &middot; questions to <a href="mailto:support@digi2u.org">support@digi2u.org</a>.<br>
+  This page lives on the team review site &mdash; <a href="https://borngifted.github.io/digi2u-review/">borngifted.github.io/digi2u-review</a>.
+</footer>
+</body>
+</html>
