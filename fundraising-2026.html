@@ -72,7 +72,7 @@ footer a{color:#fff}
 </header>
 
 <nav class="toc"><div class="wrap">
-  <a href="#review">For Pam &amp; Erica</a><a href="#summary">Summary</a><a href="#live">Live changes</a><a href="#staging">New Donation page</a><a href="#zeffy">Zeffy</a><a href="#givebutter">Givebutter</a><a href="#daf">DAF</a><a href="#playbook">Playbook → 2026</a><a href="#calendar">Social calendar</a><a href="#blockers">Blockers</a><a href="#next">Next steps</a><a href="#links">Links</a>
+  <a href="#review">For Pam &amp; Erica</a><a href="#summary">Summary</a><a href="#live">Live changes</a><a href="#staging">New Donation page</a><a href="#payments">Payment methods</a><a href="#zeffy">Zeffy</a><a href="#givebutter">Givebutter</a><a href="#daf">DAF</a><a href="#playbook">Playbook → 2026</a><a href="#calendar">Social calendar</a><a href="#blockers">Blockers</a><a href="#next">Next steps</a><a href="#links">Links</a>
 </div></nav>
 
 <main><div class="wrap">
@@ -86,6 +86,7 @@ footer a{color:#fff}
     <li><strong>The Donation page on digi2u.org is new.</strong> Open <a href="https://digi2u.org/dontations/">digi2u.org/dontations/</a>. It now leads with "Many Ways to Give. One Big Impact.", puts the donation form right under the video, explains that a $1 gift counts, shows four ways to give (once, monthly, donor-advised fund, stock/check), lists what the money supports, has a Giving Tuesday block, a tidied donor-advised-fund form, and a short FAQ. The old "dime a day" and project-specific tiers are gone, as agreed at the meeting. The previous page is saved and can be restored in minutes.</li>
     <li><strong>Zeffy now starts at $1.</strong> The Zeffy form (the one every Donate button on the site opens) offers $1 / $5 / $25 / $100 one-time and $1 / $5 / $10 / $25 monthly, plus any custom amount. It was $25 minimum before. Each amount has a one-line "what this does" message.</li>
     <li><strong>Every Donate button on the site works</strong> and opens that Zeffy form; the "Donation" link in the menu opens the new page.</li>
+    <li><strong>Donors can pay with the app they already use.</strong> A "Pay the way you already pay" block on the page covers card, Apple Pay, Google Pay, PayPal, Venmo, Cash App, bank transfer, Zelle (by email until the bank enables it), check, stock and DAF. See the <a href="#payments">payment methods strategy</a>.</li>
     <li><strong>The playbook has been turned into 2026 material:</strong> the 16-post social calendar is re-dated to November 2 – December 1, 2026 (Giving Tuesday is December 1 this year), the phone scripts say "$1 or $5 makes a difference", and the year-end push runs to December 31.</li>
   </ul>
 
@@ -166,6 +167,41 @@ footer a{color:#fff}
     <li>Not tested: real iPhone/Android devices, tablet at an exact width, donation receipts (Zeffy has no test mode and no real donation was made).</li>
   </ul>
   <div class="callout"><strong>Published.</strong> Verified anonymously after publishing: new hero, all eleven sections, site header and footer present, Givebutter link present, DAF card styling applied (white card, red NEXT button). The staging draft was trashed.</div>
+</section>
+
+<section id="payments">
+  <h2><small>Strategy, now live on the page</small>Pay the way you already pay: Zelle, Cash App, Apple Pay, Venmo, PayPal and the rest</h2>
+  <p>Donors ask "can I just Zelle it?" or "do you take Cash App?". The answer is now yes for almost everything, without adding a new processor or building a custom checkout. The approach has three layers:</p>
+  <ol class="steps">
+    <li><strong>One universal checkout: the Givebutter page.</strong> Verified live on 2026-10-15 at the payment step of Digi2U's existing campaign: <strong>Apple Pay, Google Pay, credit/debit card, PayPal, Venmo and Cash App Pay</strong>. One link covers the five apps people name most. (Bank transfer/ACH can be switched on in Givebutter too.)</li>
+    <li><strong>One quick form on the page: Zeffy.</strong> Card and bank transfer (ACH) with zero platform fees, one-time or monthly, plus check for $1,000+. Apple/Google Pay show on Zeffy's hosted form on phones but not in the embed, which is why the site sends wallet users to Givebutter.</li>
+    <li><strong>Honest side doors for everything else.</strong> Zelle is bank-to-bank and has no receipts or donor data, so the page says "email us for the official Digi2U Zelle details and put your name and email in the memo" until the bank enables Zelle for the business account. Check, wire, stock and donor-advised funds are handled by request or through the existing DonateStock and DAF Direct tools.</li>
+  </ol>
+  <h3>What a donor sees on digi2u.org/dontations/ now</h3>
+  <p>A new block, <strong>"Pay the way you already pay"</strong>, sits right under Ways to Give with six cards:</p>
+  <div class="tw"><table>
+    <tr><th>Card</th><th>Route</th><th>Receipt</th></tr>
+    <tr><td>Credit or debit card</td><td>Form on the page (or Givebutter)</td><td>Automatic</td></tr>
+    <tr><td>Apple Pay or Google Pay</td><td>Givebutter page</td><td>Automatic</td></tr>
+    <tr><td>PayPal, Venmo or Cash App</td><td>Givebutter page</td><td>Automatic</td></tr>
+    <tr><td>Bank transfer (ACH)</td><td>"Direct Debit" on the page form, no fees</td><td>Automatic</td></tr>
+    <tr><td>Zelle</td><td>Email support@digi2u.org for the official details; name + email in memo</td><td>Manual, within two business days</td></tr>
+    <tr><td>Check, stock, DAF or wire</td><td>DAF and stock tools on the page; check/wire by email</td><td>Manual or via sponsor</td></tr>
+  </table></div>
+  <p>The button under the embedded form now reads "Pay with your app on Givebutter" with the apps named above it.</p>
+  <h3>Why not just post a $cashtag, a Venmo handle and a Zelle address?</h3>
+  <ul>
+    <li>Each direct handle is a separate account to own, secure and reconcile, with no automatic receipt. Givebutter already routes Cash App and Venmo payments into one ledger with receipts.</li>
+    <li>Zelle only works if the bank offers it on the business account, limits are set per bank, and payments cannot be reversed. It is worth offering, but only with the verified address, which Pam or Tyqawn need to get from the bank.</li>
+    <li>Rule kept throughout: nothing is published that has not been verified on the real account.</li>
+  </ul>
+  <h3>To widen it further (owners)</h3>
+  <ul>
+    <li><strong>Erica:</strong> turn on ACH in Givebutter; decide whether to also open a Venmo Charity Profile (needs PayPal Giving Fund enrollment, 1.9% + $0.10) or a Cash App business $cashtag. Recommendation: rely on Givebutter's built-in Venmo and Cash App Pay; fewer accounts to reconcile.</li>
+    <li><strong>Pam / Tyqawn:</strong> ask the bank to enable Zelle for the business account and send the Zelle address; it goes straight onto the Zelle card.</li>
+    <li><strong>Pam:</strong> weekly reconciliation across Givebutter, Zeffy, bank (Zelle/ACH) and DonateStock, and a receipt template for manual gifts.</li>
+  </ul>
+  <p>Full method-by-method table (fees, limits, who sends the receipt) is in <code>docs/fundraising/06-payment-methods-strategy.md</code>.</p>
 </section>
 
 <section id="zeffy">
