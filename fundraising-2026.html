@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Digi2U Fundraising Build Report</title>
+<meta name="description" content="What was done on 2026-10-15 for the Digi2U Giving Tuesday / year-end fundraising system: Zeffy, the Donation page rebuild, DAF, Givebutter, and the 2026 campaign playbook.">
+<style>
+:root{--red:#E3301B;--black:#0f0f0f;--ink:#1c1c1c;--muted:#5f5f5f;--line:#e6e6e6;--bg:#ffffff;--panel:#f5f5f5;--ok:#1f7a3a;--warn:#b26a00;--bad:#b3261e}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif}
+header{background:var(--black);color:#fff;padding:40px 16px 34px}
+.wrap{max-width:1040px;margin:0 auto;padding:0 16px}
+.brand{font-weight:900;letter-spacing:.02em;font-size:22px}
+.brand span{color:var(--red)}
+h1{font-size:clamp(28px,4.5vw,44px);line-height:1.08;margin:18px 0 10px;font-weight:900}
+.sub{color:#cfcfcf;max-width:760px;margin:0}
+.chip{display:inline-block;border:1px solid var(--red);color:#fff;font-size:12px;letter-spacing:.14em;text-transform:uppercase;padding:5px 10px;border-radius:4px}
+.chip::before{content:"";display:inline-block;width:7px;height:7px;background:var(--red);margin-right:8px;vertical-align:1px}
+nav.toc{background:var(--panel);border-bottom:1px solid var(--line)}
+nav.toc .wrap{display:flex;flex-wrap:wrap;gap:6px 18px;padding:12px 16px;font-size:14px}
+nav.toc a{color:var(--ink);text-decoration:none;border-bottom:2px solid transparent;padding:4px 0}
+nav.toc a:hover{border-color:var(--red)}
+main .wrap{padding:28px 16px 64px}
+section{padding:26px 0;border-bottom:1px solid var(--line)}
+section:last-of-type{border:0}
+h2{font-size:26px;margin:0 0 6px;font-weight:900}
+h2 small{display:block;font-size:13px;color:var(--muted);font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
+h3{font-size:18px;margin:22px 0 8px;font-weight:800}
+p{margin:8px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin:16px 0}
+.card{background:var(--panel);border-radius:12px;padding:18px}
+.card .k{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.card .v{font-size:26px;font-weight:900;margin:4px 0 2px}
+.card .d{font-size:14px;color:var(--muted)}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:15px}
+th,td{text-align:left;vertical-align:top;padding:10px 10px;border-bottom:1px solid var(--line)}
+th{background:var(--panel);font-size:13px;letter-spacing:.06em;text-transform:uppercase}
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.tag{display:inline-block;font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:999px;white-space:nowrap}
+.tag.done{background:#e3f3e8;color:var(--ok)}
+.tag.wait{background:#fff1dc;color:var(--warn)}
+.tag.block{background:#fde7e6;color:var(--bad)}
+.tag.live{background:#111;color:#fff}
+ul{padding-left:20px}
+li{margin:4px 0}
+.callout{border-left:4px solid var(--red);background:var(--panel);padding:14px 16px;border-radius:0 10px 10px 0;margin:14px 0}
+.callout.warn{border-color:var(--warn)}
+.callout.bad{border-color:var(--bad)}
+.steps{counter-reset:s;list-style:none;padding:0}
+.steps li{counter-increment:s;position:relative;padding-left:44px;margin:10px 0}
+.steps li::before{content:counter(s);position:absolute;left:0;top:0;width:30px;height:30px;border-radius:50%;background:var(--red);color:#fff;font-weight:900;display:flex;align-items:center;justify-content:center;font-size:14px}
+a{color:var(--red)}
+code{background:#f0f0f0;padding:1px 5px;border-radius:4px;font-size:.92em}
+.before-after{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:640px){.before-after{grid-template-columns:1fr}}
+.ba{background:var(--panel);border-radius:12px;padding:14px 16px}
+.ba h4{margin:0 0 6px;font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.ba.after{border:2px solid var(--red)}
+footer{background:var(--black);color:#bbb;padding:26px 16px;font-size:13px}
+footer a{color:#fff}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="brand">DIGI<span>2</span>U · Fundraising Build</div>
+    <span class="chip">Report · October 15, 2026</span>
+    <h1>Many Ways to Give. One Big Impact.<br>What was built, what is live, what is waiting.</h1>
+    <p class="sub">Breakdown of the Giving Tuesday 2026 / year-end fundraising implementation on digi2u.org, Zeffy and Givebutter, measured against the Digi2U Giving Tuesday Campaign Playbook and the master handoff.</p>
+  </div>
+</header>
+
+<nav class="toc"><div class="wrap">
+  <a href="#summary">Summary</a><a href="#live">Live changes</a><a href="#staging">New Donation page</a><a href="#zeffy">Zeffy</a><a href="#givebutter">Givebutter</a><a href="#daf">DAF</a><a href="#playbook">Playbook → 2026</a><a href="#calendar">Social calendar</a><a href="#blockers">Blockers</a><a href="#next">Next steps</a><a href="#links">Links</a>
+</div></nav>
+
+<main><div class="wrap">
+
+<section id="summary">
+  <h2><small>At a glance</small>Summary</h2>
+  <div class="grid">
+    <div class="card"><div class="k">Campaign goal</div><div class="v">$100,000</div><div class="d">Unrestricted general operating fund (playbook §1)</div></div>
+    <div class="card"><div class="k">Lowest suggested gift</div><div class="v">$1</div><div class="d">Live on Zeffy (was $25). Givebutter pending.</div></div>
+    <div class="card"><div class="k">Giving Tuesday</div><div class="v">Dec 1, 2026</div><div class="d">Calendar remapped from the 2025 dates</div></div>
+    <div class="card"><div class="k">Donate buttons routed</div><div class="v">33 + nav</div><div class="d">All site buttons → Zeffy form; nav → Donation page</div></div>
+  </div>
+  <p><span class="tag live">Live</span> Zeffy $1 amounts · Zeffy form directly under the Donation page hero · nav "Donation" link restored.</p>
+  <p><span class="tag wait">Staged, awaiting approval</span> A rebuilt Donation page ("Many Ways to Give. One Big Impact.") exists as WordPress draft 26834 and passed desktop and phone QA. Publishing to the live URL needs Tyqawn's go-ahead.</p>
+  <p><span class="tag block">Blocked</span> Givebutter campaign setup and text-to-give (no login available); three Zeffy account settings (edits blocked); Erica Walker's materials (not found).</p>
+</section>
+
+<section id="live">
+  <h2><small>Done today</small>Live changes on digi2u.org and Zeffy</h2>
+  <div class="tw"><table>
+    <tr><th>Change</th><th>Where</th><th>Status</th></tr>
+    <tr><td>Suggested amounts start at <strong>$1</strong>: one-time $1 / $5 / $25 / $100, monthly $1 / $5 / $10 / $25. New impact text for $1 and $5.</td><td>Zeffy → "Donate to Change Lives" → Suggested Donation Amounts</td><td><span class="tag done">Live, verified on public form</span></td></tr>
+    <tr><td>Zeffy donation form moved from 4th block to directly under the video hero, so a visitor sees the form without scrolling three screens.</td><td>digi2u.org/dontations/ (page 21448)</td><td><span class="tag done">Live</span></td></tr>
+    <tr><td>Header / footer / mobile "Donation" link restored to the Donation page (it had been pointed at Zeffy the day before).</td><td>WordPress menu item 26738</td><td><span class="tag done">Live</span></td></tr>
+    <tr><td>All 33 "Donate" buttons across 31 pages and the two popup buttons open the Zeffy form in a new tab (from 2026-10-14).</td><td>Site-wide hero buttons, Home, Impact</td><td><span class="tag done">Live</span></td></tr>
+    <tr><td>Restore points kept as WordPress drafts: 26785 (button links), 26829 (Donation page before the form move).</td><td>WordPress → Pages → Drafts</td><td><span class="tag done">Saved</span></td></tr>
+  </table></div>
+</section>
+
+<section id="staging">
+  <h2><small>Built, not yet published</small>The new unified Donation page (staging draft 26834)</h2>
+  <p>Built to the handoff's seven-section structure, on top of the existing Elementor page so photos, forms and styling stay consistent with the rest of the site. Preview while logged in to WordPress: <a href="https://digi2u.org/?page_id=26834&amp;preview=true">digi2u.org/?page_id=26834&amp;preview=true</a>.</p>
+  <div class="tw"><table>
+    <tr><th>#</th><th>Section</th><th>What it contains</th></tr>
+    <tr><td>1</td><td>Hero (video)</td><td>"Many Ways to Give. One Big Impact." · "Every contribution is a vote for more access, more opportunity, and more learning." · <strong>Donate Now</strong> (scrolls to the form) · <strong>Become a Monthly Supporter</strong> (Zeffy hosted form).</td></tr>
+    <tr><td>2</td><td>Every Gift Matters</td><td>"Small Gifts. Big Possibilities." and the $1-matters message from the handoff.</td></tr>
+    <tr><td>3</td><td>Give (embedded Zeffy form)</td><td>Zeffy form + Zeffy progress bar, plus "Prefer to give through Givebutter?" with a working link to the existing Givebutter campaign. The old orange "GIVEBUTTER DONATIONS" button, which linked back to the page itself, was replaced.</td></tr>
+    <tr><td>4</td><td>Ways to Give</td><td>Four cards: Give Once · Give Monthly · Donate Through a DAF · Stock, Check &amp; More. 4-up on desktop, 2-up tablet, 1-up phone.</td></tr>
+    <tr><td>5</td><td>What Your Support Makes Possible</td><td>Mission statement and the seven program areas (AI readiness, media production, 3D printing, workforce training, creative tech, mobile classrooms, community learning). Existing photo kept.</td></tr>
+    <tr><td>6</td><td>Giving Tuesday 2026</td><td>Brand-red block: "Giving Tuesday is December 1, 2026." · $100,000 general-fund message · share prompt · Donate Now.</td></tr>
+    <tr><td>7</td><td>Giving Stocks · DAF · DonateStock</td><td>Stock explainer unchanged. DAF block rewritten (see below). DonateStock block unchanged.</td></tr>
+    <tr><td>8</td><td>Questions &amp; Transparency</td><td>Seven FAQ cards: tax deductibility (EIN 88-3213984), payment methods, monthly giving, where the money goes, no minimum, the Zeffy tip, employer matching.</td></tr>
+    <tr><td>9</td><td>Contact</td><td>Existing Donation Inquiry form, unchanged.</td></tr>
+  </table></div>
+  <h3>QA on the staging page</h3>
+  <ul>
+    <li>Desktop 1280 px: all sections render; every button anchor resolves.</li>
+    <li>Phone 390 px: document width equals viewport, no element overflows; cards and FAQ stack; DAF widget centered.</li>
+    <li>Not tested: real iPhone/Android devices, tablet at an exact width, donation receipts (Zeffy has no test mode and no real donation was made).</li>
+  </ul>
+  <div class="callout warn"><strong>Why it is not live yet.</strong> The handoff requires an authorization step for production publication, and the session's safety classifier blocked the publish. To go live: approve, and the draft's layout is copied onto the live Donation page with a fresh restore point.</div>
+</section>
+
+<section id="zeffy">
+  <h2><small>Secondary platform</small>Zeffy</h2>
+  <div class="before-after">
+    <div class="ba"><h4>Before</h4><p><strong>One-time</strong> $25 · $50 · $75 · $100 ($75 pre-selected)<br><strong>Monthly</strong> $10 · $25 · $35 · $45<br><strong>Yearly</strong> $100 · $250 · $350 · $450</p></div>
+    <div class="ba after"><h4>After (live)</h4><p><strong>One-time</strong> $1 · $5 · $25 · $100<br><strong>Monthly</strong> $1 · $5 · $10 · $25<br><strong>Yearly</strong> unchanged · custom amount always shown</p></div>
+  </div>
+  <p>Zeffy allows at most four suggested blocks per frequency, so the full 1 / 5 / 10 / 25 / 50 / 100 ladder cannot be displayed; the custom field covers the rest.</p>
+  <h3>Payment methods (checked in Zeffy's own checkout preview)</h3>
+  <ul>
+    <li>Wallet button (Apple Pay / Google Pay / Link, by device) · Credit card · <strong>Direct Debit (ACH)</strong> · Check (on, $1,000 minimum)</li>
+    <li>Donor-advised fund over $1,000: available but <strong>off</strong></li>
+    <li>PayPal / Venmo: not offered by Zeffy, cannot be enabled</li>
+  </ul>
+  <p>So the report of "card and Apple Pay only" was out of date: ACH is already live. Zeffy adds its own optional tip step at checkout; it cannot be removed but the FAQ explains it.</p>
+  <div class="callout bad"><strong>Three settings need a human (my edits were blocked):</strong>
+    <ol>
+      <li>Donation notification email is <code>suppot@digi2u.org</code> (typo). Alerts go nowhere. Change to <code>support@digi2u.org</code>.</li>
+      <li>"Offer payment by check" shows live placeholder text: "Check made out to [Fill here] / Address: [Fill here]". Fill in payee + 317 Pacific Ave, Jersey City, NJ 07304, or switch it off.</li>
+      <li>Decide whether to turn on "DAF over $1,000".</li>
+    </ol>
+    Path: Zeffy → Campaigns → Donate to Change Lives → Edit → Advanced settings.</div>
+</section>
+
+<section id="givebutter">
+  <h2><small>Primary platform</small>Givebutter</h2>
+  <p>No Givebutter login exists in the browser profiles available, so the dashboard could not be opened. A public campaign <em>does</em> exist and loads: <a href="https://givebutter.com/support-our-general-support-campaign-j3kwwe">Support Our General Support Campaign</a>, organized by "Digi2U A NJ Nonprofit Corporation".</p>
+  <div class="tw"><table>
+    <tr><th>Existing campaign</th><th>What the handoff needs</th></tr>
+    <tr><td>Goal $11,000 · $0 raised</td><td>Goal $100,000</td></tr>
+    <tr><td>Amounts $10 · $25 · $50 · $100 · $150 · $250 + custom</td><td>$1 · $5 · $10 · $25 · $50 · $100 + custom</td></tr>
+    <tr><td>One-time and monthly</td><td>Same, with a monthly invitation</td></tr>
+    <tr><td>Org email displayed as <code>support@gmail.com</code> (looks wrong)</td><td>support@digi2u.org</td></tr>
+    <tr><td>Name "Support Our General Support Campaign"</td><td>"Digi2U — Many Ways to Give. One Big Impact."</td></tr>
+    <tr><td>Text-to-give: unknown (dashboard only)</td><td>Keyword + number for trifold, posts, scripts</td></tr>
+  </table></div>
+  <p>A full configuration checklist is in <code>docs/fundraising/04-campaign-content.md §5</code>. Nothing with placeholder links or numbers has been published.</p>
+</section>
+
+<section id="daf">
+  <h2><small>Donor-advised funds</small>DAF block</h2>
+  <p>The DAF form is the <strong>DAF Direct</strong> widget (Fidelity Charitable, DAFgiving360, BNY Mellon). It is injected into the page as plain HTML rather than an iframe, which means the site's own CSS can restyle it. On the staging page it now sits in a white rounded card using the site font, full-width fields, and a red "NEXT" button, centered in its column on desktop and phone; the 50 px dead spacer above it is gone.</p>
+  <p>New copy next to it: "Support Digi2U through your Donor-Advised Fund. Recommend a grant through your sponsoring organization to help sustain technology education and community programming." plus grant details: Digi2U · EIN 88-3213984 · 501(c)(3) public charity · 317 Pacific Ave, Jersey City, NJ 07304, and instructions for sponsors not in the DAF Direct list.</p>
+  <div class="callout warn">The legal name to show ("Digi2U" vs "Nu Media Corporation") is not verified. The EIN matches the playbook. Confirm before publishing.</div>
+</section>
+
+<section id="playbook">
+  <h2><small>Source documents</small>Campaign playbook → 2026 implementation</h2>
+  <p>Both supplied files, <code>Digi2U_GivingTuesday_Campaign_Playbook.docx</code> and <code>.pdf</code>, were compared word by word: same content (95% token match; the only differences are the PDF's page headers/footers and emoji rendering). The DOCX was used as the copy source.</p>
+  <div class="tw"><table>
+    <tr><th>Playbook element</th><th>How it was applied</th></tr>
+    <tr><td>Revised strategy: $100K general fund, no project-specific tiers, no "dime a day"</td><td>All page copy and FAQ speak only of the general fund. No restricted tiers anywhere on the staged page.</td></tr>
+    <tr><td>Four-tier framework (board, individuals, officials, grants)</td><td>Documented in 04-campaign-content; the website serves Tier 2 (individual/public giving).</td></tr>
+    <tr><td>Givebutter primary, Zeffy secondary, set Zeffy minimum to $1</td><td>Zeffy $1 done. Givebutter blocked (login). Site keeps Zeffy as the working default with a Givebutter option until the new campaign exists.</td></tr>
+    <tr><td>"One prominent Donate button at the top linking to Give Butter"</td><td>Hero has Donate Now; it points to the on-page form today and will switch to the new Givebutter campaign URL once configured.</td></tr>
+    <tr><td>Theme "Possibility is a skill we can build." · identity "Teaching Tomorrow's Technology Today."</td><td>Kept in all campaign copy and scripts.</td></tr>
+    <tr><td>Social calendar Nov 3 – Dec 2, 2025 (16 posts)</td><td>Remapped to Nov 2 – Dec 1, 2026 plus a year-end extension (table below).</td></tr>
+    <tr><td>Phone scripts (officials, donors, partners)</td><td>Kept; donor script now says "Giving Tuesday is December 1" and "even $1 or $5 makes a difference".</td></tr>
+    <tr><td>Impact stats ($25K grant, 30+ NJIT students, 2,500 hours, 3 trailers, ages 12–72, KAFF award)</td><td>Flagged for verification before use; not placed on the page as numbers.</td></tr>
+  </table></div>
+  <div class="callout warn"><strong>Date conflict left for the board.</strong> The playbook says "raise $100,000 by November 15, 2026" and also runs the campaign through Giving Tuesday (Dec 1) and December 31. The 2026 plan uses Nov 15 as the first milestone and Dec 31 as the end, pending approval.</div>
+</section>
+
+<section id="calendar">
+  <h2><small>Section 2 of the playbook</small>Social calendar remapped to 2026</h2>
+  <p>Mon/Wed/Fri rhythm kept. Captions, hashtags and Canva notes are the playbook's; only dates and the amount line in post 11 change. Thanksgiving 2026 is Thursday, November 26.</p>
+  <div class="tw"><table>
+    <tr><th>#</th><th>2025</th><th>2026</th><th>Post</th></tr>
+    <tr><td>1</td><td>Nov 3</td><td><strong>Mon Nov 2</strong></td><td>"The future of work is digital…" teaser</td></tr>
+    <tr><td>2</td><td>Nov 5</td><td><strong>Wed Nov 4</strong></td><td>Meet the technology your neighbors are learning</td></tr>
+    <tr><td>3</td><td>Nov 7</td><td><strong>Fri Nov 6</strong></td><td>Ages 12 to 72 (verify)</td></tr>
+    <tr><td>4</td><td>Nov 10</td><td><strong>Mon Nov 9</strong></td><td>From Jersey City to Houston (verify stats)</td></tr>
+    <tr><td>5</td><td>Nov 12</td><td><strong>Wed Nov 11</strong></td><td>A student designed this… (KAFF photo)</td></tr>
+    <tr><td>6</td><td>Nov 14</td><td><strong>Fri Nov 13</strong></td><td>"The receipts" stats (verify)</td></tr>
+    <tr><td>7</td><td>Nov 17</td><td><strong>Mon Nov 16</strong></td><td>Two weeks to Giving Tuesday: $100K + four actions</td></tr>
+    <tr><td>8</td><td>Nov 19</td><td><strong>Wed Nov 18</strong></td><td>TikTok: POV first 3D print</td></tr>
+    <tr><td>9</td><td>Nov 21</td><td><strong>Fri Nov 20</strong></td><td>What happens after the donation</td></tr>
+    <tr><td>10</td><td>Nov 24</td><td><strong>Mon Nov 23</strong></td><td>Thanksgiving-week gratitude</td></tr>
+    <tr><td>11</td><td>Nov 28</td><td><strong>Fri Nov 27</strong></td><td>4 days out: "$1. $5. $25. $100." (tier descriptions need verification)</td></tr>
+    <tr><td>12</td><td>Dec 1</td><td><strong>Mon Nov 30</strong></td><td>Tomorrow is Giving Tuesday</td></tr>
+    <tr><td>13–16</td><td>Dec 2</td><td><strong>Tue Dec 1</strong></td><td>7 AM launch · noon progress · Instagram Live · 8 PM final push</td></tr>
+    <tr><td>17</td><td>—</td><td><strong>Dec 2–31</strong></td><td>Year-end extension: weekly thank-you/progress; Dec 29–31 "last chance for a 2026 receipt"</td></tr>
+  </table></div>
+  <p>Replace <code>[GIVE BUTTER LINK]</code> and <code>[NUMBER]</code> everywhere once Givebutter is configured; until then use digi2u.org/dontations/.</p>
+</section>
+
+<section id="blockers">
+  <h2><small>Needs a person</small>Blockers and owners</h2>
+  <div class="tw"><table>
+    <tr><th>Blocker</th><th>Owner</th><th>Needed</th></tr>
+    <tr><td>Publish staging draft 26834 to the live Donation page</td><td>Tyqawn</td><td>Approval ("publish 26834 to 21448")</td></tr>
+    <tr><td>Givebutter: new campaign, $1 amounts, $100K goal, text-to-give number</td><td>Erica / Tyqawn</td><td>Log in on the controlled Chrome profile, or send the live links and keyword</td></tr>
+    <tr><td>Zeffy notification email typo, check placeholders, DAF toggle</td><td>Tyqawn</td><td>Two minutes in Zeffy Advanced settings</td></tr>
+    <tr><td>Erica Walker's campaign prompts and results</td><td>Erica</td><td>File location or Drive link (searched local disk, Google Drive, Gmail; intake folder is empty)</td></tr>
+    <tr><td>Impact numbers before they go public</td><td>Pam / Erica</td><td>Confirm $25K grant, 30+ NJIT, 2,500 hours, 3 trailers, ages 12–72, KAFF</td></tr>
+    <tr><td>Legal name for DAF/stock instructions</td><td>Pam / board</td><td>"Digi2U" vs "Nu Media Corporation" on EIN 88-3213984</td></tr>
+    <tr><td>Nov 15 vs Dec 31 target</td><td>Board</td><td>Pick the public deadline</td></tr>
+  </table></div>
+</section>
+
+<section id="next">
+  <h2><small>Recommended sequence</small>Next steps</h2>
+  <ol class="steps">
+    <li>Tyqawn fixes the three Zeffy settings and approves publishing draft 26834.</li>
+    <li>Erica creates or renames the Givebutter campaign per the checklist and sends the URL and text-to-give keyword/number.</li>
+    <li>Publish the Donation page; repoint the 33 site Donate buttons, the hero buttons and the "Give on Givebutter" link to the new Givebutter campaign; fill the placeholders in the social calendar and phone scripts.</li>
+    <li>Pam/Erica confirm the impact numbers and legal name; board confirms the deadline.</li>
+    <li>Final QA on real iPhone/Android, a Givebutter test-mode donation, then start the Nov 2 social calendar.</li>
+  </ol>
+</section>
+
+<section id="links">
+  <h2><small>Reference</small>Links and files</h2>
+  <ul>
+    <li>Live Donation page: <a href="https://digi2u.org/dontations/">digi2u.org/dontations/</a></li>
+    <li>Staging preview (WordPress login required): <a href="https://digi2u.org/?page_id=26834&amp;preview=true">page_id=26834&amp;preview=true</a></li>
+    <li>Zeffy form (live): <a href="https://www.zeffy.com/en-US/donation-form/donate-to-change-lives-3894">Donate to Change Lives</a></li>
+    <li>Existing Givebutter campaign: <a href="https://givebutter.com/support-our-general-support-campaign-j3kwwe">Support Our General Support Campaign</a></li>
+    <li>Working docs in the site project: <code>docs/fundraising/00-implementation-report.md</code>, <code>01-audit.md</code>, <code>04-campaign-content.md</code>, <code>05-qa-and-launch.md</code></li>
+    <li>Source playbook: <code>New_updates/Digi2U_GivingTuesday_Campaign_Playbook.docx</code> (and identical <code>.pdf</code>)</li>
+  </ul>
+</section>
+
+</div></main>
+<footer><div class="wrap">Digi2U / Nu Media Corporation · EIN 88-3213984 · Prepared 2026-10-15 from the live site, Zeffy and the campaign playbook. Figures marked "verify" are playbook claims not yet confirmed.</div></footer>
+</body>
+</html>
